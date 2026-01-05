@@ -1,0 +1,1081 @@
+// _reservation.scss
+
+.reservation-body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.reservation-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* --- SIDEBAR --- */
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 260px;
+    background: url('../images/formulaire.png') no-repeat center center/cover;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 0;
+    }
+
+    /* Wrapper for top content (close button) */
+    .sidebar-content {
+        position: relative;
+        z-index: 1;
+        padding: 20px;
+        padding-bottom: 10px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    button.close-cross {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 2;
+        padding: 5px;
+
+        &:hover svg {
+            stroke: #FFA100;
+        }
+    }
+}
+
+/* --- HORIZONTAL STEPS (Top Right) --- */
+.horizontal-steps {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin: 15px 30px 5px 0;
+    /* Reduced margins */
+    width: 100%;
+
+    .step-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        width: 90px;
+        /* Reduced from 120px */
+
+        .step-circle {
+            width: 24px;
+            /* Reduced from 32px */
+            height: 24px;
+            border-radius: 50%;
+            background-color: #999;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            /* Reduced from 14px */
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            /* Reduced from 0.85rem */
+            color: #ccc;
+            font-weight: 500;
+        }
+
+        &.active,
+        &.completed {
+            .step-circle {
+                background-color: #FFA100;
+            }
+
+            .step-label {
+                color: #FFA100;
+                font-weight: 700;
+            }
+        }
+
+        /* Connecting Line */
+        &::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            /* Adjusted for smaller circle (24/2 = 12) */
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: #ccc;
+            z-index: 1;
+        }
+
+        &:last-child::after {
+            display: none;
+        }
+
+        &.completed::after {
+            background-color: #FFA100;
+        }
+
+        &.active::after {
+            background-color: #ccc;
+        }
+    }
+}
+
+/* --- RECAP SECTION INSIDE SIDEBAR --- */
+.sidebar-recap {
+    position: relative;
+    z-index: 2;
+    /* Content above overlay */
+    background-color: #F0FFF4;
+    /* Light Green */
+    color: #103A21;
+    display: flex;
+    flex-direction: column;
+
+    .recap-content {
+        padding: 20px 30px;
+
+        h4 {
+            color: #FFA100;
+            font-size: 1.1rem;
+            margin: 0 0 15px 0;
+            font-weight: 700;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                color: #103A21;
+                font-size: 0.95rem;
+                margin-bottom: 8px;
+            }
+        }
+    }
+
+    .recap-footer {
+        background-color: #103A21;
+        /* Dark Green */
+        color: white;
+        padding: 20px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .label {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .price {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+    }
+}
+
+
+
+/* --- MAIN CONTENT --- */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+    height: 100vh;
+}
+
+.scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 40px;
+    /* Reduced vertical padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* Fix: prevented top clipping */
+    padding-top: 10px;
+    /* specific top spacing */
+
+    @media screen and (max-width: 768px) {
+        padding: 10px 20px;
+    }
+}
+
+.content-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    /* Reduced gap */
+    margin-bottom: 15px;
+    /* Reduced margin */
+    position: relative;
+    width: 100%;
+    flex-shrink: 0;
+
+    /* ... rest ... */
+    .btn-back {
+        position: absolute;
+        left: 0;
+        top: 5px;
+        background: none;
+        border: none;
+        color: #FFA100;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 0.9rem;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .page-title {
+        font-family: inherit;
+        font-size: 1.6rem;
+        /* Slightly smaller */
+        color: #103A21;
+        margin: 0;
+        text-align: center;
+        font-weight: 800;
+
+        .highlight {
+            color: #FFA100;
+        }
+    }
+
+    &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        max-width: 600px;
+        height: 1px;
+        background: #ccc;
+        margin-top: 5px;
+    }
+}
+
+#reservation-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+.step-content {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+
+    &.active {
+        display: block;
+        opacity: 1;
+    }
+}
+
+.step-description {
+    text-align: center;
+    color: #555;
+    margin-bottom: 15px;
+    /* Reduced margin */
+    font-size: 0.9rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ... Steps 1-3 skipped for brevity if unchanged, but putting full block for context safely ... */
+/* Actually, I should use the specific block replacement to avoid overwriting the whole file if I can target step 4 specific areas,
+   BUT user wants me to fix "Step 4 top not visible" which implies header/scroll-content changes are global.
+   I need to be careful not to break Steps 1-3.
+   Steps 1-3 are fine with `flex-start` too, as long as they aren't tiny tiny.
+   Let's replace `scroll-content` and then `step-4` specific styles.
+   Wait, `replace_file_content` requires Contiguous block. The file structure is:
+   sidebar -> main-content -> scroll-content -> header -> form -> step 1 -> step 2 -> step 3 -> step 4.
+   I need to change `scroll-content` (top of file) AND `Step 4` (bottom of file).
+   I should use `multi_replace_file_content` or just `replace_file_content` on the `scroll-content` first, then another for Step 4?
+   No, I can do `write_to_file` again to be absolutely safe and consistent given the previous issues.
+   Or `replace_file_content` from `scroll-content` down to `Step 4` if I include everything? That's huge.
+   Let's use `multi_replace_file_content`? No, I don't have that enabled in the prompt description (I see `multi_replace_file_content` in shared tools?).
+   Ah, I see `multi_replace_file_content` in the definitions!
+   I will use `multi_replace_file_content`.
+*/
+
+/* Correction: I see `multi_replace_file_content` in the tool definitions. Proceeding with that. */
+
+
+/* --- STEP 1: SERVICES (V3 Compact) --- */
+.services-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    /* Reduced gap */
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.service-card {
+    //cursor: pointer;
+    //position: relative;
+    //width: 220px;
+    ///* Reduced width */
+
+        cursor: pointer;
+        position: relative;
+        flex: 1 1 15vw;
+        /* Responsive width based on viewport */
+        max-width: 25vw;
+        /* Max width relative to viewport */
+        min-width: 150px;
+        /* Safe minimum */
+
+
+}
+
+.service-card input[type="checkbox"] {
+    display: none;
+
+    &:checked+.card-inner {
+        background-color: #fff;
+        box-shadow: 0 0 0 2px #103A21 inset;
+    }
+}
+
+.service-card .card-inner {
+    border: 1px solid #103A21;
+    border-radius: 20px;
+    padding: 15px 10px;
+    /* Compact padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 130px;
+    /* Reduced height */
+    transition: all 0.2s;
+    background: white;
+    position: relative;
+
+    &:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .time-badge {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 0.75rem;
+        /* Smaller font */
+        font-weight: 700;
+        color: #333;
+    }
+
+    .icon-wrapper {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 5px;
+
+        img {
+            height: 40px;
+            /* Smaller icons */
+            width: auto;
+        }
+    }
+
+    h3 {
+        font-size: 0.85rem;
+        /* Smaller font */
+        font-weight: 700;
+        color: #103A21;
+        line-height: 1.2;
+        margin: 0;
+    }
+}
+
+/* --- STEP 2: DATE (Side-by-Side) --- */
+.step2-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.calendar-wrapper {
+    flex: 0 0 auto;
+    width: 320px;
+    margin: 0;
+    background: white;
+    padding: 0;
+    box-shadow: none;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 10px;
+
+    .current-month {
+        font-family: inherit;
+        color: #333;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .nav-btn {
+        background: none;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        color: #333;
+        padding: 5px;
+
+        &:hover {
+            color: #FFA100;
+        }
+    }
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+
+    .day-name {
+        font-weight: 700;
+        color: #333;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+
+    .day-btn {
+        aspect-ratio: 1;
+        background: none;
+        border: none;
+        border-radius: 50%;
+        font-size: 0.95rem;
+        /* Larger font */
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #111;
+        /* Darker text for availability */
+        font-weight: 500;
+
+        &:hover:not(:disabled) {
+            background: #e0e7e3;
+        }
+
+        &.selected {
+            background: #143525 !important;
+            color: white !important;
+            font-weight: 700;
+        }
+
+        &:disabled,
+        &.disabled {
+            color: #ccc;
+            background-color: #f5f5f5;
+            /* Grey background */
+            cursor: not-allowed;
+            opacity: 0.6;
+            text-decoration: line-through;
+            /* Strikethrough */
+        }
+    }
+}
+
+.time-slots-container {
+    flex: 0 0 auto;
+    width: 280px;
+    margin: 0;
+    border-top: none;
+    border-left: 1px solid #ddd;
+    padding-top: 0;
+    padding-left: 40px;
+    text-align: center;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    h3 {
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .slots-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .time-slot {
+        width: 100%;
+
+        input {
+            display: none;
+
+            &:checked+span {
+                background: white;
+                color: #333;
+                border-color: #143525;
+                border-width: 2px;
+            }
+        }
+
+        span {
+            display: block;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: #666;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            background: white;
+
+            &:hover {
+                border-color: #143525;
+            }
+        }
+    }
+}
+
+
+/* --- STEP 3: INFOS --- */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    /* Reduced gap */
+    max-width: 700px;
+    /* Reduced width */
+    margin: 0 auto;
+    align-content: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* Reduced gap */
+
+    &.full-width {
+        grid-column: 1/-1;
+    }
+
+    label {
+        font-size: 0.85rem;
+        /* Smaller font */
+        color: #666;
+        margin-left: 10px;
+        font-weight: 600;
+    }
+
+    input {
+        padding: 10px 20px;
+        /* Smaller padding */
+        border-radius: 30px;
+        border: 1px solid #eee;
+        background: #f5f5f5;
+        font-size: 0.95rem;
+        /* Smaller font */
+        height: 45px;
+        /* Fixed smaller height */
+
+        &:focus {
+            outline: none;
+            border-color: #FFA100;
+            background: white;
+        }
+    }
+}
+
+/* --- STEP 4: CONFIRMATION --- */
+.confirmation-banner {
+    background: #103A21;
+    color: white;
+    padding: 15px 30px;
+    /* Reduced */
+    border-radius: 30px;
+    text-align: center;
+    font-size: 1.1rem;
+    /* Smaller */
+    font-weight: 600;
+    margin-bottom: 20px;
+    /* Reduced */
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 Columns for compactness */
+    gap: 20px;
+    /* Reduced gap */
+    max-width: 800px;
+    margin: 0 auto;
+
+    h4 {
+        color: #FFA100;
+        margin-bottom: 5px;
+        /* Reduced */
+        font-size: 0.95rem;
+        /* Smaller */
+        margin-top: 0;
+    }
+
+    p {
+        font-weight: 600;
+        color: #103A21;
+        font-size: 0.9rem;
+        /* Smaller */
+        margin: 0;
+    }
+}
+
+/* --- BOTTOM BAR --- */
+.bottom-bar {
+    display: flex;
+    height: 80px;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    margin-top: auto;
+    flex-shrink: 0;
+    background: #FFA100;
+
+    .price-container {
+        flex: 1;
+        background: #103A21;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+        color: white;
+        font-weight: 700;
+        font-size: 1.2rem;
+
+        .price-amount {
+            font-size: 1.5rem;
+        }
+    }
+
+    button.btn-next {
+        flex: 2;
+        background: #FFA100;
+        border: none;
+        color: white;
+        font-family: inherit;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: background 0.3s;
+
+        &:hover {
+            background: #CC8100;
+            /* Darkened #FFA100 */
+            transform: none;
+        }
+    }
+}
+
+/* --- MODAL --- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+
+    .modal-content {
+        background: white;
+        padding: 60px;
+        border-radius: 0;
+        width: 100%;
+        max-width: 900px;
+        text-align: center;
+        position: relative;
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 2rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    h2 {
+        font-family: inherit;
+        color: #103A21;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+    }
+
+    .success-message-box {
+        background: #103A21;
+        color: white;
+        padding: 20px;
+        border-radius: 50px;
+        display: inline-block;
+        margin: 30px 0;
+        font-weight: 600;
+        padding: 20px 40px;
+    }
+
+    .modal-summary {
+        display: flex;
+        justify-content: space-around;
+        text-align: left;
+        margin-top: 40px;
+
+        h4 {
+            color: #FFA100;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #103A21;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+/* --- ERROR MESSAGE --- */
+/* --- MOBILE RESPONSIVE --- */
+.mobile-close-btn {
+    display: none;
+    /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    cursor: pointer;
+
+    svg stroke {
+        stroke: #103A21;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .reservation-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+    }
+
+    .sidebar {
+        display: none;
+        /* Hide sidebar on mobile */
+    }
+
+    .main-content {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .scroll-content {
+        padding: 15px 20px;
+        height: auto;
+        overflow: visible;
+    }
+
+    .horizontal-steps {
+        justify-content: space-between;
+        margin: 10px 20px;
+        width: auto;
+        align-items: center;
+
+        .step-item {
+            width: 40px;
+            /* Collapse width */
+
+            .step-circle {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+                margin-bottom: 0;
+            }
+
+            .step-label {
+                display: none;
+                /* Hide labels on mobile */
+            }
+
+            &::after {
+                display: none;
+                /* Hide connecting lines to simplify */
+            }
+
+            &.active .step-circle {
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    .mobile-close-btn {
+        display: flex;
+        /* Show on mobile */
+    }
+
+    .content-header {
+        margin-bottom: 20px;
+
+        .page-title {
+            font-size: 1.5rem;
+        }
+    }
+
+    /* Step 1: Services */
+    .services-grid {
+        gap: 10px;
+    }
+
+    .service-card {
+        width: 48%;
+        /* 2 items per row */
+
+        .card-inner {
+            padding: 10px 5px;
+            height: 110px;
+
+            h3 {
+                font-size: 0.8rem;
+            }
+
+            .time-badge {
+                font-size: 0.7rem;
+                top: 5px;
+                right: 5px;
+            }
+
+            .icon-wrapper img {
+                height: 30px;
+            }
+        }
+    }
+
+    /* Step 2: Date */
+    .step2-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .calendar-wrapper {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .time-slots-container {
+        width: 100%;
+        max-width: 350px;
+        border-left: none;
+        border-top: 1px solid #ddd;
+        padding-left: 0;
+        padding-top: 20px;
+        min-height: auto;
+    }
+
+    /* Step 3: Infos */
+    .form-grid {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+    }
+
+    /* Step 4: Summary */
+    .summary-grid {
+        grid-template-columns: 1fr;
+        /* Stack vertically */
+        gap: 15px;
+
+        .summary-item {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+    }
+
+    .bottom-bar {
+        position: sticky;
+        bottom: 0;
+        z-index: 100;
+        height: 60px;
+
+        button.btn-next {
+            font-size: 1rem;
+        }
+
+        /* Show price in bottom bar if needed? For now just keep it simple */
+    }
+}
+
+/* --- UTILITIES --- */
+.error-message {
+    color: #d32f2f;
+    /* Red */
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    display: none;
+    font-size: 0.95rem;
+}
+
+
+/* FIX FULLCALENDAR CLICK */
+#calendar {
+    position: relative;
+    z-index: 20;
+}
+
+.fc {
+    pointer-events: auto !important;
+}
+
+.fc-daygrid-day {
+    cursor: pointer;
+}
+
+.fc-daygrid-day-frame {
+    pointer-events: auto !important;
+}
+
+/* CONTENEUR */
+.calendar-wrapper {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+.fc-toolbar-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: #103A21;
+}
+
+/* BOUTONS */
+.fc-button {
+    background: #103A21 !important;
+    border: none !important;
+    border-radius: 8px !important;
+}
+
+.fc-button:hover {
+    background: #145c35 !important;
+}
+
+/* JOURS */
+.fc-daygrid-day-number {
+    font-weight: 500;
+    color: #103A21;
+}
+
+/* JOUR AU SURVOL */
+.fc-daygrid-day:hover {
+    background: #f0f7f3;
+}
+
+/* JOUR SÉLECTIONNABLE */
+.fc-daygrid-day.fc-day-today {
+    background: #e5f3eb !important;
+}
+
+/* WEEK-END */
+.fc-day-sat, .fc-day-sun {
+    background: #fafafa;
+}
+
+.slot-btn {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 1px solid #103A21;
+    background: white;
+    color: #103A21;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background: #103A21;
+        color: white;
+    }
+
+    &.active {
+        background: #103A21;
+        color: white;
+    }
+}
+
+.field-error-msg {
+    display: none;  /* par défaut caché */
+    color: #d32f2f;
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+.field-error-msg.active {
+    display: block;
+}

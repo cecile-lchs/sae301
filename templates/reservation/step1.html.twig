@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Jardin Harmonie - Votre jardin entre de bonnes mains{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+</head>
+
+{% block main %}
+<body class="reservation-body">
+
+<div class="reservation-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <button class="close-cross" onclick="window.location.href='{{ path('app_accueil') }}'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <!-- Steps Removed from Sidebar -->
+        </div>
+
+        <!-- Integrated Recap Section -->
+        <div class="sidebar-recap">
+            <div class="recap-content">
+                <h4>Mes services</h4>
+                <ul id="recap-services-list">
+                    <li>Aucun service sélectionné</li>
+                </ul>
+            </div>
+            <div class="recap-footer">
+                <span class="label">Total à régler</span>
+                <span class="price" id="recap-total">0 €</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" style="display:flex; flex-direction:column;">
+        <!-- Horizontal Steps (Top Right) -->
+        <div class="horizontal-steps">
+            <a href="{{ path('app_accueil') }}" class="mobile-close-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#103A21" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </a>
+            <div class="step-item active">
+                <div class="step-circle">1</div>
+                <span class="step-label">Services</span>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">2</div>
+                <span class="step-label">Date</span>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">3</div>
+                <span class="step-label">Informations</span>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">4</div>
+                <span class="step-label">Confirmation</span>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">5</div>
+                <span class="step-label">Validation</span>
+            </div>
+        </div>
+
+        <div class="scroll-content">
+            <header class="content-header">
+                <!-- No back button on first step -->
+                <button class="btn-back" style="visibility: hidden;">← Précedent</button>
+                <h1 class="page-title">Choisissez le <span class="highlight">service</span> dont votre jardin à besoin</h1>
+            </header>
+
+{#            <form id="step1-form" onsubmit="return false;">#}
+{#                <div class="step-content active">#}
+{#                    <p class="step-description">Sélectionnez les prestations adaptées à votre jardin pour un extérieur propre, sain et harmonieux</p>#}
+{#                    #}
+{#                    <div class="services-grid">#}
+{#                        {% for service in services %}#}
+{#                            <label class="service-card">#}
+{#                                <input type="checkbox"#}
+{#                                       name="services[]"#}
+{#                                       value="{{ service.id }}"#}
+{#                                       data-price="{{ service.prix }}">#}
+{#                                <div class="card-inner">#}
+{#                                    <span class="time-badge">{{ service.dureeMinutes / 60 }}h</span>#}
+{#                                    <div class="icon-wrapper">#}
+{#                                        <img src="{{ asset('images/' ~ service.icon) }}" alt="{{ service.nom }}">#}
+{#                                    </div>#}
+{#                                    <h3>{{ service.nom }}</h3>#}
+{#                                </div>#}
+{#                            </label>#}
+{#                        {% endfor %}#}
+{#                    </div>#}
+
+{#                    <div id="step1-error" class="error-message"></div>#}
+{#                </div>#}
+{#            </form>#}
+            <form id="step1-form" method="POST" action="{{ path('reservation_step1') }}">
+                <div class="services-grid">
+                    {% for service in services %}
+                        <label class="service-card">
+                            <input type="checkbox" name="services[]" value="{{ service.id }}" data-price="{{ service.prix }}">
+                            <div class="card-inner">
+                                <span class="time-badge">{{ service.dureeMinutes / 60 }}h</span>
+                                <div class="icon-wrapper">
+                                    <img src="{{ asset('images/' ~ service.icon) }}" alt="{{ service.nom }}">
+                                </div>
+                                <h3>{{ service.nom }}</h3>
+                            </div>
+                        </label>
+                    {% endfor %}
+                </div>
+
+                <div id="step1-error" class="error-message"></div>
+{#                <button type="submit" class="btn-next">Suivant →</button>#}
+            </form>
+
+        </div>
+
+        <!-- Bottom Bar -->
+        <footer class="bottom-bar">
+            <div class="price-container" style="display: none;"></div>
+            <button type="submit" class="btn-next" id="btn-next">Suivant <span class="arrow">→</span>
+            </button>
+        </footer>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Restore previous selection if any
+        const savedServices = JSON.parse(sessionStorage.getItem('reservation_services') || '[]');
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="services"]');
+
+        function updateRecap() {
+            const selected = [];
+            let totalPrice = 0;
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    selected.push({
+                        value: cb.value,
+                        price: parseFloat(cb.dataset.price || 0)
+                    });
+                    totalPrice += parseFloat(cb.dataset.price || 0);
+                }
+            });
+
+            const list = document.getElementById('recap-services-list');
+            const total = document.getElementById('recap-total');
+
+            if (list) {
+                list.innerHTML = '';
+                if (selected.length === 0) {
+                    list.innerHTML = '<li>Aucun service sélectionné</li>';
+                } else {
+                    selected.forEach(s => {
+                        const li = document.createElement('li');
+                        li.textContent = s.name;
+                        list.appendChild(li);
+                    });
+                }
+            }
+            if (total) {
+                total.textContent = totalPrice + ' €';
+            }
+        }
+
+        checkboxes.forEach(cb => {
+            if (savedServices.some(s => s.value === cb.value)) {
+                cb.checked = true;
+            }
+            cb.addEventListener('change', updateRecap);
+        });
+
+        // Initial call
+        updateRecap();
+
+        document.getElementById('btn-next').addEventListener('click', () => {
+            const selected = [];
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][name^="services"]');
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    selected.push({
+                        id: cb.value,
+                        name: cb.nextElementSibling.querySelector('h3').textContent,
+                        price: parseFloat(cb.dataset.price || 0)
+                    });
+                }
+            });
+
+            if (selected.length === 0) {
+                // Show inline error
+                const errorDiv = document.getElementById('step1-error');
+                errorDiv.innerText = "Veuillez sélectionner au moins un service pour continuer.";
+                errorDiv.style.display = 'block';
+                return;
+            } else {
+                const errorDiv = document.getElementById('step1-error');
+                if(errorDiv) errorDiv.style.display = 'none';
+            }
+            document.getElementById('step1-form').submit();
+        });
+    });
+</script>
+
+{% endblock %}
+</body>
+</html>
+

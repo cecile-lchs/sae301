@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actualités {% endblock %}
+
+{% block main %}
+    <main class="container">
+
+        <!-- Page Title -->
+        <h1 class="article-title align-left">Nos articles</h1>
+        <p class="article-subtitle align-left">Garder un jardin propre et agréable demande du temps, de l’énergie et un vrai savoir-faire.</p>
+
+        <div class="cards-grid">
+            <div class="article-card">
+                <img src="{{ asset('images/article1.png') }}" alt="Article 1">
+                <div class="card-content">
+                    <h4>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h4>
+                    <div class="card-footer">
+                        <span class="date">14 Mars, 2025</span>
+                        <a href="{{ path('app_article1') }}" class="read-more">Lire plus &gt;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="article-card">
+                <img src="{{ asset('images/article2.png') }}" alt="Article 2">
+                <div class="card-content">
+                    <h4>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h4>
+                    <div class="card-footer">
+                        <span class="date">14 Mars, 2025</span>
+                        <a href="article2.html.twig" class="read-more">Lire plus &gt;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="article-card">
+                <img src="{{ asset('images/article1.png') }}" alt="Article 1">
+                <div class="card-content">
+                    <h4>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h4>
+                    <div class="card-footer">
+                        <span class="date">14 Mars, 2025</span>
+                        <a href="#" class="read-more">Lire plus &gt;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

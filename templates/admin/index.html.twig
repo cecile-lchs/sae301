@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Jardin Harmonie - Votre jardin entre de bonnes mains{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+</head>
+
+<body>
+
+    {% block header %}
+<!-- Header -->
+<header class="admin-header">
+    <img src="{{ asset('images/logo.svg') }}" alt="Jardins Harmonie Logo" class="logo-icon">
+</header>
+{% endblock %}
+
+    {% block main %}
+
+<main class="admin-main">
+    <h1>J’accède à mon compte</h1>
+
+    <form action="{{ path('app_admin') }}" method="post" class="login-form">
+    {% if error %}
+            <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="identifiant">Email</label>
+            <div class="input-wrapper">
+                <input type="text" id="identifiant" name="_username" value="{{ last_username }}" placeholder="Entrez votre email*">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <div class="input-wrapper">
+                <input type="password" id="password" name="_password" placeholder="Entrez votre mot de passe *">
+            </div>
+            <div style="text-align: left; width: 100%;">
+                <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Me connecter</button>
+    </form>
+</main>
+    {% endblock %}
+
+    {% block footer %}
+<footer class="admin-footer">
+    <div class="footer-content">
+        <div class="brand-section">
+            <img src="{{ asset('images/logo.svg') }}" alt="Jardins Harmonie Logo" class="logo-icon">
+            <p>Jardins Harmonie – Votre jardin entre de bonnes mains.</p>
+        </div>
+
+        <div class="links-section">
+            <a href="#">Mention légales</a>
+            <a href="#">Politiques de confidentialité</a>
+            <a href="#">Plan du site</a>
+            <a href="#">Cookies</a>
+            <a href="#">Site Jardin Hamronie</a>
+        </div>
+    </div>
+
+    <div class="footer-copyright">
+        <p>&copy; Copyright 2025, All Rights Reserved by Jardin Harmonie</p>
+    </div>
+</footer>
+    {% endblock %}
+</body>
+</html>

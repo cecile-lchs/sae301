@@ -1,0 +1,1830 @@
+@use 'variables' as *;
+
+.container {
+    //max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/*  Navbar */
+.main-header {
+    background-color: #fff;
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2c3e50;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            margin: 0 auto;
+            padding: 0;
+
+            li a {
+                font-weight: 600;
+                color: #333;
+                font-size: 1rem;
+                text-decoration: none;
+                transition: color 0.2s;
+
+                &:hover {
+                    color: #27ae60;
+                }
+            }
+        }
+
+        .btn-cta {
+            background: #FFA500;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.3s;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(255, 165, 0, 0.3);
+
+            &:hover {
+                background: darken(#FFA500, 5%);
+                color: white;
+            }
+        }
+    }
+}
+
+/* Article Page Styles */
+.article-meta {
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+
+    .tag {
+        background: #103A21;
+        color: white;
+        padding: 0.3rem 0.9rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        margin-right: 10px;
+        font-weight: 600;
+    }
+
+    .date {
+        color: #777;
+        font-size: 0.95rem;
+    }
+}
+
+.article-title {
+    text-align: center;
+    max-width: 1200px;
+    /* Slightly wider to match mockup wrap */
+    margin: 0 auto 1.5rem auto;
+    font-size: 3rem;
+    /* Larger */
+    line-height: 1.2;
+    color: #000;
+    /* Deep black as per mockup */
+    font-weight: 800;
+    /* Extra bold */
+
+    &.align-left {
+        text-align: left;
+        margin-left: 0;
+        max-width: 100%;
+
+        @media screen and (max-width: 768px) {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 90%;
+            font-size: 2.5rem;
+            /* Slightly smaller h1 */
+        }
+    }
+}
+
+.article-subtitle {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem auto;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 400;
+
+    &.align-left {
+        text-align: left;
+        margin-left: 0;
+        max-width: 100%;
+        margin-top: 4rem; // Added to replace inline style
+    }
+}
+
+.article-subtitle {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem auto;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 400;
+
+    &.align-left {
+        text-align: left;
+        margin-left: 0;
+        max-width: 100%;
+        margin-bottom: 4rem; // Added to replace inline style
+
+        @media screen and (max-width: 768px) {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 90%;
+        }
+    }
+}
+
+/* Shared Card Grid & Styles */
+
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+
+    @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+.article-card {
+    background: white;
+    overflow: hidden;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    /* Ensure footer pushes down */
+    height: 100%;
+
+    img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 20px;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-content {
+        padding: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        h4 {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #000;
+            line-height: 1.5;
+            font-weight: 700;
+            flex-grow: 1;
+            /* Pushes footer to bottom if titles vary */
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+
+            .date {
+                font-weight: 700;
+                font-size: 0.85rem;
+                color: #000;
+            }
+
+            .read-more {
+                color: #FFA500;
+                font-weight: 600;
+                font-size: 0.9rem;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.article-hero {
+    margin-bottom: 4rem;
+
+    img {
+        width: 100%;
+        border-radius: 12px;
+        max-height: 550px;
+        object-fit: cover;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.article-content {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #444;
+
+    h2 {
+        color: #2c3e50;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+    }
+
+    h3 {
+        color: #2c3e50;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    h4 {
+        color: #2c3e50;
+        margin-top: 2rem;
+        margin-bottom: 0.8rem;
+        font-size: 1.2rem;
+    }
+
+    ul {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    p {
+        margin-bottom: 1.5rem;
+    }
+
+    .highlight-box {
+        background: #f0f9f4;
+        padding: 2.5rem;
+        border-radius: 12px;
+        margin: 3rem 0;
+        border-left: 5px solid #27ae60;
+
+        p {
+            margin-bottom: 0;
+            color: #2c3e50;
+        }
+
+        strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+    }
+}
+
+/* Related Articles */
+.related-articles {
+    margin-top: 6rem;
+    padding-top: 4rem;
+    border-top: 1px solid #eee;
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        /* Allow wrapping */
+        gap: 20px;
+        /* Add gap for wrapped items */
+        margin-bottom: 2.5rem;
+
+        .eyebrow {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #444;
+            font-size: 0.9rem;
+        }
+
+        h3 {
+            margin: 0;
+            /* Override default */
+            font-size: 2.5rem;
+            color: #000;
+            font-weight: 700;
+        }
+
+        .btn-secondary {
+            background: #143525;
+            /* Dark Green from mockup */
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-size: 0.95rem;
+
+            &:hover {
+                opacity: 0.9;
+            }
+        }
+    }
+
+    // .cards-grid and .article-card styles moved to global scope
+}
+
+/* Post-Article CTA */
+.footer-cta {
+    background: #FF9F00;
+    /* Orange background */
+    border-radius: 20px;
+    padding: 4rem 2rem;
+    text-align: center;
+    margin-top: 5rem;
+    position: relative;
+    overflow: hidden;
+
+    /* Decorative circles simulation using pseudo elements could go here,
+         but for simplicity matching main layout features */
+
+    /* Mobile margin */
+    @media screen and (max-width: 768px) {
+        margin: 20px;
+    }
+
+    .cta-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
+
+        h2 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            word-wrap: break-word;
+            /* Ensure text doesn't overflow */
+            font-size: 2rem;
+            /* Slightly smaller on mobile if needed */
+        }
+
+        p {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: #143525;
+            /* Dark Green */
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            /* Slightly rounded */
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+
+            &:hover {
+                background: lighten(#143525, 5%);
+            }
+        }
+    }
+}
+
+/* Footer */
+.main-footer {
+    background-color: white;
+    padding-top: 5rem;
+    margin-top: 2rem;
+
+    .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        padding-bottom: 3rem;
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+
+            &.brand-col {
+                flex: 1.5;
+                /* Give more space to brand col */
+                padding-right: 2rem;
+
+                @media screen and (max-width: 768px) {
+                    flex: 1;
+                    /* Reset flex to normal on mobile */
+                    padding-right: 0;
+                    min-width: 100%;
+                    /* Ensure it takes full width if needed, or stick to flex 1 */
+                }
+            }
+
+            .logo {
+                margin-bottom: 1rem;
+
+                .logo-text {
+                    font-size: 2rem;
+                    font-weight: 800;
+                    color: #000;
+                }
+            }
+
+            p {
+                color: #555;
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.5;
+            }
+
+            .social-icons {
+                display: flex;
+                gap: 1rem;
+
+                .icon {
+                    width: 40px;
+                    height: 40px;
+                    border: 1px solid #143525;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #143525;
+                    transition: all 0.3s;
+
+                    &:hover {
+                        background: #143525;
+                        color: white;
+                    }
+                }
+            }
+
+            h4 {
+                font-size: 0.9rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 1.5rem;
+                color: #143525;
+                font-weight: 700;
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+
+                li {
+                    margin-bottom: 1rem;
+                    color: #555;
+                    font-size: 0.95rem;
+
+                    a {
+                        text-decoration: none;
+                        color: #555;
+
+                        &:hover {
+                            color: #143525;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding: 2rem 0;
+        border-top: 1px solid #eee;
+        color: #999;
+        font-size: 0.85rem;
+    }
+}
+
+/* --- Global Hero Navbar (Floating Pill) --- */
+.hero-navbar {
+    background-color: white;
+    border-radius: 50px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    /* High z-index */
+    max-width: 1440px;
+    /* Match header max-width */
+    margin: 0 auto;
+    /* Center if container is wider */
+    width: 90%;
+    /* Default width */
+
+    .logo img {
+        height: 40px;
+    }
+
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 40px;
+        margin: 0;
+        padding: 0;
+
+        li a {
+            text-decoration: none;
+            color: #103A21;
+            font-family: "M PLUS Rounded 1c", sans-serif;
+            font-size: 16px;
+            transition: color 0.3s;
+
+            &:hover {
+                color: #FFA100;
+            }
+
+            &.btn-reservation {
+                color: white !important;
+
+                &:hover {
+                    color: white !important;
+                }
+            }
+        }
+
+        /* Hide the mobile reservation button on desktop */
+        .btn-reservation {
+            display: none;
+        }
+    }
+
+    .btn-reservation {
+        background-color: #FFA100;
+        color: white;
+        font-family: "M PLUS Rounded 1c", sans-serif;
+        font-weight: 700;
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        transition: background 0.3s;
+
+        &:hover {
+            background-color: darken(#FFA100, 5%);
+        }
+    }
+
+    .hamburger {
+        display: none;
+        /* Hidden by default */
+    }
+}
+
+/* --- Header Wrapper (Matches Home #header sizing) --- */
+.page-header-wrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 30px 100px;
+    box-sizing: border-box;
+
+    @media screen and (max-width: 768px) {
+        padding: 20px;
+    }
+}
+
+/* Navbar Responsive */
+@media screen and (max-width: 768px) {
+    .hero-navbar {
+        height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 15px 25px;
+        gap: 0;
+        margin-bottom: 20px;
+        position: relative;
+
+        .logo img {
+            height: 35px;
+        }
+
+        .btn-reservation {
+            display: none;
+            color: white;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 20;
+            position: absolute;
+            right: 25px;
+            top: 30px;
+
+            span {
+                display: block;
+                width: 100%;
+                height: 3px;
+                background-color: #103A21;
+                border-radius: 3px;
+                transition: all 0.3s ease;
+            }
+        }
+
+        .nav-links {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+
+            li a {
+                font-size: 18px;
+            }
+        }
+
+        &.active {
+            .hamburger {
+                span:nth-child(1) {
+                    transform: translateY(8px) rotate(45deg);
+                    background-color: #103A21;
+                }
+
+                span:nth-child(2) {
+                    opacity: 0;
+                }
+
+                span:nth-child(3) {
+                    transform: translateY(-9px) rotate(-45deg);
+                    background-color: #103A21;
+                }
+            }
+
+            .nav-links {
+                display: flex;
+
+                .btn-reservation {
+                    color: white;
+                    display: block;
+                    /* Show ONLY the button inside nav-links */
+                    margin: 20px auto 10px auto;
+                    width: fit-content;
+
+                }
+            }
+
+            /* Ensure the outer button remains hidden */
+            &>.btn-reservation {
+                display: none !important;
+            }
+        }
+    }
+}
+
+
+#hero {
+    max-width: 100%;
+    height: 95vh;
+    min-height: 650px;
+    border-radius: 0 0 30px 30px;
+    background-image: url(../images/accueil_header.png);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 30px 100px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    /* --- Floating Pill Navbar --- */
+    /* Moved to _layout.scss */
+
+    /* --- Hero Content (Left and Right) --- */
+    /* Use grid or flex to position content below navbar */
+    position: relative;
+    /* Context for absolute positioning if needed, or flex container */
+
+    /* Let's use pseudo-elements or just spacing for content */
+    /* Actually #header is flex column. The top item is Navbar. The rest should be content. */
+}
+
+/* We need a content wrapper for the rest of the hero elements to layout them out */
+/* Since I can't easily change HTML structure again without tool call,
+   I will use absolute positioning for the content as suggested by the mockup layout which looks free-form
+   OR simply adding a container in the SCSS if the HTML structure supports it.
+
+   Wait, in HTML I added:
+   .hero-navbar
+   .hero-content
+   .conseil-card
+
+   So #header needs to be relative.
+*/
+
+#hero {
+    /* Reset display from previous flex thought, let's use relative positioning for children or Grid */
+    display: block;
+
+    .hero-navbar {
+        /* As defined above */
+        margin-bottom: 80px;
+        /* Space below navbar */
+    }
+
+    .hero-content {
+        max-width: 600px;
+        position: absolute;
+        bottom: 100px;
+        left: 100px;
+        z-index: 1;
+
+        h1 {
+            color: white;
+            font-size: 64px;
+            font-family: "M PLUS Rounded 1c", sans-serif;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            line-height: 1.1;
+        }
+
+        p {
+            color: white;
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+
+            button {
+                width: 165px;
+                height: 51px;
+                border-radius: 30px;
+                font-family: "M PLUS Rounded 1c", sans-serif;
+                font-weight: 700;
+                font-size: 16px;
+                cursor: pointer;
+                transition: transform 0.2s, background 0.2s;
+
+                &.btn-filled {
+                    background-color: #FFA100;
+                    color: white;
+                    border: none;
+
+                    &:hover {
+                        background-color: darken(#FFA100, 5%);
+                    }
+                }
+
+                &.btn-outline {
+                    background-color: transparent;
+                    color: white;
+                    /* Text white as per mockup? Or orange? Mockup looks like transparent with border. Text usually white on dark bg. */
+                    /* Wait, text in mockup seems to have a border... no, standard outline button. */
+                    /* Re-checking mockup description: "Services (Transparent with orange border)" */
+                    border: 2px solid #FFA100;
+                    color: white;
+
+                    &:hover {
+                        background-color: rgba(255, 161, 0, 0.1);
+                    }
+                }
+            }
+        }
+    }
+
+    .conseil-card {
+        background-color: white;
+        border-radius: 30px;
+        padding: 30px;
+        width: 400px;
+        /* Approx width */
+        position: absolute;
+        bottom: 100px;
+        right: 100px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+        h3 {
+            color: #FFA100;
+            font-family: "M PLUS Rounded 1c", sans-serif;
+            font-weight: 700;
+            font-size: 19px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #103A21;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0;
+        }
+    }
+}
+
+/* --- Rest of the sections (unchanged) --- */
+#presentation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    padding: 100px 100px;
+    align-items: center;
+
+    .presentation_partie {
+
+        /* Image Side */
+        &:nth-of-type(1) {
+            grid-column: 1;
+            /* Mockup shows very round corners approx 50px */
+            border-radius: 50px;
+            overflow: hidden;
+            height: 500px;
+            /* Fixed height for image presence */
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+        }
+
+        /* Text Side */
+        &:nth-of-type(2) {
+            grid-column: 2;
+            justify-self: start;
+            align-self: center;
+            max-width: 600px;
+
+            /* "Présentation" eyebrow */
+            p:nth-of-type(1) {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: #555;
+                margin-bottom: 10px;
+                font-weight: 600;
+            }
+
+            /* "Jardins Harmonie" Title */
+            p:nth-of-type(2) {
+                font-family: "M PLUS Rounded 1c", sans-serif;
+                font-weight: 700;
+                font-size: 56px;
+                /* Large bold title */
+                margin-bottom: 40px;
+                /* Space after title */
+                color: #000;
+                line-height: 1.1;
+                margin-top: 0;
+            }
+
+            /* Main Text Content */
+            p:nth-of-type(3) {
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 1.5;
+                color: #333;
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+#services {
+    background-color: #103A21;
+    padding: 80px 100px;
+    color: white;
+
+    .services-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+
+        h2 {
+            font-family: "M PLUS Rounded 1c", sans-serif;
+            font-weight: 700;
+            font-size: 48px;
+            color: white;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .btn-reservations {
+            background-color: #FFA100;
+            color: white;
+            font-family: "M PLUS Rounded 1c", sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+
+            &:hover {
+                background-color: darken(#FFA100, 5%);
+            }
+        }
+    }
+
+    .services-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: start;
+
+        .services-left {
+            .service-description {
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 1.6;
+                color: #E0E0E0;
+                margin-bottom: 40px;
+                max-width: 90%;
+            }
+
+            .image-wrapper {
+                width: 100%;
+                height: 250px;
+                border-radius: 30px;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+
+        .services-right {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            .service-item {
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                overflow: hidden;
+                cursor: pointer;
+                transition: background-color 0.3s;
+
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                &.active {
+                    background-color: rgba(255, 255, 255, 0.2);
+
+                    .service-header {
+                        .icon-plus {
+                            transform: rotate(45deg);
+                        }
+                    }
+
+                    .service-content {
+                        max-height: 200px;
+                        padding: 0 20px 20px 20px;
+                    }
+                }
+
+                .service-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 15px 20px;
+
+                    span {
+                        font-family: "M PLUS Rounded 1c", sans-serif;
+                        font-weight: 700;
+                        font-size: 18px;
+                        color: white;
+                    }
+
+                    .icon-plus {
+                        font-style: normal;
+                        font-size: 24px;
+                        font-weight: 300;
+                        color: white;
+                        transition: transform 0.3s;
+                    }
+                }
+
+                .service-content {
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height 0.3s ease-out, padding 0.3s ease;
+                    padding: 0 20px;
+
+                    p {
+                        font-family: Arial, sans-serif;
+                        font-size: 14px;
+                        line-height: 1.5;
+                        color: #E0E0E0;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* --- SERVICES 2 SECTION --- */
+#services2 {
+    padding: 50px 100px;
+    background-color: white;
+
+    .services2-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 40px;
+
+        .header-left {
+            .service-eyebrow {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: #555;
+                margin-bottom: 15px;
+                font-weight: 600;
+            }
+
+            h2 {
+                font-family: "M PLUS Rounded 1c", sans-serif;
+                font-weight: 700;
+                font-size: 48px;
+                margin: 0 0 20px 0;
+                color: #000;
+                line-height: 1.1;
+            }
+
+            .service-subtext {
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 1.6;
+                color: #333;
+                margin: 0;
+                max-width: 600px;
+            }
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+
+            .btn-reservations {
+                background-color: #FFA100;
+                color: white;
+                font-family: "M PLUS Rounded 1c", sans-serif;
+                font-weight: 700;
+                font-size: 16px;
+                padding: 12px 30px;
+                border-radius: 30px;
+                border: none;
+                cursor: pointer;
+                text-decoration: none;
+                transition: background 0.3s;
+
+                &:hover {
+                    background-color: darken(#FFA100, 5%);
+                }
+            }
+
+            .btn-outline {
+                background-color: transparent;
+                color: #103A21;
+                font-family: "M PLUS Rounded 1c", sans-serif;
+                font-weight: 700;
+                font-size: 16px;
+                padding: 12px 30px;
+                border-radius: 30px;
+                border: 2px solid #103A21;
+                cursor: pointer;
+                text-decoration: none;
+                transition: all 0.3s;
+
+                &:hover {
+                    background-color: #103A21;
+                    color: white;
+                }
+            }
+        }
+    }
+
+    .services2-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+
+        .s2-card {
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+
+            .s2-card-content {
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
+                right: 20px;
+                background: white;
+                border-radius: 20px;
+                padding: 30px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+
+                img {
+                    width: 50px;
+                    height: 50px;
+                    margin-bottom: 20px;
+                }
+
+                h3 {
+                    font-family: "M PLUS Rounded 1c", sans-serif;
+                    font-weight: 700;
+                    font-size: 18px;
+                    color: #000;
+                    margin: 0 0 15px 0;
+                }
+
+                p {
+                    font-family: Arial, sans-serif;
+                    font-size: 14px;
+                    line-height: 1.5;
+                    color: #333;
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+#portfolio {
+    padding: 0 100px 90px 100px;
+    background-color: white;
+
+    .portfolio-header {
+        text-align: center;
+        margin-bottom: 50px;
+
+        .eyebrow {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555;
+            margin-bottom: 10px;
+            font-weight: 600;
+            padding: 0;
+        }
+
+        h2 {
+            font-family: "M PLUS Rounded 1c", sans-serif;
+            font-weight: 700;
+            font-size: 48px;
+            margin: 0 0 20px 0;
+            color: #000;
+            line-height: 1.1;
+        }
+
+        .description {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            margin: 0 auto;
+            max-width: 700px;
+            padding-bottom: 0;
+        }
+    }
+
+    .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: auto auto auto;
+        gap: 30px;
+
+        .p-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 30px;
+            display: block;
+        }
+
+        /* Grid Layout Logic */
+        .p-img-1 {
+            grid-column: 1;
+            grid-row: 1;
+            height: 220px;
+            /* Reduced from 300px */
+        }
+
+        .p-img-2 {
+            grid-column: 2;
+            grid-row: 1;
+            height: 220px;
+        }
+
+        .p-img-3 {
+            /* Large Tall Image (Greenhouse) */
+            grid-column: 3 / span 2;
+            grid-row: 1 / span 2;
+            height: 100%;
+            min-height: 470px;
+            /* 220 + 220 + 30px gap */
+        }
+
+        .p-img-4 {
+            /* Large Wide Image (House) */
+            grid-column: 1 / span 2;
+            grid-row: 2 / span 2;
+            height: 100%;
+            min-height: 470px;
+        }
+
+        .p-img-5 {
+            grid-column: 3;
+            grid-row: 3;
+            height: 220px;
+        }
+
+        .p-img-6 {
+            grid-column: 4;
+            grid-row: 3;
+            height: 220px;
+        }
+    }
+}
+
+#avis {
+    padding: 0 100px 100px 100px;
+    background-color: white;
+
+    .avis-header {
+        margin-bottom: 30px;
+
+        h2 {
+            font-family: "M PLUS Rounded 1c", sans-serif;
+            font-weight: 700;
+            font-size: 48px;
+            margin: 0 0 20px 0;
+            color: #000;
+            line-height: 1.1;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            p {
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 1.6;
+                color: #333;
+                margin: 0;
+                max-width: 600px;
+            }
+
+            .btn-reservations {
+                background-color: #FFA100;
+                color: white;
+                font-family: "M PLUS Rounded 1c", sans-serif;
+                font-weight: 700;
+                font-size: 16px;
+                padding: 12px 30px;
+                border-radius: 30px;
+                border: none;
+                cursor: pointer;
+                text-decoration: none;
+                transition: background 0.3s;
+
+                &:hover {
+                    background-color: darken(#FFA100, 5%);
+                }
+            }
+        }
+    }
+
+    .avis-carousel {
+        width: 100%;
+        height: 300px;
+        border-radius: 30px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        transition: background-image 0.5s ease-in-out;
+        /* Smooth transition for bg */
+
+        .review-card {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            background-color: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+            #review-text {
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 1.6;
+                color: #333;
+                margin-bottom: 30px;
+                font-style: italic;
+            }
+
+            .review-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .reviewer-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+
+                    img {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                    .info-text {
+                        display: flex;
+                        flex-direction: column;
+
+                        .name {
+                            font-family: "M PLUS Rounded 1c", sans-serif;
+                            font-weight: 700;
+                            font-size: 16px;
+                            color: #000;
+                        }
+
+                        .date {
+                            font-family: Arial, sans-serif;
+                            font-size: 14px;
+                            color: #777;
+                        }
+                    }
+                }
+
+                .nav-buttons {
+                    display: flex;
+                    gap: 10px;
+
+                    .nav-btn {
+                        width: 35px;
+                        height: 35px;
+                        border-radius: 50%;
+                        border: none;
+                        background-color: #103A21;
+                        /* Dark Green */
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        background-size: 50%;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+
+                        &:hover {
+                            background-color: lighten(#103A21, 10%);
+                        }
+
+                        &.prev {
+                            background-image: url(../images/icon_precedent.png);
+                        }
+
+                        &.next {
+                            background-image: url(../images/icon_suivant.png);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#blog {
+    padding: 0 100px 90px 100px;
+    background-color: white;
+
+    .blog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 50px;
+
+        .header-left {
+            .eyebrow {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            h2 {
+                font-family: "M PLUS Rounded 1c", sans-serif;
+                font-weight: 700;
+                font-size: 48px;
+                margin: 0 0 20px 0;
+                color: #000;
+                line-height: 1.1;
+            }
+
+            .description {
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 1.6;
+                color: #333;
+                margin: 0;
+                max-width: 600px;
+            }
+        }
+
+        .header-right {
+            .btn-news {
+                background-color: #103A21;
+                /* Dark Green */
+                color: white;
+                font-family: "M PLUS Rounded 1c", sans-serif;
+                font-weight: 700;
+                font-size: 16px;
+                padding: 12px 30px;
+                border-radius: 30px;
+                border: none;
+                cursor: pointer;
+                text-decoration: none;
+                transition: background 0.3s;
+
+                &:hover {
+                    background-color: lighten(#103A21, 5%);
+                }
+            }
+        }
+    }
+
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+
+        .blog-card {
+            cursor: pointer;
+            transition: transform 0.3s;
+
+            &:hover {
+                transform: translateY(-5px);
+            }
+
+            img {
+                width: 100%;
+                height: 220px;
+                object-fit: cover;
+                border-radius: 30px;
+                margin-bottom: 20px;
+            }
+
+            h3 {
+                font-family: "M PLUS Rounded 1c", sans-serif;
+                font-weight: 700;
+                font-size: 20px;
+                color: #000;
+                margin: 0 0 20px 0;
+                line-height: 1.4;
+                min-height: 56px;
+                /* Align lines */
+            }
+
+            hr {
+                border: none;
+                border-top: 1px solid #E0E0E0;
+                margin-bottom: 20px;
+            }
+
+            .card-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .date {
+                    font-family: Arial, sans-serif;
+                    font-size: 14px;
+                    color: #000;
+                    font-weight: 700;
+                }
+
+                .read-more {
+                    font-family: Arial, sans-serif;
+                    font-size: 14px;
+                    color: #FFA100;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: color 0.3s;
+
+                    &:hover {
+                        color: darken(#FFA100, 10%);
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* --- RESPONSIVE DESIGN (Mobile < 768px) --- */
+@media screen and (max-width: 768px) {
+
+    /* Header (Hero) */
+    #header {
+        height: auto;
+        min-height: 700px;
+        padding: 20px;
+        background-position: center top;
+
+        /* Hero Navbar Mobile - Moved to _layout.scss */
+
+        .hero-content {
+            position: relative;
+            bottom: auto;
+            left: auto;
+            margin: 0 auto 40px auto;
+            text-align: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+
+            h1 {
+                font-size: 48px;
+                text-align: center;
+            }
+
+            p {
+                text-align: center;
+                font-size: 16px;
+                max-width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+                /* Prevent edge touching */
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+        }
+
+        .conseil-card {
+            //position: relative;
+            //bottom: auto;
+            //right: auto;
+            //width: 100%;
+            //max-width: 100%;
+            //margin: 0 auto;
+            //box-sizing: border-box;
+            display:none;
+        }
+    }
+
+    /* Presentation */
+    #presentation {
+        grid-template-columns: 1fr;
+        padding: 50px 20px;
+        gap: 40px;
+
+        .presentation_partie:nth-of-type(1) {
+            grid-column: 1;
+            height: 300px;
+        }
+
+        .presentation_partie:nth-of-type(2) {
+            grid-column: 1;
+            text-align: center;
+            justify-self: center;
+            margin: 0 auto;
+            /* Ensure container is centered */
+            max-width: 90%;
+            /* Prevent hitting edges */
+
+            p {
+                margin-left: auto;
+                /* Center p blocks if they have width */
+                margin-right: auto;
+            }
+
+            p:nth-of-type(2) {
+                font-size: 42px;
+            }
+        }
+    }
+
+    /* Services */
+    #services {
+        grid-template-columns: 1fr;
+        padding: 50px 20px;
+        gap: 40px;
+
+        .services-header {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+
+            h2 {
+                font-size: 36px;
+                white-space: normal;
+            }
+        }
+
+        .services-container {
+            grid-template-columns: 1fr;
+            gap: 40px;
+
+            .services-left .image-wrapper {
+                height: 200px;
+            }
+
+            /* Center description in Services */
+            .services-left .service-description {
+                text-align: center;
+                max-width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .services-right .btn-reservations {
+                margin: 0 auto 30px auto;
+                display: block;
+                width: fit-content;
+                /* Ensure it doesn't stretch 100% if not needed */
+                max-width: 90%;
+            }
+        }
+    }
+
+    /* Services 2 (Pourquoi nous choisir) */
+    #services2 {
+        padding: 50px 20px;
+
+        .services2-header {
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            text-align: center;
+
+            .header-right {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                /* in case flex row */
+                max-width: 90%;
+                margin: 0 auto;
+            }
+        }
+
+        .services2-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Portfolio */
+    #portfolio {
+        padding: 0 20px 50px 20px;
+
+        .portfolio-header {
+            text-align: center;
+
+            .eyebrow,
+            .description {
+                text-align: center;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                max-width: 90%;
+            }
+        }
+
+        .portfolio-grid {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            gap: 20px;
+
+            /* Reset grid placement for mobile stack */
+            .p-img-1,
+            .p-img-2,
+            .p-img-3,
+            .p-img-4,
+            .p-img-5,
+            .p-img-6 {
+                grid-column: 1 !important;
+                grid-row: auto !important;
+                height: 250px !important;
+                min-height: 0;
+            }
+        }
+    }
+
+    /* Avis */
+    #avis {
+        padding: 0 20px 50px 20px;
+
+        .avis-header {
+            text-align: center;
+
+            .header-row {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+
+                .btn-reservations {
+                    align-self: center;
+                }
+            }
+        }
+
+        .avis-carousel {
+            height: auto;
+            background-image: none !important;
+            background: none;
+
+            .review-card {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                margin: 0;
+                width: 100%;
+                max-width: none;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+
+    /* Blog */
+    #blog {
+        padding: 0 20px 50px 20px;
+
+        .blog-header {
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            text-align: center;
+
+            .header-left {
+
+                .eyebrow,
+                .description {
+                    text-align: center;
+                    margin-left: auto;
+                    margin-right: auto;
+                    max-width: 90%;
+                }
+            }
+        }
+
+        .blog-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+}

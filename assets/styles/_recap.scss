@@ -1,0 +1,91 @@
+/* --- RECAP SIDEBAR --- */
+.reservation-container {
+
+    .layout-wrapper {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+        /* This wrapper replaces the direct usage of main-content's internal structure if needed */
+    }
+
+    .form-layout {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .recap-sidebar {
+        width: 300px;
+        background: white;
+        border-left: 1px solid #eee;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+        z-index: 10;
+
+        .recap-header-img {
+            height: 120px;
+            background-color: #e0e7e3;
+            background-image: url('../images/formulaire.png');
+            /* You might need to generate or use existing */
+            background-size: cover;
+            background-position: center;
+            /* Fallback if no image */
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .recap-content {
+            flex: 1;
+            background-color: #F0FFF4;
+            /* Light Green */
+            padding: 20px;
+            overflow-y: auto;
+
+            h4 {
+                color: #FF9900;
+                /* Orange title */
+                font-size: 1.1rem;
+                margin-top: 0;
+                margin-bottom: 15px;
+                font-weight: 700;
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    color: #103A21;
+                    font-size: 0.95rem;
+                    margin-bottom: 10px;
+                    line-height: 1.4;
+                }
+            }
+        }
+
+        .recap-footer {
+            background-color: #103A21;
+            /* Dark Green */
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .label {
+                font-weight: 500;
+                font-size: 1rem;
+            }
+
+            .price {
+                font-weight: 700;
+                font-size: 1.5rem;
+            }
+        }
+    }
+}

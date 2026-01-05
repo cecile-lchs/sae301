@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jardin Harmonie | Réservation - Étape 4</title>
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="reservation-body">
+
+<div class="reservation-container">
+    <!-- Sidebar -->
+    <aside class="recap-sidebar">
+        <div class="sidebar-content">
+            <button class="close-cross" onclick="window.location.href='{{path('app_accueil')}}">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <!-- Steps Removed from Sidebar -->
+        </div>
+
+        <!-- Integrated Recap Section (Consistent with other steps) -->
+        <div class="recap-content">
+            <h4>Mes services</h4>
+            <ul id="recap-services-list">
+                <!-- Populated by JS -->
+            </ul>
+
+            <h4 style="margin-top: 15px;">Date & Heure</h4>
+            <p id="recap-date-display" style="font-size: 0.9rem; margin: 0;">-</p>
+        </div>
+        <div class="recap-footer">
+            <span class="label">Total à régler</span>
+            <span class="price" id="recap-total">0 €</span>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" style="display:flex; flex-direction:column;">
+        <!-- Horizontal Steps (Top Right) -->
+        <div class="horizontal-steps">
+            <a href="../index.html" class="mobile-close-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#103A21" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </a>
+            <div class="step-item completed">
+                <div class="step-circle">✓</div>
+                <span class="step-label">Services</span>
+            </div>
+            <div class="step-item completed">
+                <div class="step-circle">✓</div>
+                <span class="step-label">Date</span>
+            </div>
+            <div class="step-item completed">
+                <div class="step-circle">✓</div>
+                <span class="step-label">Informations</span>
+            </div>
+            <div class="step-item active">
+                <div class="step-circle">4</div>
+                <span class="step-label">Confirmation</span>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">5</div>
+                <span class="step-label">Validation</span>
+            </div>
+        </div>
+
+        <div class="scroll-content">
+            <header class="content-header">
+                <button class="btn-back" id="btn-back">
+                    ← Précedent
+                </button>
+                <h1 class="page-title">Confirmation</h1>
+            </header>
+
+            <form id="step4-form" onsubmit="return false;">
+                <div class="step-content active">
+                    <div class="confirmation-banner">
+                        Récapitulatif de votre demande
+                    </div>
+
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <h4>Vos services</h4>
+                            <div id="summary-services-list">
+                                <!-- Dynamic -->
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <h4>Date</h4>
+                            <p id="summary-date">-</p>
+                            <p id="summary-time">-</p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>Adresse</h4>
+                            <p id="summary-address">-</p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>Nom, prénom</h4>
+                            <p id="summary-name">-</p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>Email</h4>
+                            <p id="summary-email">-</p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>Téléphone</h4>
+                            <p id="summary-phone">-</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Bottom Bar -->
+        <footer class="bottom-bar">
+            <!-- Price removed as it is in sidebar -->
+            <button class="btn-next" id="btn-validate">
+                Validation <span class="arrow">→</span>
+            </button>
+        </footer>
+    </main>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="success-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="window.location.href='{{ path('app_accueil') }}'">×</button>
+        <h2>Votre rendez-vous a bien été pris en compte</h2>
+        <hr>
+        <div class="success-message-box">
+            Vous avez reçu un mail avec votre récapitulatif de rendez-vous
+        </div>
+
+        <div class="modal-summary">
+            <div class="col">
+                <h4>Vos services</h4>
+                <div id="modal-services"></div>
+            </div>
+            <div class="col">
+                <h4>Date</h4>
+                <p id="modal-date-val">-</p>
+                <p id="modal-time-val">-</p>
+            </div>
+            <div class="col">
+                <h4>Nom, prénom</h4>
+                <p id="modal-name-val">-</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btnBack = document.getElementById('btn-back');
+        const btnValidate = document.getElementById('btn-validate');
+        const successModal = document.getElementById('success-modal');
+
+        // --- Load Data ---
+        const services = JSON.parse(sessionStorage.getItem('reservation_services') || '[]');
+        const date = sessionStorage.getItem('reservation_date') || '-';
+        const time = sessionStorage.getItem('reservation_time') || '-';
+        const info = JSON.parse(sessionStorage.getItem('reservation_info') || '{}');
+
+        // --- Display Summary ---
+        const servicesList = document.getElementById('summary-services-list');
+        const modalServices = document.getElementById('modal-services');
+
+        // Sidebar Recap Elements
+        const recapServicesList = document.getElementById('recap-services-list');
+        const recapTotal = document.getElementById('recap-total');
+        const recapDateDisplay = document.getElementById('recap-date-display');
+
+        let total = 0;
+
+        if (services.length === 0) {
+            const li = document.createElement('li');
+            li.textContent = "Aucun service sélectionné";
+            recapServicesList.appendChild(li);
+        }
+
+        services.forEach(s => {
+            // Main Summary
+            const p = document.createElement('p');
+            p.textContent = s.value;
+            servicesList.appendChild(p);
+
+            // Modal Summary
+            const pModal = document.createElement('p');
+            pModal.textContent = s.value;
+            modalServices.appendChild(pModal);
+
+            // Sidebar Recap
+            const li = document.createElement('li');
+            li.textContent = s.value;
+            recapServicesList.appendChild(li);
+
+            total += parseInt(s.price || 0);
+        });
+
+        if(recapTotal) recapTotal.textContent = total + ' €';
+
+        // Dates
+        const dateStr = sessionStorage.getItem('reservation_date_str');
+        let fullDate = '-';
+
+        if (dateStr) {
+            // Parse YYYY-MM-DD to readable format
+            const d = new Date(dateStr);
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            fullDate = d.toLocaleDateString('fr-FR', options);
+        } else if (date !== '-') {
+            // Fallback to old simple day number
+            fullDate = `${date} Octobre 2026`;
+        }
+
+        document.getElementById('summary-date').textContent = fullDate;
+        document.getElementById('summary-time').textContent = time;
+        document.getElementById('modal-date-val').textContent = fullDate;
+        document.getElementById('modal-time-val').textContent = time;
+
+        if(recapDateDisplay) {
+            if(fullDate !== '-' && time !== '-') {
+                recapDateDisplay.innerHTML = `${fullDate}<br>${time}`;
+            } else {
+                recapDateDisplay.textContent = '-';
+            }
+        }
+
+        // Info
+        document.getElementById('summary-name').textContent = `${info.nom || '-'} ${info.prenom || '-'}`;
+        document.getElementById('summary-email').textContent = info.email || '-';
+        document.getElementById('summary-phone').textContent = info.phone || '-';
+        document.getElementById('summary-address').textContent = info.adresse || '-';
+
+        document.getElementById('modal-name-val').textContent = `${info.nom || '-'} ${info.prenom || '-'}`;
+
+        // Navigation
+        btnBack.addEventListener('click', () => {
+            window.location.href = 'reservation-step3.html';
+        });
+
+        btnValidate.addEventListener('click', () => {
+            successModal.style.display = 'flex';
+            // Optional: Clear session
+            // sessionStorage.clear();
+        });
+    });
+</script>
+</body>
+</html>

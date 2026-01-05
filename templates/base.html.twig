@@ -1,17 +1,191 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Jardin Harmonie - Votre jardin entre de bonnes mains{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% block stylesheets %}
+        {{ importmap('app') }}
+    {% endblock %}
+</head>
+<body>
+{% block header %}
+{#    <header class="header">#}
+{#        <a href="{{ path('app_accueil') }}" class="header__logo">#}
+{#            <div class="header__logo-icon">H</div>#}
+{#            <span>Jardin Harmonie</span>#}
+{#        </a>#}
+{#        <nav>#}
+{#            <ul class="header__nav">#}
+{#                <li><a href="{{ path('app_accueil') }}">Accueil</a></li>#}
+{#                <li><a href="#">Services</a></li>#}
+{#                <li><a href="{{ path('app_actualite') }}">Actualités</a></li>#}
+{#                <li><a href="#contact">Contact</a></li>#}
+{#            </ul>#}
+{#        </nav>#}
+{#        <a href="{{ path('app_reservation') }}" class="header__btn-reservation">Réservation</a>#}
+{#    </header>#}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+{#    <header class="main-header">#}
+{#        <nav class="container">#}
+{#            <a href="#" class="logo">#}
+{#                <img src="{{ asset('images/logo.svg') }}" alt="Jardins Harmonie Logo" style="height: 40px;">#}
+{#            </a>#}
+{#            <ul class="nav-links">#}
+{#                <li><a href="{{ path('app_accueil') }}">Accueil</a></li>#}
+{#                <li><a href="#">Services</a></li>#}
+{#                <li><a href="{{ path('app_actualite') }}">Actualités</a></li>#}
+{#                <li><a href="#">Contact</a></li>#}
+{#            </ul>#}
+{#            <a href="{{ path('app_reservation') }}" class="btn-cta" >Réservation</a>#}
+{#        </nav>#}
+{#    </header>#}
+
+<div id="header">
+
+    <!-- Floating Pill Navbar -->
+    <nav class="hero-navbar">
+        <a href="#" class="logo">
+            <img src="{{ asset('/images/logo.svg') }}" alt="Jardins Harmonie Logo">
+        </a>
+        <ul class="nav-links">
+            <li><a href="{{ path('app_accueil') }}">Accueil</a></li>
+            <li><a href="#services2">Services</a></li>
+            <li><a href="{{ path('app_actualite') }}">Actualités</a></li>
+            <li><a href="#avis">Contact</a></li>
+            <li><a href="{{ path('reservation_step1') }}" class="btn-reservation">Réservation</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <a href="{{ path('reservation_step1') }}" class="btn-reservation">Réservation</a>
+    </nav>
+
+    <script>
+        function toggleMenu() {
+            const navbar = document.querySelector('.hero-navbar');
+            navbar.classList.toggle('active');
+        }
+    </script>
+</div>
+{% endblock %}
+
+{% block main %}
+{% endblock %}
+
+{% block footer %}
+{#    <footer class="footer" id="contact">#}
+{#        <div class="footer__content">#}
+{#            <div>#}
+{#                <div class="footer__logo">#}
+{#                    <div class="footer__logo-icon">H</div>#}
+{#                    <div class="footer__logo-text">Jardin Harmonie</div>#}
+{#                </div>#}
+{#                <p class="footer__slogan">Votre jardin entre de bonnes mains.</p>#}
+{#                <div class="footer__social">#}
+{#                    <a href="#" aria-label="Twitter">🐦</a>#}
+{#                    <a href="#" aria-label="Facebook">📘</a>#}
+{#                    <a href="#" aria-label="Instagram">📷</a>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div>#}
+{#                <h3 class="footer__section-title">Contact</h3>#}
+{#                <ul class="footer__list">#}
+{#                    <li class="footer__contact-item">+33 60 28 42 46 46</li>#}
+{#                    <li class="footer__contact-item">jardin.harmonie@gmail.com</li>#}
+{#                    <li class="footer__contact-item">9 Rue Quebec, 10430 Rosières près Troyes</li>#}
+{#                </ul>#}
+{#            </div>#}
+{#            <div>#}
+{#                <h3 class="footer__section-title">Liens utiles</h3>#}
+{#                <ul class="footer__list">#}
+{#                    <li><a href="{{ path('app_accueil') }}">Accueil</a></li>#}
+{#                    <li><a href="#">Services</a></li>#}
+{#                    <li><a href="{{ path('app_actualite') }}">Actualités</a></li>#}
+{#                    <li><a href="#">Compte</a></li>#}
+{#                </ul>#}
+{#            </div>#}
+{#            <div>#}
+{#                <h3 class="footer__section-title">Informations</h3>#}
+{#                <ul class="footer__list">#}
+{#                    <li><a href="#">Mentions légales</a></li>#}
+{#                    <li><a href="#">Politique de confidentialité</a></li>#}
+{#                    <li><a href="#">Plan du site</a></li>#}
+{#                    <li><a href="#">Cookies</a></li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="footer__copyright">#}
+{#            © Copyright 2023. All Rights Reserved by Jardin Harmonie.#}
+{#        </div>#}
+{#    </footer>#}
+
+    <!-- CTA Section -->
+    <section class="footer-cta container">
+        <div class="cta-content">
+            <h2>Votre jardin mérite le meilleur soin</h2>
+            <p>Prenez rendez-vous dès aujourd’hui et profitez d’un jardin entretenu sans effort.</p>
+            <a href="#" class="btn-primary">Réserver un créneau</a>
+        </div>
+    </section>
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <!-- Column 1: Brand -->
+            <div class="footer-col brand-col">
+                <div class="logo">
+                    <img src="{{ asset('images/logo.svg') }}" alt="Jardins Harmonie Logo" style="height: 40px;">
+                </div>
+                <p>Jardins Harmonie – Votre jardin entre de bonnes mains.</p>
+                <div class="social-icons">
+                    <a href="#" class="icon">Twitter</a>
+                    <a href="#" class="icon">FB</a>
+                    <a href="#" class="icon">Insta</a>
+                </div>
+            </div>
+
+            <!-- Column 2: Contact -->
+            <div class="footer-col">
+                <h4>CONTACT</h4>
+                <ul>
+                    <li>+33 03 25 42 46 46</li>
+                    <li>jardin.harmonie@gmail.com</li>
+                    <li>9 Rue Quebec, 10430 Rosières-près-Troyes</li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Liens Utiles -->
+            <div class="footer-col">
+                <h4>LIENS UTILES</h4>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Actualités</a></li>
+                    <li><a href="#">Compte</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Informations -->
+            <div class="footer-col">
+                <h4>INFORMATIONS</h4>
+                <ul>
+                    <li><a href="#">Mention légales</a></li>
+                    <li><a href="#">Politiques de confidentialité</a></li>
+                    <li><a href="#">Plan du site</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; Copyright 2025, All Rights Reserved by Jardin Harmonie</p>
+        </div>
+    </footer>
+{% endblock %}
+</body>
 </html>

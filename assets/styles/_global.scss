@@ -1,0 +1,83 @@
+//
+//* {
+//    box-sizing: border-box;
+//    margin: 0;
+//    padding: 0;
+//}
+//
+//body {
+//    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+//    color: #333;
+//    background-color: #fff;
+//    line-height: 1.6;
+//}
+//
+//img {
+//    max-width: 100%;
+//    height: auto;
+//    display: block;
+//}
+//
+//a {
+//    text-decoration: none;
+//    color: inherit;
+//    transition: color 0.3s ease;
+//
+//    &:hover {
+//        color:  #27ae60;
+//    }
+//}
+//
+//h1,
+//h2,
+//h3,
+//h4,
+//h5,
+//h6 {
+//    font-family:  'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+//    font-weight: 700;
+//    margin-bottom: 1rem;
+//}
+// Global Styles
+
+@use 'variables' as *;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: $font-family-base;
+    color: $color-text;
+    background-color: $color-bg;
+    line-height: 1.6;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: $color-secondary;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $font-family-heading;
+    font-weight: 700;
+    margin-bottom: $spacing-unit;
+}

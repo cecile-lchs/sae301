@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jardin Harmonie - Réservation Étape 2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
+</head>
+
+<body class="reservation-body">
+<div class="reservation-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <button class="close-cross" onclick="window.location.href='{{ path('app_accueil') }}'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="sidebar-recap">
+            <div class="recap-content">
+                <h4>Mes services</h4>
+                <ul id="recap-services-list">
+                    {% if selectedServices is not empty %}
+                        {% for service in selectedServices %}
+                             <li>{{ service.nom }}  </li>
+                        {% endfor %}
+                    {% else %}
+                       <li>Aucun service sélectionné</li>
+                    {% endif %}
+                </ul>
+
+                <h4 style="margin-top: 15px;">Date & Heure</h4>
+                <p id="recap-date-display" style="font-size: 0.9rem; margin: 0;">-</p>
+            </div>
+            <div class="recap-footer">
+                <span class="label">Total à régler</span>
+                <span class="price" id="recap-total">{{ totalPrice}} €</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" style="display:flex; flex-direction:column;">
+        <!-- Horizontal Steps -->
+        <div class="horizontal-steps">
+            <a href="{{ path('app_accueil') }}" class="mobile-close-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#103A21" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </a>
+            <div class="step-item completed">
+                <div class="step-circle">✓</div>
+                <span class="step-label">Services</span>
+            </div>
+            <div class="step-item active">
+                <div class="step-circle">2</div>
+                <span class="step-label">Date</span>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">3</div>
+                <span class="step-label">Informations</span>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">4</div>
+                <span class="step-label">Confirmation</span>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">5</div>
+                <span class="step-label">Validation</span>
+            </div>
+        </div>
+
+        <div class="scroll-content">
+            <header class="content-header">
+                <button class="btn-back" onclick="window.location.href='{{ path('reservation_step1') }}'">← Précedent</button>
+
+                <h1 class="page-title">Choisissez une <span class="highlight">date</span></h1>
+            </header>
+
+            <div id="error-message" style="color:red; font-weight:bold; text-align:center; display:none; margin-bottom:10px;"></div>
+
+            <form id="step2-form" onsubmit="return false;">
+                <div class="step-content active">
+                    <div class="step2-container">
+
+                        <!-- CALENDRIER -->
+                        <div class="calendar-wrapper">
+                            <div id="calendar"></div>
+                        </div>
+
+                        <!-- HORAIRES -->
+                        <div class="time-slots-container" id="time-slots-container" style="display:none;">
+                            <h3>Horaires disponibles</h3>
+                            <div class="slots-grid" id="slots-grid-wrapper"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <footer class="bottom-bar">
+            <button class="btn-next" id="btn-next">Suivant <span class="arrow">→</span></button>
+        </footer>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let selectedDate = null;
+        let selectedSlot = null;
+
+        const calendarEl = document.getElementById('calendar');
+        const slotsContainer = document.getElementById('slots-grid-wrapper');
+        const slotsWrapper = document.getElementById('time-slots-container');
+
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'fr',
+            firstDay: 1,
+            height: 'auto',
+            selectable: true,
+            events: '/reservation/calendar-events',
+            eventDidMount: function(info) {
+                if(info.event.display === 'background'){
+                    info.el.classList.add('fc-unavailable');
+                }
+            },
+            dateClick: function(info) {
+                if(info.dayEl.classList.contains('fc-unavailable')){
+                    alert("Cette date n'est pas disponible");
+                    return;
+                }
+
+                document.querySelectorAll('.fc-daygrid-day').forEach(day => day.classList.remove('selected'));
+                info.dayEl.classList.add('selected');
+                selectedDate = info.dateStr;
+                loadSlots(selectedDate);
+            }
+        });
+
+        calendar.render();
+
+        function loadSlots(date){
+            fetch(`/reservation/availability?date=${date}`)
+                .then(res => res.json())
+                .then(data => generateSlots(data));
+        }
+
+        function generateSlots(data){
+            slotsContainer.innerHTML = '';
+            slotsWrapper.style.display = 'block';
+
+            const openingStart = data.opening.start;
+            const openingEnd = data.opening.end;
+            const lunch = data.lunch;
+            const busy = data.busy;
+
+            let current = openingStart;
+
+            while(current < openingEnd){
+                const next = addHour(current);
+                const slot = `${current}-${next}`;
+                const isDisabled = isInRange(slot, lunch) || busy.includes(slot);
+
+                const label = document.createElement('label');
+                label.className = `time-slot${isDisabled ? ' disabled' : ''}`;
+                label.innerHTML = isDisabled
+                    ? `<span>${slot}</span>`
+                    : `<input type="radio" name="time_slot" value="${slot}"><span>${slot}</span>`;
+
+                if(!isDisabled){
+                    label.querySelector('input').addEventListener('change', e => {
+                        selectedSlot = e.target.value;
+                        sessionStorage.setItem('reservation_date', selectedDate);
+                        sessionStorage.setItem('reservation_time', selectedSlot);
+                    });
+                }
+
+                slotsContainer.appendChild(label);
+                current = next;
+            }
+        }
+
+        function addHour(time){
+            const [h, m] = time.split(':').map(Number);
+            return String(h + 1).padStart(2,'0') + ':00';
+        }
+
+        function isInRange(slot, range){
+            const [s1,e1] = slot.split('-');
+            const [s2,e2] = range.split('-');
+            return s1 < e2 && e1 > s2;
+        }
+
+        document.getElementById('btn-next').onclick = () => {
+            if(!selectedDate || !selectedSlot){
+                alert('Veuillez choisir une date et un créneau');
+                return;
+            }
+            window.location.href = "{{ path('reservation_step3') }}";
+        }
+    });
+
+</script>
+</body>

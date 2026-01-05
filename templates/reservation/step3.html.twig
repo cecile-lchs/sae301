@@ -1,0 +1,271 @@
+{# templates/reservation/step3.html.twig #}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jardin Harmonie | Réservation - Étape 3</title>
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Address Autocomplete Styles */
+        .suggestions-container {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            top: auto;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+            margin-bottom: 5px;
+        }
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+        }
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+            color: #2e7d32;
+        }
+        .form-group { position: relative; }
+    </style>
+</head>
+<body class="reservation-body">
+
+<div class="reservation-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <button class="close-cross" onclick="window.location.href='{{ path('app_accueil') }}'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="sidebar-recap">
+            <div class="recap-content">
+                <h4>Mes services</h4>
+                <ul id="recap-services-list">
+                    {% if selectedServices is not empty %}
+                        {% for service in selectedServices %}
+                            <li>{{ service.nom }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li>Aucun service sélectionné</li>
+                    {% endif %}
+                </ul>
+
+                <h4 style="margin-top: 15px;">Date & Heure</h4>
+                <p id="recap-date-display" style="font-size: 0.9rem; margin: 0;">
+                    {% set jours = {'Sunday':'Dimanche', 'Monday':'Lundi', 'Tuesday':'Mardi', 'Wednesday':'Mercredi', 'Thursday':'Jeudi', 'Friday':'Vendredi', 'Saturday':'Samedi'} %}
+                    {% set mois = {'January':'Janvier', 'February':'Février', 'March':'Mars', 'April':'Avril', 'May':'Mai', 'June':'Juin', 'July':'Juillet', 'August':'Août', 'September':'Septembre', 'October':'Octobre', 'November':'Novembre', 'December':'Décembre'} %}
+
+                    {% if reservationDate %}
+                        {% set dayName = reservationDate|date('l') %}
+                        {% set monthName = reservationDate|date('F') %}
+                        {{ jours[dayName] }} {{ reservationDate|date('d') }} {{ mois[monthName] }} {{ reservationDate|date('Y') }}
+                        {% if reservationTime %}
+                            à {{ reservationTime }}
+                        {% endif %}
+                    {% else %}
+                        -
+                    {% endif %}
+                </p>
+            </div>
+            <div class="recap-footer">
+                <span class="label">Total à régler</span>
+                <span class="price" id="recap-total">
+                    {% if selectedServices is not empty %}
+                        {{ selectedServices|reduce((carry, s) => carry + s.prix, 0) }} €
+                    {% else %}
+                        0 €
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" style="display:flex; flex-direction:column;">
+        <div class="horizontal-steps">
+            <a href="{{ path('app_accueil') }}" class="mobile-close-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#103A21" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </a>
+            <div class="step-item completed">
+                <div class="step-circle">✓</div>
+                <span class="step-label">Services</span>
+            </div>
+            <div class="step-item completed">
+                <div class="step-circle">✓</div>
+                <span class="step-label">Date</span>
+            </div>
+            <div class="step-item active">
+                <div class="step-circle">3</div>
+                <span class="step-label">Informations</span>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">4</div>
+                <span class="step-label">Confirmation</span>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">5</div>
+                <span class="step-label">Validation</span>
+            </div>
+        </div>
+
+        <div class="scroll-content">
+            <header class="content-header">
+                <button class="btn-back" onclick="window.location.href='{{ path('reservation_step2') }}'">
+                    ← Précedent
+                </button>
+                <h1 class="page-title">Vos <span class="highlight">coordonnées</span></h1>
+            </header>
+
+            <div id="error-message" style="color: #d32f2f; font-weight: bold; text-align: center; margin-bottom: 20px; display: none;"></div>
+
+            <form id="step3-form" method="POST" action="{{ path('reservation_step3') }}">
+                <div class="step-content active">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nom</label>
+                            <input type="text" name="nom" id="nom" placeholder="Entrez votre nom *" required value="{{ reservationInfo.nom|default('') }}">
+                            <span class="field-error-msg" id="error-nom" style="display: none;">Le nom est obligatoire</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Prénom</label>
+                            <input type="text" name="prenom" id="prenom" placeholder="Entrez votre prénom *" required value="{{ reservationInfo.prenom|default('') }}">
+                            <span class="field-error-msg" id="error-prenom" style="display: none;">Le prénom est obligatoire</span>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Numéro de téléphone</label>
+                            <input type="tel" name="phone" id="phone" placeholder="Entrez un numéro de téléphone *" required value="{{ reservationInfo.phone|default('') }}">
+                            <span class="field-error-msg" id="error-phone" style="display: none;">Le numéro de téléphone est obligatoire</span>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Adresse e-mail</label>
+                            <input type="email" name="email" id="email" placeholder="Entrez une adresse E-Mail *" required value="{{ reservationInfo.email|default('') }}">
+                            <span class="field-error-msg" id="error-email" style="display: none;">L'adresse e-mail est obligatoire</span>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Adresse postale</label>
+                            <input type="text" name="adresse" id="adresse" placeholder="Entrez votre adresse *" required autocomplete="off" value="{{ reservationInfo.adresse|default('') }}">
+                            <div id="adresse-suggestions" class="suggestions-container"></div>
+                            <span class="field-error-msg" id="error-adresse" style="display: none;">L'adresse est obligatoire</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <footer class="bottom-bar">
+            <button type="submit" form="step3-form" class="btn-next">
+                Suivant <span class="arrow">→</span>
+            </button>
+        </footer>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('step3-form');
+        const formInputs = form.querySelectorAll('input');
+        const adresseInput = document.getElementById('adresse');
+        const suggestionsBox = document.getElementById('adresse-suggestions');
+
+        function clearFieldError(name) {
+            const el = document.getElementById('error-' + name);
+            if(el) el.style.display = 'none';
+        }
+        function showFieldError(name) {
+            const el = document.getElementById('error-' + name);
+            if(el) el.style.display = 'block';
+        }
+        function validateForm() {
+            let valid = true;
+            formInputs.forEach(input => {
+                clearFieldError(input.name);
+                input.style.borderColor = '';
+                if(input.required && !input.value.trim()){
+                    valid = false;
+                    input.style.borderColor = 'red';
+                    showFieldError(input.name);
+                }
+            });
+            return valid;
+        }
+        function saveToSession() {
+            const data = {};
+            formInputs.forEach(input => data[input.name] = input.value);
+            sessionStorage.setItem('reservation_info', JSON.stringify(data));
+        }
+
+        // Restore saved info
+        const savedInfo = JSON.parse(sessionStorage.getItem('reservation_info') || '{}');
+        for (const [k,v] of Object.entries(savedInfo)){
+            const input = document.getElementById(k);
+            if(input) input.value = v;
+        }
+
+        // Address autocomplete
+        let debounce;
+        adresseInput.addEventListener('input', function(){
+            const query = this.value;
+            clearTimeout(debounce);
+            if(query.length < 3){
+                suggestionsBox.style.display = 'none';
+                return;
+            }
+            debounce = setTimeout(()=>{
+                fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`)
+                    .then(res=>res.json())
+                    .then(data=>{
+                        suggestionsBox.innerHTML = '';
+                        if(data.features && data.features.length>0){
+                            data.features.forEach(f=>{
+                                const div = document.createElement('div');
+                                div.classList.add('suggestion-item');
+                                div.textContent = f.properties.label;
+                                div.addEventListener('click', ()=> {
+                                    adresseInput.value = f.properties.label;
+                                    suggestionsBox.style.display = 'none';
+                                    clearFieldError('adresse');
+                                });
+                                suggestionsBox.appendChild(div);
+                            });
+                            suggestionsBox.style.display = 'block';
+                        } else suggestionsBox.style.display = 'none';
+                    }).catch(err=>console.error(err));
+            },300);
+        });
+        document.addEventListener('click', e=>{
+            if(e.target !== adresseInput && e.target !== suggestionsBox) suggestionsBox.style.display = 'none';
+        });
+
+        // Form submit
+        form.addEventListener('submit', e=>{
+            if(!validateForm()) e.preventDefault();
+            saveToSession();
+        });
+    });
+</script>
+
+</body>
+</html>
