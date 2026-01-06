@@ -25,8 +25,8 @@ security:
                 default_target_path: admin_dashboard
 
             logout:
-                path: /logout
-                target: /
+                path: app_logout
+                target: app_admin
 
             # Activate different ways to authenticate:
             # https://symfony.com/doc/current/security.html#the-firewall

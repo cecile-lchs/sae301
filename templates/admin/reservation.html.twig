@@ -1,0 +1,66 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Réservations - Jardins Harmonie{% endblock %}
+
+{% block main %}
+    <div class="dashboard-container">
+
+        <main class="dashboard-main reservation-page">
+            <header class="dashboard-header d-flex justify-content-between align-items-center bg-white border-bottom p-4">
+                <h2>Réservation</h2>
+                <a href="{{ path('admin_parametres') }}" class="d-flex align-items-center text-decoration-none">
+                    <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center shadow-sm" style="width: 48px; height: 48px; font-weight: bold;">
+                        JH
+                    </div>
+                </a>
+            </header>
+
+            <div class="dashboard-content p-0 h-100">
+
+                <!-- Filters en ligne -->
+                <h5 class="fw-bold mb-4">Filtres</h5>
+                <div class="reservation-filters p-3 bg-white d-flex flex-row flex-wrap gap-3 align-items-center">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="filterAll" checked>
+                        <label class="form-check-label" for="filterAll">Tout voir</label>
+                    </div>
+                    {% for service in services %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="{{ service }}" id="filter{{ service }}">
+                            <label class="form-check-label" for="filter{{ service }}">{{ service }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Liste des réservations -->
+                <section class="reservation-list p-4 bg-light">
+                    {% for res in reservations %}
+                        <div class="reservation-card bg-white p-3 rounded-3 shadow-sm mb-3" data-category="{{ res.service|lower }}">
+                            <div class="d-flex justify-content-start align-items-center gap-5 mb-2">
+                                <div class="d-flex align-items-center gap-3 text-muted small">
+                                    <span>{{ res.heure_debut }} - {{ res.heure_fin }}</span>
+                                    <span>{{ res.date|date('d M Y') }}</span>
+                                </div>
+                                <div class="fw-bold text-dark">{{ res.service }}</div>
+                                <div class="text-muted small">{{ res.nom }}</div>
+                            </div>
+                            <p class="text-muted small mb-3">{{ res.description ?? '—' }}</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#reservationModal"
+                               data-service="{{ res.service }}"
+                               data-date="{{ res.date|date('d M Y') }}"
+                               data-time="{{ res.heure_debut }} - {{ res.heure_fin }}"
+                               data-client="{{ res.nom }}"
+                               data-desc="{{ res.description ?? '—' }}">
+                                Voir plus
+                            </a>
+                        </div>
+                    {% else %}
+                        <p class="text-muted small">Aucune réservation disponible.</p>
+                    {% endfor %}
+                </section>
+
+            </div>
+        </main>
+    </div>
+{% endblock %}
+

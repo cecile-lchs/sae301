@@ -1,0 +1,160 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Paramètres - Jardins Harmonie{% endblock %}
+
+{% block main %}
+    <header class="dashboard-header d-flex justify-content-between align-items-center bg-white border-bottom p-4">
+        <h2>Paramètres</h2>
+        <a href="{{ path('admin_parametres') }}" class="d-flex align-items-center text-decoration-none">
+            <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center shadow-sm" style="width: 48px; height: 48px; font-weight: bold;">
+                {{ app.user.email|slice(0,2)|upper }}
+            </div>
+        </a>
+    </header>
+    <div class="col-md-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 d-flex align-items-center gap-4">
+                <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center fw-bold profile-avatar-lg">
+                    JH
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-1">
+                        {{ app.user.nom ?? 'Jardinier Harmonie' }}
+                    </h4>
+                    <p class="text-muted mb-2">Administrateur</p>
+
+                    <form method="post" action="{{ path('app_logout') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('logout') }}">
+                        <button class="btn btn-sm btn-outline-danger">
+                            Déconnexion
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <div class="dashboard-content p-4">
+        <div class="row g-4">
+
+            <!-- Indisponibilités -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="fw-bold m-0"><i class="bi bi-calendar-x me-2 text-danger"></i>Indisponibilités</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted small">Définissez vos jours de repos, vacances ou congés maladie.</p>
+
+                        {{ form_start(form, {'attr': {'class': 'row g-2 mb-4'}}) }}
+                        <div class="col-md-5">
+                            {{ form_widget(form.debut, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                        <div class="col-md-5">
+                            {{ form_widget(form.fin, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-sm btn-primary w-100"><i class="bi bi-plus-lg"></i></button>
+                        </div>
+                        {{ form_end(form) }}
+
+                        <div class="list-group list-group-flush">
+                            {% for ind in indisponibilites %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <div>
+                                        <span class="fw-bold">{{ ind.type }}</span>
+                                        <div class="small text-muted">{{ ind.debut|date('d M Y') }} - {{ ind.fin|date('d M Y') }}</div>
+                                    </div>
+                                    <form method="post"
+                                          action="{{ path('admin_indisponibilite_delete', {id: ind.id}) }}"
+                                          onsubmit="return confirm('Supprimer cette indisponibilité ?');"
+                                          style="display:inline">
+
+                                        <input type="hidden" name="_token"
+                                               value="{{ csrf_token('delete_indisponibilite_' ~ ind.id) }}">
+
+                                        <button class="btn btn-sm text-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
+                            {% else %}
+                                <p class="small text-muted">Aucune indisponibilité.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Jours Fériés -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="fw-bold m-0"><i class="bi bi-flag me-2 text-info"></i>Jours Fériés</h5>
+                    </div>
+                        <div class="card-body">
+                        <p class="text-muted small">Gérez les jours fériés travaillés ou chômés.</p>
+
+                        {# Formulaire pour ajouter automatiquement les jours fériés #}
+                        <form method="post" action="{{ path('admin_parametres') }}">
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       role="switch"
+                                       name="auto_holidays"
+                                       id="autoHolidays"
+                                       onchange="this.  form.submit()">
+
+                                <label class="form-check-label fw-bold" for="autoHolidays">
+                                    Intégrer automatiquement les jours fériés officiels
+                                </label>
+                            </div>
+
+                            <input type="hidden" name="_token"
+                                   value="{{ csrf_token('auto_holidays') }}">
+{#                            <button class="btn btn-sm btn-primary mb-3">Ajouter les jours fériés</button>#}
+                        </form>
+
+                        <hr>
+
+                        <h6 class="fw-bold small text-uppercase text-muted mb-3">Jours Fériés à venir ({{ "now"|date("Y") }})</h6>
+                        <div class="d-flex flex-column gap-2">
+                            {% set hasHolidays = false %}
+
+                            {% for ind in indisponibilites %}
+                                {% if ind.type == 'Jour Férié' %}
+                                    {% set hasHolidays = true %}
+                                    <div class="d-flex justify-content-between align-items-center bg-light p-2 rounded">
+                                        <span class="fw-bold">{{ ind.debut|date('d M Y') }}</span>
+                                        <form method="post"
+                                              action="{{ path('admin_indisponibilite_delete', {id: ind.id}) }}"
+                                              onsubmit="return confirm('Supprimer ce jour férié ?');"
+                                              style="display:inline">
+
+                                            <input type="hidden" name="_token"
+                                                   value="{{ csrf_token('delete_indisponibilite_' ~ ind.id) }}">
+
+                                            <button class="btn btn-sm text-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+
+
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if not hasHolidays %}
+                                <p class="small text-muted">Aucun jour férié enregistré.</p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

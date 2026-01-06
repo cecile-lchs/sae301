@@ -1,0 +1,90 @@
+{% extends 'admin/base.html.twig' %}
+    {# ================= MAIN ================= #}
+   {% block main %}
+    <main class="dashboard-main bg-light">
+
+        <header class="dashboard-header d-flex justify-content-between align-items-center bg-white border-bottom p-4">
+            <h2>Clients</h2>
+            <a href="{{ path('admin_parametres') }}">
+                <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
+                     style="width: 48px; height: 48px; font-weight: bold;">
+                    {{ app.user.email|slice(0,2)|upper }}
+                </div>
+            </a>
+        </header>
+
+        <div class="dashboard-content p-4">
+            <div class="bg-white rounded-3 shadow-sm p-4">
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Nom</th>
+                            <th>Adresse</th>
+                            <th>Contact</th>
+                            <th>Statut</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {# ================= CLIENTS ================= #}
+                        {% for client in clients %}
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-primary-subtle text-primary rounded-circle d-flex justify-content-center align-items-center fw-bold"
+                                             style="width:40px;height:40px;">
+                                            {{ client.prenom|slice(0,1) }}{{ client.nom|slice(0,1) }}
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">{{ client.prenom }} {{ client.nom }}</div>
+                                            <div class="small text-muted">Client depuis {% if client.reservations|length > 0 %}
+                                                    {{ client.reservations|first.rendezVous.date|date('Y') }}
+                                                {% else %}
+                                                    —
+                                                {% endif %}
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="text-muted">{{ client.adresse }}</td>
+
+                                <td>
+                                    <div class="small">{{ client.telephone }}</div>
+                                    <div class="small text-muted">{{ client.email }}</div>
+                                </td>
+
+                                <td>
+                                    <span class="badge bg-success-subtle text-success rounded-pill">
+                                        Actif
+                                    </span>
+                                </td>
+
+                                <td class="text-end pe-4">
+                                    <a href="{{ path('admin_client_show', {id: client.id}) }}"
+                                       class="btn btn-sm btn-light border">
+                                        Détails
+                                    </a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    Aucun client enregistré
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   {% endblock %}
