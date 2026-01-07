@@ -25,12 +25,85 @@
             background-color: #cc8100;
             transform: translateY(-2px);
         }
+
+
+        @media (max-width: 768px) {
+            html, body {
+                overflow-x: hidden;
+                overflow-y: auto !important;
+                height: auto !important;
+                min-height: 100vh;
+                -webkit-overflow-scrolling: touch;
+            }
+            .reservation-container {
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                width: 100%;
+                height: auto;
+                overflow: visible;
+                display: block;
+            }
+            .horizontal-steps {
+                width: 100%;
+                justify-content: center;
+                padding: 10px;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .scroll-content {
+                height: auto;
+                overflow-y: visible;
+                padding-bottom: 50px;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .mobile-close-btn {
+                display: block;
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                z-index: 1001;
+            }
+        }
+
+        /* Specific Mobile Phone styles (sm) */
+        @media (max-width: 576px) {
+            .btn-home {
+                width: 100%; /* Full width button on phones */
+                text-align: center;
+                padding: 15px 20px;
+            }
+            .scroll-content {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            .horizontal-steps {
+                justify-content: flex-start; /* Align start to allow scrolling if steps overflow */
+            }
+        }
+
+        /* Hide Base Header/Footer on Mobile Success Page for clean look */
+        @media (max-width: 768px) {
+            .hero-navbar, .main-footer, footer {
+                display: none !important;
+            }
+            /* Ensure content top padding is removed if header is gone */
+            .reservation-container {
+                margin-top: 0;
+            }
+        }
     </style>
 {% endblock %}
 
 {% block main %}
     <div class="reservation-container">
-        <!-- Sidebar (Optional: identical to other pages or simplified) -->
+
         <aside class="sidebar">
             <div class="sidebar-content">
                 <button class="close-cross" onclick="window.location.href='{{ path('app_accueil') }}'">

@@ -8,6 +8,73 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    <style>
+        /* Mobile Responsiveness for Step 1 */
+        @media (max-width: 768px) {
+            html, body {
+                overflow-x: hidden;
+                overflow-y: auto;
+                height: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .reservation-container {
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                width: 100%;
+                height: auto;
+                overflow: visible;
+                display: block; /* Override flex */
+            }
+            .horizontal-steps {
+                width: 100%;
+                justify-content: center;
+                padding: 10px;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .scroll-content {
+                height: auto;
+                overflow-y: visible;
+                padding-bottom: 120px; /* Space for fixed bottom bar */
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .services-grid {
+                grid-template-columns: 1fr; /* Single column for services */
+            }
+            .bottom-bar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1000;
+                background: white;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                padding: 15px;
+                display: flex;
+                flex-direction: column; /* Stack price and button if needed */
+                align-items: center;
+                justify-content: center;
+            }
+            .btn-next {
+                width: 100%;
+                justify-content: center;
+            }
+            .mobile-close-btn {
+                display: block;
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                z-index: 1001;
+            }
+        }
+    </style>
 </head>
 
 {% block main %}
@@ -68,7 +135,10 @@
                 <div class="step-circle">4</div>
                 <span class="step-label">Confirmation</span>
             </div>
-
+            <div class="step-item">
+                <div class="step-circle">5</div>
+                <span class="step-label">Validation</span>
+            </div>
         </div>
 
         <div class="scroll-content">
@@ -109,6 +179,7 @@
                         <label class="service-card">
                             <input type="checkbox" name="services[]" value="{{ service.id }}" data-price="{{ service.prix }}">
                             <div class="card-inner">
+                                <span class="price-badge">{{ service.prix }} €</span>
                                 <span class="time-badge">{{ service.dureeMinutes / 60 }}h</span>
                                 <div class="icon-wrapper">
                                     <img src="{{ asset('images/' ~ service.icon) }}" alt="{{ service.nom }}">
