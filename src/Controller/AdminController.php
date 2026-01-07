@@ -473,7 +473,7 @@ final class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/reservation/{id}', name: 'admin_reservation_details')]
+    #[Route('/reservation/{id}', name: 'admin_reservation_details', requirements: ['id' => '\d+']) ]
     public function reservationDetails(int $id, ReservationRepository $reservationRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');

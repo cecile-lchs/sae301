@@ -1127,3 +1127,232 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         justify-content: flex-start;
     }
 }
+
+
+
+
+// --- Responsive Adjustments for Reservation Page ---
+@media (max-width: 991px) {
+    .reservation-filters {
+        padding: 0.75rem 1rem;
+    }
+
+    .reservation-list {
+        padding: 1rem;
+    }
+
+    // Wrap card content on tablets/mobile to avoid scroll
+    .reservation-card>div:first-child {
+        flex-wrap: wrap;
+    }
+
+    .reservation-card .event-title {
+        white-space: normal;
+    }
+}
+
+@media (max-width: 576px) {
+
+    // Mobile Cards - COMPACT MODE
+    .reservation-card {
+        padding: 0.75rem !important;
+
+        // Force stacking for very small screens
+        >div:first-child {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 0.5rem !important;
+        }
+
+        .d-flex.align-items-center.gap-3 {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .fw-bold.text-dark {
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+            width: 100%;
+        }
+
+        button {
+            width: 100%;
+            margin-left: 0 !important;
+            margin-top: 0.5rem;
+        }
+
+        .tags {
+            margin-bottom: 0.5rem !important;
+        }
+
+        p.text-muted {
+            font-size: 0.8rem !important;
+        }
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start !important;
+    }
+}
+/* --- PARTIE RESPONSIVE --- */
+
+.burger-menu-btn {
+    display: none;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1001;
+    background-color: #0f392b;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.dashboard-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    &.active {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .burger-menu-btn {
+        display: flex;
+    }
+
+    .dashboard-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 260px;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+
+        // Reset specific mobile styles that were hiding elements
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+        align-items: stretch;
+        justify-content: flex-start;
+
+        &.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            margin-bottom: 2rem;
+            .sidebar-logo {
+                display: block !important;
+                height: 40px;
+                filter: brightness(0) invert(1);
+            }
+        }
+
+        .sidebar-nav {
+            display: block !important;
+
+            ul li a {
+                justify-content: flex-start;
+                font-size: 1rem;
+
+                span.icon {
+                    font-size: 1.2rem;
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+}
+
+
+/* --- RESPONSIVE TABLES & GRIDS --- */
+@media (max-width: 768px) {
+    .dashboard-main {
+        padding: 1rem;
+        padding-top: 70px; /* Space for burger button */
+    }
+
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+
+    /* Tables */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Planning Page */
+    .planning-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .planning-left-panel {
+        width: 100% !important;
+        min-width: 100% !important;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem;
+    }
+
+    .planning-main-view {
+        padding: 1rem;
+    }
+
+    .calendar-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+
+        .d-flex {
+            flex-wrap: wrap;
+        }
+    }
+
+    /* Week View Grid on Mobile */
+    .time-col-spacer,
+    .bg-light.border-end {
+        width: 40px !important;
+    }
+
+    .time-slot {
+        font-size: 0.7rem;
+        padding-top: 5px;
+    }
+
+    /* Reduce font size in grid */
+    .day-col div {
+        font-size: 0.8rem;
+    }
+
+    /* Hide details on mobile initially if needed */
+    #week-header-row .day-col small {
+        display: block;
+        font-size: 0.7rem;
+    }
+}
+

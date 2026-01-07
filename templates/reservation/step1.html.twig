@@ -68,10 +68,7 @@
                 <div class="step-circle">4</div>
                 <span class="step-label">Confirmation</span>
             </div>
-            <div class="step-item">
-                <div class="step-circle">5</div>
-                <span class="step-label">Validation</span>
-            </div>
+
         </div>
 
         <div class="scroll-content">
@@ -81,31 +78,31 @@
                 <h1 class="page-title">Choisissez le <span class="highlight">service</span> dont votre jardin à besoin</h1>
             </header>
 
-{#            <form id="step1-form" onsubmit="return false;">#}
-{#                <div class="step-content active">#}
-{#                    <p class="step-description">Sélectionnez les prestations adaptées à votre jardin pour un extérieur propre, sain et harmonieux</p>#}
-{#                    #}
-{#                    <div class="services-grid">#}
-{#                        {% for service in services %}#}
-{#                            <label class="service-card">#}
-{#                                <input type="checkbox"#}
-{#                                       name="services[]"#}
-{#                                       value="{{ service.id }}"#}
-{#                                       data-price="{{ service.prix }}">#}
-{#                                <div class="card-inner">#}
-{#                                    <span class="time-badge">{{ service.dureeMinutes / 60 }}h</span>#}
-{#                                    <div class="icon-wrapper">#}
-{#                                        <img src="{{ asset('images/' ~ service.icon) }}" alt="{{ service.nom }}">#}
-{#                                    </div>#}
-{#                                    <h3>{{ service.nom }}</h3>#}
-{#                                </div>#}
-{#                            </label>#}
-{#                        {% endfor %}#}
-{#                    </div>#}
+            {#            <form id="step1-form" onsubmit="return false;">#}
+            {#                <div class="step-content active">#}
+            {#                    <p class="step-description">Sélectionnez les prestations adaptées à votre jardin pour un extérieur propre, sain et harmonieux</p>#}
+            {#                    #}
+            {#                    <div class="services-grid">#}
+            {#                        {% for service in services %}#}
+            {#                            <label class="service-card">#}
+            {#                                <input type="checkbox"#}
+            {#                                       name="services[]"#}
+            {#                                       value="{{ service.id }}"#}
+            {#                                       data-price="{{ service.prix }}">#}
+            {#                                <div class="card-inner">#}
+            {#                                    <span class="time-badge">{{ service.dureeMinutes / 60 }}h</span>#}
+            {#                                    <div class="icon-wrapper">#}
+            {#                                        <img src="{{ asset('images/' ~ service.icon) }}" alt="{{ service.nom }}">#}
+            {#                                    </div>#}
+            {#                                    <h3>{{ service.nom }}</h3>#}
+            {#                                </div>#}
+            {#                            </label>#}
+            {#                        {% endfor %}#}
+            {#                    </div>#}
 
-{#                    <div id="step1-error" class="error-message"></div>#}
-{#                </div>#}
-{#            </form>#}
+            {#                    <div id="step1-error" class="error-message"></div>#}
+            {#                </div>#}
+            {#            </form>#}
             <form id="step1-form" method="POST" action="{{ path('reservation_step1') }}">
                 <div class="services-grid">
                     {% for service in services %}
@@ -123,7 +120,7 @@
                 </div>
 
                 <div id="step1-error" class="error-message"></div>
-{#                <button type="submit" class="btn-next">Suivant →</button>#}
+                {#                <button type="submit" class="btn-next">Suivant →</button>#}
             </form>
 
         </div>
@@ -148,8 +145,11 @@
             let totalPrice = 0;
             checkboxes.forEach(cb => {
                 if (cb.checked) {
+                    // Navigate to h3 to get the name
+                    const name = cb.nextElementSibling.querySelector('h3').textContent;
                     selected.push({
                         value: cb.value,
+                        name: name,
                         price: parseFloat(cb.dataset.price || 0)
                     });
                     totalPrice += parseFloat(cb.dataset.price || 0);
@@ -218,4 +218,3 @@
 {% endblock %}
 </body>
 </html>
-

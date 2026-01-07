@@ -1,0 +1,140 @@
+
+
+
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .btn-home {
+            background-color: #FFA100;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(255, 161, 0, 0.3);
+        }
+        .btn-home:hover {
+            background-color: #cc8100;
+            transform: translateY(-2px);
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div class="reservation-container">
+        <!-- Sidebar (Optional: identical to other pages or simplified) -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <button class="close-cross" onclick="window.location.href='{{ path('app_accueil') }}'">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="sidebar-recap">
+{#                <div class="recap-content">#}
+{#                    <h4>Mes services</h4>#}
+{#                    <ul id="recap-services-list">#}
+{#                        {% for service in selectedServices %}#}
+{#                            <li>{{ service.nom }}</li>#}
+{#                        {% else %}#}
+{#                            <li>Aucun service sélectionné</li>#}
+{#                        {% endfor %}#}
+{#                    </ul>#}
+
+{#                    <h4 style="margin-top: 15px;">Date & Heure</h4>#}
+{#                    <p id="recap-date-display" style="font-size: 0.9rem; margin: 0;">#}
+{#                        {% set jours = {'Sunday':'Dimanche', 'Monday':'Lundi', 'Tuesday':'Mardi', 'Wednesday':'Mercredi', 'Thursday':'Jeudi', 'Friday':'Vendredi', 'Saturday':'Samedi'} %}#}
+{#                        {% set mois = {'January':'Janvier', 'February':'Février', 'March':'Mars', 'April':'Avril', 'May':'Mai', 'June':'Juin', 'July':'Juillet', 'August':'Août', 'September':'Septembre', 'October':'Octobre', 'November':'Novembre', 'December':'Décembre'} %}#}
+
+{#                        {% if reservationDate and reservationTime %}#}
+{#                            {% set dayName = reservationDate|date('l') %}#}
+{#                            {% set monthName = reservationDate|date('F') %}#}
+
+{#                            {{ jours[dayName] }} {{ reservationDate|date('d') }} {{ mois[monthName] }} {{ reservationDate|date('Y') }}<br>#}
+{#                            {{ reservationTime|date('H:i') }} {% if reservationEndTime %} - {{ reservationEndTime|date('H:i') }} {% endif %}#}
+{#                        {% else %}#}
+{#                            -#}
+{#                        {% endif %}#}
+{#                    </p>#}
+{#                </div>#}
+{#                <div class="recap-footer">#}
+{#                    <span class="label">Total à régler</span>#}
+{#                    <span class="price" id="recap-total">{{ totalPrice }} €</span>#}
+{#                </div>#}
+         </div>
+        </aside>
+
+        <main class="main-content" style="display:flex; flex-direction:column;">
+{#            <div class="horizontal-steps">#}
+{#                <a href="{{ path('app_accueil') }}" class="mobile-close-btn">#}
+{#                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#103A21" stroke-width="2">#}
+{#                        <line x1="18" y1="6" x2="6" y2="18"></line>#}
+{#                        <line x1="6" y1="6" x2="18" y2="18"></line>#}
+{#                    </svg>#}
+{#                </a>#}
+{#                <div class="step-item completed">#}
+{#                    <div class="step-circle">✓</div>#}
+{#                    <span class="step-label">Services</span>#}
+{#                </div>#}
+{#                <div class="step-item completed">#}
+{#                    <div class="step-circle">✓</div>#}
+{#                    <span class="step-label">Date</span>#}
+{#                </div>#}
+{#                <div class="step-item completed">#}
+{#                    <div class="step-circle">✓</div>#}
+{#                    <span class="step-label">Informations</span>#}
+{#                </div>#}
+{#                <div class="step-item completed">#}
+{#                    <div class="step-circle">✓</div>#}
+{#                    <span class="step-label">Confirmation</span>#}
+{#                </div>#}
+
+{#            </div>#}
+
+            <div class="scroll-content">
+                <div style="text-align: center; margin-top: 50px;">
+                    <h1 style="color: #2e7d32;">Merci !</h1>
+                    <p style="font-size: 1.2rem; margin-top: 20px;">
+                        Votre réservation a bien été prise en compte.<br>
+                        Vous allez recevoir un email de confirmation.
+                    </p>
+
+                    <div style="margin-top: 40px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto; background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                        <h3 style="color: #103A21; border-bottom: 1px solid #ddd; padding-bottom: 10px;">Récapitulatif</h3>
+                        <p><strong>Nom :</strong> {{ clientInfo.nom }} {{ clientInfo.prenom }}</p>
+                        <p><strong>Email :</strong> {{ clientInfo.email }}</p>
+                        <p><strong>Téléphone :</strong> {{ clientInfo.phone }}</p>
+                        <p><strong>Adresse :</strong> {{ clientInfo.adresse }}</p>
+                        <hr style="border:0; border-top:1px solid #eee; margin: 15px 0;">
+                        <p><strong>Date :</strong> {{ reservationDate|date('d/m/Y') }} à {{ reservationTime|date('H:i') }}</p>
+                        <p><strong>Services :</strong></p>
+                        <ul>
+                            {% for s in selectedServices %}
+                                <li>{{ s.nom }}</li>
+                            {% endfor %}
+                        </ul>
+                        <p style="font-size: 1.2rem; font-weight: bold; margin-top: 15px; color: #103A21;">Total : {{ totalPrice }} €</p>
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                        <button class="btn-home" onclick="window.location.href='{{ path('app_accueil') }}'">
+                            Retour à l'accueil
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}

@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jardin Harmonie | Réservation - Étape 3</title>
-    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
     <style>
         /* Address Autocomplete Styles */
         .suggestions-container {
@@ -41,6 +41,8 @@
             color: #2e7d32;
         }
         .form-group { position: relative; }
+        .text-danger { color: #d32f2f; font-size: 0.85em; margin-top: 5px; }
+        .input-error { border-color: #d32f2f !important; background-color: #fff8f8; }
     </style>
 </head>
 <body class="reservation-body">
@@ -79,7 +81,9 @@
                         {% set dayName = reservationDate|date('l') %}
                         {% set monthName = reservationDate|date('F') %}
                         {{ jours[dayName] }} {{ reservationDate|date('d') }} {{ mois[monthName] }} {{ reservationDate|date('Y') }}
-                        {% if reservationTime %}
+                        {% if reservationTime and reservationEndTime %}
+                            <br>{{ reservationTime }} - {{ reservationEndTime }}
+                        {% elseif reservationTime %}
                             à {{ reservationTime }}
                         {% endif %}
                     {% else %}
@@ -139,36 +143,45 @@
                 <h1 class="page-title">Vos <span class="highlight">coordonnées</span></h1>
             </header>
 
+            {# Server-side Error Messages (Flash) #}
+            {% for label, messages in app.flashes(['error', 'danger']) %}
+                {% for message in messages %}
+                    <div class="alert alert-danger" style="color:red; font-weight:bold; text-align:center; margin-bottom:10px;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
             <div id="error-message" style="color: #d32f2f; font-weight: bold; text-align: center; margin-bottom: 20px; display: none;"></div>
 
-            <form id="step3-form" method="POST" action="{{ path('reservation_step3') }}">
+            <form id="step3-form" method="POST" action="{{ path('reservation_step3') }}" novalidate>
                 <div class="step-content active">
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Nom</label>
-                            <input type="text" name="nom" id="nom" placeholder="Entrez votre nom *" required value="{{ reservationInfo.nom|default('') }}">
-                            <span class="field-error-msg" id="error-nom" style="display: none;">Le nom est obligatoire</span>
+                            <input type="text" name="nom" id="nom" placeholder="Entrez votre nom *" value="{{ reservationInfo.nom|default('') }}" class="{{ errors.nom is defined ? 'input-error' : '' }}">
+                            {% if errors.nom is defined %}<div class="text-danger small">{{ errors.nom }}</div>{% endif %}
                         </div>
                         <div class="form-group">
                             <label>Prénom</label>
-                            <input type="text" name="prenom" id="prenom" placeholder="Entrez votre prénom *" required value="{{ reservationInfo.prenom|default('') }}">
-                            <span class="field-error-msg" id="error-prenom" style="display: none;">Le prénom est obligatoire</span>
+                            <input type="text" name="prenom" id="prenom" placeholder="Entrez votre prénom *" value="{{ reservationInfo.prenom|default('') }}" class="{{ errors.prenom is defined ? 'input-error' : '' }}">
+                            {% if errors.prenom is defined %}<div class="text-danger small">{{ errors.prenom }}</div>{% endif %}
                         </div>
                         <div class="form-group full-width">
                             <label>Numéro de téléphone</label>
-                            <input type="tel" name="phone" id="phone" placeholder="Entrez un numéro de téléphone *" required value="{{ reservationInfo.phone|default('') }}">
-                            <span class="field-error-msg" id="error-phone" style="display: none;">Le numéro de téléphone est obligatoire</span>
+                            <input type="tel" name="phone" id="phone" placeholder="Entrez un numéro de téléphone *" value="{{ reservationInfo.phone|default('') }}" class="{{ errors.phone is defined ? 'input-error' : '' }}">
+                            {% if errors.phone is defined %}<div class="text-danger small">{{ errors.phone }}</div>{% endif %}
                         </div>
                         <div class="form-group full-width">
                             <label>Adresse e-mail</label>
-                            <input type="email" name="email" id="email" placeholder="Entrez une adresse E-Mail *" required value="{{ reservationInfo.email|default('') }}">
-                            <span class="field-error-msg" id="error-email" style="display: none;">L'adresse e-mail est obligatoire</span>
+                            <input type="email" name="email" id="email" placeholder="Entrez une adresse E-Mail *" value="{{ reservationInfo.email|default('') }}" class="{{ errors.email is defined ? 'input-error' : '' }}">
+                            {% if errors.email is defined %}<div class="text-danger small">{{ errors.email }}</div>{% endif %}
                         </div>
                         <div class="form-group full-width">
                             <label>Adresse postale</label>
-                            <input type="text" name="adresse" id="adresse" placeholder="Entrez votre adresse *" required autocomplete="off" value="{{ reservationInfo.adresse|default('') }}">
+                            <input type="text" name="adresse" id="adresse" placeholder="Entrez votre adresse *" autocomplete="off" value="{{ reservationInfo.adresse|default('') }}" class="{{ errors.adresse is defined ? 'input-error' : '' }}">
                             <div id="adresse-suggestions" class="suggestions-container"></div>
-                            <span class="field-error-msg" id="error-adresse" style="display: none;">L'adresse est obligatoire</span>
+                            {% if errors.adresse is defined %}<div class="text-danger small">{{ errors.adresse }}</div>{% endif %}
                         </div>
                     </div>
                 </div>
@@ -261,7 +274,8 @@
 
         // Form submit
         form.addEventListener('submit', e=>{
-            if(!validateForm()) e.preventDefault();
+            // Server-side validation requested
+            // if(!validateForm()) e.preventDefault();
             saveToSession();
         });
     });

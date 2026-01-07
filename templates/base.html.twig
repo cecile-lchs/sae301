@@ -53,9 +53,9 @@
         </a>
         <ul class="nav-links">
             <li><a href="{{ path('app_accueil') }}">Accueil</a></li>
-            <li><a href="#services2">Services</a></li>
+            <li><a href="#services">Services</a></li>
             <li><a href="{{ path('app_actualite') }}">Actualités</a></li>
-            <li><a href="#avis">Contact</a></li>
+            <li><a href="#footer">Contact</a></li>
             <li><a href="{{ path('reservation_step1') }}" class="btn-reservation">Réservation</a></li>
         </ul>
         <div class="hamburger" onclick="toggleMenu()">
@@ -130,7 +130,7 @@
         <div class="cta-content">
             <h2>Votre jardin mérite le meilleur soin</h2>
             <p>Prenez rendez-vous dès aujourd’hui et profitez d’un jardin entretenu sans effort.</p>
-            <a href="#" class="btn-primary">Réserver un créneau</a>
+            <a href="{{ path('reservation_step1') }}" class="btn-primary">Réserver un créneau</a>
         </div>
     </section>
 
@@ -144,14 +144,15 @@
                 </div>
                 <p>Jardins Harmonie – Votre jardin entre de bonnes mains.</p>
                 <div class="social-icons">
-                    <a href="#" class="icon">Twitter</a>
-                    <a href="#" class="icon">FB</a>
-                    <a href="#" class="icon">Insta</a>
+                    <a href="#" class="icon"> <img src="{{ asset('images/twitter.png') }}" alt="Twitter" style="height: 40px;"></a>
+                    <a href="#" class="icon"> <img src="{{ asset('images/facebook.png') }}" alt="Facebook" style="height: 40px;"></a>
+                    <a href="#" class="icon"> <img src="{{ asset('images/instagram.png') }}" alt="Instagram" style="height: 40px;"></a>
+
                 </div>
             </div>
 
             <!-- Column 2: Contact -->
-            <div class="footer-col">
+            <div class="footer-col" id="footer">
                 <h4>CONTACT</h4>
                 <ul>
                     <li>+33 03 25 42 46 46</li>
@@ -164,10 +165,10 @@
             <div class="footer-col">
                 <h4>LIENS UTILES</h4>
                 <ul>
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Actualités</a></li>
-                    <li><a href="#">Compte</a></li>
+                    <li><a href="{{ path('app_accueil') }}">Accueil</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="{{ path('app_actualite') }}">Actualités</a></li>
+                    <li><a href="{{ path('app_admin') }}">Compte</a></li>
                 </ul>
             </div>
 

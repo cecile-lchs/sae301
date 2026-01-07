@@ -358,6 +358,7 @@
 
 /* Post-Article CTA */
 .footer-cta {
+    width: 90% ;
     background: #FF9F00;
     /* Orange background */
     border-radius: 20px;
@@ -366,6 +367,7 @@
     margin-top: 5rem;
     position: relative;
     overflow: hidden;
+
 
     /* Decorative circles simulation using pseudo elements could go here,
          but for simplicity matching main layout features */

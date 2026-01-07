@@ -8,9 +8,133 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <style>
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 15px;
+        }
+        .day-name {
+            text-align: center;
+            font-weight: bold;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .day-btn {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .day-btn:hover:not(.disabled) {
+            background-color: #f0fdf4;
+            border-color: #2e7d32;
+            color: #2e7d32;
+        }
+        .day-btn.selected {
+            background-color: #2e7d32;
+            color: white;
+            border-color: #2e7d32;
+        }
+        .day-btn.past-day {
+            color: #ccc;
+            background-color: #f9f9f9;
+            cursor: not-allowed;
+            border-color: #eee;
+        }
+        .day-btn.unavailable {
+            background-color: #e0e0e0;
+            color: #888;
+            cursor: not-allowed;
+            border-color: #d0d0d0;
+            text-decoration: line-through;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .calendar-header h5 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0;
+            text-transform: capitalize;
+        }
+        .calendar-header button {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .calendar-header button:hover {
+            background-color: #f5f5f5;
+        }
 
+        /* Time Slots Styling */
+        .time-slots-container .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .time-slot {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border: 1px solid #ddd; /* Stroke */
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: #333;
+            background-color: white;
+        }
+
+        .time-slot:hover {
+            border-color: #2e7d32;
+            background-color: #f0fdf4;
+        }
+
+        .time-slot input[type="radio"] {
+            display: none; /* Hide default radio */
+        }
+
+        /* Selected State : when input inside is checked */
+        .time-slot:has(input:checked) {
+            background-color: #2e7d32; /* Fill background */
+            color: white;
+            border-color: #2e7d32;
+        }
+
+        /* Fallback for browsers not supporting :has (though wide support now) - we can also use JS class */
+        .time-slot.selected-slot {
+            background-color: #0F392B;
+            color: white;
+            border-color: #2e7d32;
+        }
+
+        .time-slot.disabled {
+            background-color: #f9f9f9;
+            color: #ccc;
+            border-color: #eee;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body class="reservation-body">
@@ -32,10 +156,10 @@
                 <ul id="recap-services-list">
                     {% if selectedServices is not empty %}
                         {% for service in selectedServices %}
-                             <li>{{ service.nom }}  </li>
+                            <li>{{ service.nom }}  </li>
                         {% endfor %}
                     {% else %}
-                       <li>Aucun service sélectionné</li>
+                        <li>Aucun service sélectionné</li>
                     {% endif %}
                 </ul>
 
@@ -75,10 +199,7 @@
                 <div class="step-circle">4</div>
                 <span class="step-label">Confirmation</span>
             </div>
-            <div class="step-item">
-                <div class="step-circle">5</div>
-                <span class="step-label">Validation</span>
-            </div>
+
         </div>
 
         <div class="scroll-content">
@@ -88,19 +209,38 @@
                 <h1 class="page-title">Choisissez une <span class="highlight">date</span></h1>
             </header>
 
+            {# Server-side Error Messages (Flash) #}
+            {% for label, messages in app.flashes(['error', 'danger']) %}
+                {% for message in messages %}
+                    <div class="alert alert-danger" style="color:red; font-weight:bold; text-align:center; margin-bottom:10px;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
             <div id="error-message" style="color:red; font-weight:bold; text-align:center; display:none; margin-bottom:10px;"></div>
 
-            <form id="step2-form" onsubmit="return false;">
+            <form id="step2-form" method="POST" action="{{ path('reservation_step2') }}">
+                <input type="hidden" name="date" id="input-date">
+                <input type="hidden" name="heure" id="input-heure">
+
                 <div class="step-content active">
                     <div class="step2-container">
 
-                        <!-- CALENDRIER -->
+                        <!-- CUSTOM CALENDAR -->
                         <div class="calendar-wrapper">
-                            <div id="calendar"></div>
+                            <div class="calendar-header">
+                                <button type="button" id="prev-month">&lt;</button>
+                                <h5>Mois Année</h5>
+                                <button type="button" id="next-month">&gt;</button>
+                            </div>
+                            <div class="calendar-grid" id="calendar-grid">
+                                <!-- Days injected by JS -->
+                            </div>
                         </div>
 
                         <!-- HORAIRES -->
-                        <div class="time-slots-container" id="time-slots-container" style="display:none;">
+                        <div class="time-slots-container" id="time-slots-container" style="display:none; margin-top:20px;">
                             <h3>Horaires disponibles</h3>
                             <div class="slots-grid" id="slots-grid-wrapper"></div>
                         </div>
@@ -119,41 +259,136 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const unavailabilities = {{ unavailabilities|json_encode|raw }};
+        const currentDate = new Date();
+        // Set specific year/month if needed, or stick to current
+        let currentDisplayDate = new Date();
+
         let selectedDate = null;
         let selectedSlot = null;
 
-        const calendarEl = document.getElementById('calendar');
+        const grid = document.getElementById('calendar-grid');
+        const monthTitle = document.querySelector('.calendar-header h5');
         const slotsContainer = document.getElementById('slots-grid-wrapper');
         const slotsWrapper = document.getElementById('time-slots-container');
+        const inputDate = document.getElementById('input-date');
+        const inputTime = document.getElementById('input-heure');
 
-        const calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: 'fr',
-            firstDay: 1,
-            height: 'auto',
-            selectable: true,
-            events: '/reservation/calendar-events',
-            eventDidMount: function(info) {
-                if(info.event.display === 'background'){
-                    info.el.classList.add('fc-unavailable');
-                }
-            },
-            dateClick: function(info) {
-                if(info.dayEl.classList.contains('fc-unavailable')){
-                    alert("Cette date n'est pas disponible");
-                    return;
-                }
+        const slotsTitle = slotsWrapper.querySelector('h3');
 
-                document.querySelectorAll('.fc-daygrid-day').forEach(day => day.classList.remove('selected'));
-                info.dayEl.classList.add('selected');
-                selectedDate = info.dateStr;
-                loadSlots(selectedDate);
+        initCalendar(currentDisplayDate);
+
+        document.getElementById('prev-month').addEventListener('click', () => changeMonth(-1));
+        document.getElementById('next-month').addEventListener('click', () => changeMonth(1));
+
+        function changeMonth(offset) {
+            currentDisplayDate.setMonth(currentDisplayDate.getMonth() + offset);
+            initCalendar(currentDisplayDate);
+        }
+
+        function initCalendar(dateObj) {
+            grid.innerHTML = '';
+            monthTitle.textContent = dateObj.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+
+            // Headers
+            const daysOfWeek = ['Lu','Ma','Me','Je','Ve','Sa','Di'];
+            daysOfWeek.forEach(d => {
+                const el = document.createElement('div');
+                el.className = 'day-name';
+                el.textContent = d;
+                grid.appendChild(el);
+            });
+
+            const year = dateObj.getFullYear();
+            const month = dateObj.getMonth();
+
+            const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
+            let startOffset = firstDay - 1;
+            if(startOffset < 0) startOffset = 6;
+
+            // Empty slots
+            for(let i=0; i<startOffset; i++){
+                grid.appendChild(document.createElement('div'));
             }
-        });
 
-        calendar.render();
+            const daysInMonth = new Date(year, month+1, 0).getDate();
+
+            for(let day=1; day<=daysInMonth; day++){
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'day-btn';
+                btn.textContent = day;
+
+                const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                btn.dataset.date = dateStr;
+
+                // Past check
+                const checkDate = new Date(year, month, day);
+                const todayMidnight = new Date();
+                todayMidnight.setHours(0,0,0,0);
+
+                if(checkDate < todayMidnight){
+                    btn.classList.add('past-day');
+                    btn.disabled = true;
+                } else {
+                    // Check unavailability
+                    const unavailability = unavailabilities.find(u => u.date === dateStr);
+                    if(unavailability){
+                        btn.classList.add('unavailable');
+                        // Allow click to see reason
+                        btn.addEventListener('click', () => {
+                            showUnavailabilityReason(unavailability.motif);
+                            // Visual selection
+                            document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('selected'));
+                            btn.classList.add('selected');
+                        });
+                    } else {
+                        btn.addEventListener('click', () => selectDate(dateStr, btn));
+                    }
+                }
+
+                // Re-select logic
+                if(selectedDate === dateStr){
+                    btn.classList.add('selected');
+                }
+
+                grid.appendChild(btn);
+            }
+        }
+
+        function showUnavailabilityReason(reason) {
+            slotsWrapper.style.display = 'block';
+            slotsTitle.textContent = "Information";
+            slotsContainer.innerHTML = `
+                <div class="alert alert-secondary d-flex align-items-center" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </svg>
+                    <div>
+                        <strong>Indisponible</strong><br>
+                        ${reason || 'Aucun motif précisé'}
+                    </div>
+                </div>
+            `;
+            // Reset selection inputs
+            selectedDate = null;
+            selectedSlot = null;
+            inputDate.value = '';
+            inputTime.value = '';
+        }
+
+        function selectDate(dateStr, btn) {
+            document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedDate = dateStr;
+            inputDate.value = dateStr;
+
+            // Generate slots for this day
+            loadSlots(dateStr);
+        }
 
         function loadSlots(date){
+            slotsTitle.textContent = "Horaires disponibles"; // Reset title
             fetch(`/reservation/availability?date=${date}`)
                 .then(res => res.json())
                 .then(data => generateSlots(data));
@@ -162,57 +397,119 @@
         function generateSlots(data){
             slotsContainer.innerHTML = '';
             slotsWrapper.style.display = 'block';
+            selectedSlot = null; // Reset slot when day changes
+            inputTime.value = '';
 
-            const openingStart = data.opening.start;
-            const openingEnd = data.opening.end;
-            const lunch = data.lunch;
-            const busy = data.busy;
+            const openingStart = data.opening.start; // "08:00"
+            const openingEnd = data.opening.end;     // "18:00"
+            const lunch = data.lunch;                // "12:00-14:00"
+            const busy = data.busy;                  // ["09:00-10:00", ...]
 
-            let current = openingStart;
+            // Duration from PHP (passed via Twig)
+            const durationMinutes = {{ totalDuration|default(60) }};
 
-            while(current < openingEnd){
-                const next = addHour(current);
-                const slot = `${current}-${next}`;
-                const isDisabled = isInRange(slot, lunch) || busy.includes(slot);
+            let currentMinutes = timeToMinutes(openingStart);
+            const endMinutes = timeToMinutes(openingEnd);
 
-                const label = document.createElement('label');
-                label.className = `time-slot${isDisabled ? ' disabled' : ''}`;
-                label.innerHTML = isDisabled
-                    ? `<span>${slot}</span>`
-                    : `<input type="radio" name="time_slot" value="${slot}"><span>${slot}</span>`;
+            let hasSlots = false;
 
-                if(!isDisabled){
-                    label.querySelector('input').addEventListener('change', e => {
-                        selectedSlot = e.target.value;
+            // Iterate every 30 minutes to find valid start slots
+            while(currentMinutes + durationMinutes <= endMinutes){
+                const startStr = minutesToTime(currentMinutes);
+                const endStr = minutesToTime(currentMinutes + durationMinutes);
+                const slotRange = `${startStr}-${endStr}`;
+
+                // Check collisions
+                const isConflict = checkConflict(currentMinutes, currentMinutes + durationMinutes, busy, lunch);
+
+                if(!isConflict){
+                    hasSlots = true;
+                    const label = document.createElement('label');
+                    label.className = 'time-slot';
+
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = 'time_slot_ui';
+                    radio.value = startStr;
+
+                    radio.addEventListener('change', () => {
+                        // Semantic UI update
+                        document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected-slot'));
+                        label.classList.add('selected-slot');
+
+                        selectedSlot = radio.value;
+                        inputTime.value = selectedSlot;
                         sessionStorage.setItem('reservation_date', selectedDate);
                         sessionStorage.setItem('reservation_time', selectedSlot);
+
+                        // Update Sidebar Recap immediately
+                        // Calculate end time based on duration
+                        const minutes = timeToMinutes(selectedSlot);
+                        const endMinutes = minutes + durationMinutes;
+                        const endStr = minutesToTime(endMinutes);
+
+                        // Format Date
+                        const dObj = new Date(selectedDate);
+                        const dateFormatted = dObj.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+                        document.getElementById('recap-date-display').innerHTML = `
+                            <strong>${dateFormatted}</strong><br>
+                            ${selectedSlot} - ${endStr}
+                        `;
                     });
+
+                    label.appendChild(radio);
+                    label.appendChild(document.createTextNode(slotRange));
+                    slotsContainer.appendChild(label);
                 }
 
-                slotsContainer.appendChild(label);
-                current = next;
+                // Step: 30 minutes
+                currentMinutes += 30;
+            }
+
+            if(!hasSlots) {
+                slotsContainer.innerHTML = '<div class="text-danger">Aucun créneau disponible pour cette durée ce jour-là.</div>';
             }
         }
 
-        function addHour(time){
-            const [h, m] = time.split(':').map(Number);
-            return String(h + 1).padStart(2,'0') + ':00';
+        function timeToMinutes(timeStr) {
+            const [h, m] = timeStr.split(':').map(Number);
+            return h * 60 + m;
         }
 
-        function isInRange(slot, range){
-            const [s1,e1] = slot.split('-');
-            const [s2,e2] = range.split('-');
-            return s1 < e2 && e1 > s2;
+        function minutesToTime(minutes) {
+            const h = Math.floor(minutes / 60);
+            const m = minutes % 60;
+            return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
         }
 
-        document.getElementById('btn-next').onclick = () => {
-            if(!selectedDate || !selectedSlot){
-                alert('Veuillez choisir une date et un créneau');
-                return;
+        function checkConflict(startMin, endMin, busySlots, lunchStr) {
+            // Check Lunch
+            const [lStartStr, lEndStr] = lunchStr.split('-');
+            const lStart = timeToMinutes(lStartStr);
+            const lEnd = timeToMinutes(lEndStr);
+
+            // Intersection with lunch?
+            // Overlap if (StartA < EndB) and (EndA > StartB)
+            if (startMin < lEnd && endMin > lStart) return true;
+
+            // Check Busy Slots
+            for(let slot of busySlots) {
+                const [bStartStr, bEndStr] = slot.split('-');
+                const bStart = timeToMinutes(bStartStr);
+                const bEnd = timeToMinutes(bEndStr);
+                if (startMin < bEnd && endMin > bStart) return true;
             }
-            window.location.href = "{{ path('reservation_step3') }}";
+
+            return false;
+        }
+
+        document.getElementById('btn-next').onclick = (e) => {
+            // Server-side validation requested: submit form even if empty
+            // Controller will handle validation and flash message
+            document.getElementById('step2-form').submit();
         }
     });
-
 </script>
 </body>
+</html>
