@@ -1,0 +1,70 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Détails Réservation - Jardins Harmonie{% endblock %}
+
+{% block main %}
+    <div class="dashboard-container">
+        <main class="dashboard-main p-4">
+            <!-- Header / Back Button -->
+            <div class="mb-4">
+                <a href="{{ path('admin_reservation') }}" class="text-decoration-none text-muted d-flex align-items-center gap-2">
+                    <i class="bi bi-arrow-left"></i> Retour aux réservations
+                </a>
+            </div>
+
+            <div class="bg-white rounded-3 shadow-sm p-5 mx-auto" style="max-width: 800px;">
+                <div class="d-flex justify-content-between align-items-start mb-4 border-bottom pb-3">
+                    <div>
+                        <h2 class="fw-bold mb-1">Détails de la réservation #{{ reservation.id }}</h2>
+                        <span class="badge bg-primary rounded-pill">{{ reservation.status|default('En attente') }}</span>
+                        <span class="text-muted small ms-2">Créée le {{ reservation.dateCreation|date('d/m/Y') }}</span>
+                    </div>
+                    <div class="text-end">
+                        <div class="text-end d-flex gap-2">
+                            <form action="{{ path('admin_reservation_delete', {id: reservation.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?');">
+                                <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i> Supprimer</button>
+                            </form>
+                            <a href="{{ path('admin_reservation_edit', {id: reservation.id}) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Modifier</a>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <!-- Client Info -->
+                        <div class="col-md-6">
+                            <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-person me-2"></i> Client</h5>
+                            <div class="p-3 bg-light rounded-3">
+                                <p class="mb-1"><strong>Nom :</strong> {{ reservation.nom }}</p>
+                                <p class="mb-1"><strong>Email :</strong> {{ reservation.email }}</p>
+                                <p class="mb-1"><strong>Téléphone :</strong> {{ reservation.telephone }}</p>
+                                <p class="mb-0"><strong>Adresse :</strong> {{ reservation.adresse }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Service Info -->
+                        <div class="col-md-6">
+                            <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-tools me-2"></i> Service</h5>
+                            <div class="p-3 bg-light rounded-3">
+                                <p class="mb-1"><strong>Type :</strong> {{ reservation.service }}</p>
+                                <p class="mb-0"><strong>Description :</strong> {{ reservation.description }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Timing Info -->
+                        <div class="col-12">
+                            <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-clock me-2"></i> Rendez-vous</h5>
+                            <div class="p-3 bg-light rounded-3 d-flex align-items-center gap-4">
+                                <div>
+                                    <strong>Date :</strong> <br>
+                                    <span class="fs-5">{{ reservation.dateFormatted|capitalize }}</span>
+                                </div>
+                                <div class="border-start ps-4">
+                                    <strong>Horaire :</strong> <br>
+                                    <span class="fs-5">{{ reservation.heure_debut }} - {{ reservation.heure_fin }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </main>
+    </div>
+{% endblock %}

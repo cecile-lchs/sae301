@@ -1,3 +1,5 @@
+
+
 {% extends 'admin/base.html.twig' %}
 {% block main %}
 
@@ -5,13 +7,12 @@
     <main class="dashboard-main planning-page">
         <header class="dashboard-header d-flex justify-content-between align-items-center bg-white border-bottom p-4">
             <h2>Planning</h2>
-            <a href="parametres.html" class="d-flex align-items-center text-decoration-none">
+            <a href="{{ path('admin_parametres') }}" class="d-flex align-items-center text-decoration-none">
                 <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center shadow-sm" style="width: 48px; height: 48px; font-weight: bold;">
-                    JH
+                    {{ app.user.email|slice(0,2)|upper }}
                 </div>
             </a>
         </header>
-
         <div class="dashboard-content p-0 h-100">
             <div class="planning-container h-100 d-flex">
                 <!-- Left Panel (Restored) -->
@@ -64,7 +65,7 @@
                 </div>
 
                 <!-- Main Calendar View (Right Panel) -->
-                <div class="planning-main-view flex-grow-1 p-4 d-flex flex-column h-100 overflow-hidden">
+                <div class="planning-main-view flex-grow-1 p-4 d-flex flex-column">
                     <!-- Toolbar -->
                     <div class="calendar-toolbar d-flex justify-content-between align-items-center mb-4 flex-shrink-0">
                         <div class="d-flex align-items-center gap-3">
@@ -90,339 +91,524 @@
                     </div>
 
                     <!-- VIEWS CONTAINER -->
-                    <div class="views-container flex-grow-1 overflow-auto position-relative border rounded bg-white">
+                    <div class="views-container flex-grow-1 position-relative border rounded bg-white">
 
                         <!-- WEEK VIEW -->
                         <!-- WEEK VIEW -->
-                        <div id="view-week" class="view-section h-100 d-flex flex-column">
+                        <div id="view-week" class="view-section d-flex flex-column">
                             <!-- Week Header (reste identique) -->
-                            <div class="grid-header-row d-flex border-bottom bg-light">
+                            <!-- Week Header -->
+                            <div id="week-header-row" class="grid-header-row d-flex border-bottom bg-light">
                                 <div class="time-col-spacer border-end" style="width: 60px;"></div>
-                                {% for day in 0..6 %}
-                                    <div class="day-col flex-grow-1 text-center py-2 border-end"><small class="text-muted">{{ ['LUN','MAR','MER','JEU','VEN','SAM','DIM'][day] }}</small><div>{{ 12 + day }}</div></div>
-                                {% endfor %}
+                                <!-- Content injected by JS -->
                             </div>
 
                             <!-- Week Body -->
                             <div class="grid-body position-relative flex-grow-1">
-                                <div class="position-absolute top-0 start-0 bottom-0 bg-light border-end" style="width: 60px; z-index: 10;">
-                                    {% for hour in 8..14 %}
+                                <!-- Time Labels: Removed position-absolute to let them push the height naturally -->
+                                <div class="bg-light border-end" style="width: 60px; z-index: 10;">
+                                    {% for hour in 7..19 %}
                                         <div class="time-slot border-bottom text-muted small text-center py-2" style="height: 60px;">{{ hour }}h</div>
                                     {% endfor %}
                                 </div>
 
-                                <div class="position-absolute top-0 start-0 bottom-0 end-0 ms-5" style="margin-left: 60px !important;">
-                                    <div class="d-flex h-100 position-absolute top-0 start-0 w-100 pointer-events-none">
-                                        {% for i in 0..6 %}
-                                            <div class="flex-grow-1 border-end"></div>
+                                <div id="week-events-container" class="position-absolute top-0 start-0 bottom-0 end-0 ms-5" style="margin-left: 60px !important;">
+                                    <!-- Grid and Events injected by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DAY VIEW -->
+                    <div id="view-day" class="view-section h-100 d-none flex-column p-4">
+                        <div class="p-5 text-center text-muted">Aperçu Jour (Selectionnez une vue)</div>
+                    </div>
+
+                    <!-- MONTH VIEW -->
+                    <div id="view-month" class="view-section h-100 d-none flex-column">
+                        <div class="d-flex text-center fw-bold bg-light py-2 border-bottom">
+                            {% for day in ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'] %}
+                                <div class="flex-fill">{{ day }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <div class="row row-cols-7 g-0 h-100" id="main-month-grid">
+                                {% for day in 1..31 %}
+                                    <div class="col border p-1 fw-bold position-relative" style="min-height: 100px;">
+                                        <span>{{ day }}</span>
+
+                                        {% for event in events %}
+                                            -               {% if event.date == day %}
+                                            <div class="badge bg-primary d-block text-truncate mt-1 event-item cursor-pointer"
+                                                 onclick="event.stopPropagation(); showEventDetails(this)"
+                                                 data-title="{{ event.title }}"
+                                                 data-client="{{ event.client }}"
+                                                 data-time="{{ event.time }}"
+                                                 data-address="{{ event.address }}"
+                                                 data-desc="{{ event.desc }}">
+                                                {{ event.client }}
+                                            </div>
+                                        {% endif %}
                                         {% endfor %}
                                     </div>
-
-                                    {% for event in events %}
-                                        {% set top = (event.heure_debut[:2]|int - 8) * 60 %} {# 8h = top:0 #}
-                                        {% set height = (event.heure_fin[:2]|int - event.heure_debut[:2]|int) * 60 %}
-                                        <div class="position-absolute bg-primary text-white rounded p-2 shadow-sm small event-item cursor-pointer"
-                                             onclick="showEventDetails(this)"
-                                             data-title="{{ event.title|default('Service') }}"
-                                             data-client="{{ event.client }}"
-                                             data-time="{{ event.time }}"
-                                             data-address="{{ event.address }}"
-                                             data-desc="{{ event.desc|default('') }}"
-                                             style="top: {{ top }}px; left: 0%; width: 14.28%; height: {{ height }}px; border-left: 4px solid #0d6efd; opacity: 0.9; cursor: pointer;">
-                                            <div class="fw-bold">{{ event.client }}</div>
-                                            <div>{{ event.title }}</div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- DAY VIEW -->
-                        <div id="view-day" class="view-section h-100 d-none flex-column p-4">
-                            <div class="d-flex align-items-start mb-4 border-bottom pb-3">
-                                <div class="me-4 text-muted fw-bold" style="width: 60px;">09:00</div>
-                                <div class="flex-grow-1 p-3 bg-primary-subtle border border-primary-subtle rounded event-item cursor-pointer"
-                                     onclick="showEventDetails(this)"
-                                     data-title="Tonte standard"
-                                     data-client="Mme. Martin"
-                                     data-time="09:00 - 11:00"
-                                     data-address="8 Avenue des Roses, Lyon"
-                                     data-desc="Tonte de la pelouse avant et arrière. Ramassage des déchets verts."
-                                     style="cursor: pointer;">
-                                    <h5 class="fw-bold text-primary mb-1">Mme. Martin - Tonte</h5>
-                                    <p class="mb-0 text-muted"><i class="bi bi-geo-alt me-1"></i> 8 Avenue des Roses, Lyon</p>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-start mb-4 border-bottom pb-3">
-                                <div class="me-4 text-muted fw-bold" style="width: 60px;">14:00</div>
-                                <div class="flex-grow-1 p-3 bg-success-subtle border border-success-subtle rounded event-item cursor-pointer"
-                                     onclick="showEventDetails(this)"
-                                     data-title="Plantation Haies"
-                                     data-client="M. Dupont"
-                                     data-time="14:00 - 17:00"
-                                     data-address="12 Rue des Lilas, Paris"
-                                     data-desc="Plantation de 15 thuyas le long de la clôture sud."
-                                     style="cursor: pointer;">
-                                    <h5 class="fw-bold text-success mb-1">M. Dupont - Plantation</h5>
-                                    <p class="mb-0 text-muted"><i class="bi bi-geo-alt me-1"></i> 12 Rue des Lilas, Paris</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- MONTH VIEW -->
-                        <div id="view-month" class="view-section h-100 d-none flex-column">
-                            <div class="d-flex text-center fw-bold bg-light py-2 border-bottom">
-                                {% for day in ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'] %}
-                                    <div class="flex-fill">{{ day }}</div>
                                 {% endfor %}
-                            </div>
-
-                            <div class="flex-grow-1">
-                                <div class="row row-cols-7 g-0 h-100" id="main-month-grid">
-                                    {% for day in 1..31 %}
-                                        <div class="col border p-1 fw-bold position-relative" style="min-height: 100px;">
-                                            <span>{{ day }}</span>
-
-                                            {% for event in events %}
-                                 -               {% if event.date == day %}
-                                                    <div class="badge bg-primary d-block text-truncate mt-1 event-item cursor-pointer"
-                                                         onclick="event.stopPropagation(); showEventDetails(this)"
-                                                         data-title="{{ event.title }}"
-                                                         data-client="{{ event.client }}"
-                                                         data-time="{{ event.time }}"
-                                                         data-address="{{ event.address }}"
-                                                         data-desc="{{ event.desc }}">
-                                                        {{ event.client }}
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                    </div>
+            </div>
+        </div>
         </div>
     </main>
-</div>
+    </div>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script>
-    function switchView(viewName) {
-        // Hide all views
-        document.querySelectorAll('.view-section').forEach(el => {
-            el.classList.remove('d-flex');
-            el.classList.add('d-none');
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function switchView(viewName) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('d-flex');
+                el.classList.add('d-none');
+            });
+
+            // Show selected view
+            const selectedView = document.getElementById('view-' + viewName);
+            if (selectedView) {
+                selectedView.classList.remove('d-none');
+                selectedView.classList.add('d-flex');
+            }
+        }
+
+        function showEventDetails(element) {
+            // Get data from attributes
+            const title = element.getAttribute('data-title');
+            const client = element.getAttribute('data-client');
+            const time = element.getAttribute('data-time');
+            const address = element.getAttribute('data-address');
+            const desc = element.getAttribute('data-desc');
+
+            // Populate details
+            document.getElementById('detail-title').innerText = title;
+            document.getElementById('detail-client').innerText = client;
+            document.getElementById('detail-time').innerHTML = `<i class="bi bi-clock me-1"></i> ${time}`;
+            document.getElementById('detail-address').innerText = address;
+            document.getElementById('detail-desc').innerText = desc;
+
+            // Toggle visibility
+            document.getElementById('planning-empty-state').style.display = 'none';
+            document.getElementById('planning-details-container').style.display = 'block';
+        }
+
+        function closeDetails() {
+            document.getElementById('planning-details-container').style.display = 'none';
+            document.getElementById('planning-empty-state').style.display = 'block';
+        }
+    </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Custom JS for Map and Calendar -->
+
+    <script>
+        // Pass PHP events to JS
+        window.planningEvents = {{ events|json_encode|raw }};
+
+        // Independent States
+        let currentMainDate = new Date();
+        // Set to start of current week (Monday)
+        const day = currentMainDate.getDay();
+        const diff = currentMainDate.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
+        currentMainDate.setDate(diff);
+
+        let currentMiniDate = new Date();
+
+        const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+        const dayNames = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            renderMainCalendar(); // Renders Month or Week depending on visibility, but we'll default to calling specific ones or current view
+            // Actually, we should check which view is active. Default is Week.
+            renderWeekView();
+            renderMiniCalendar();
+
+            // Main Calendar Navigation
+            const mainNavArrows = document.querySelectorAll('.calendar-toolbar .nav-arrows button');
+            if (mainNavArrows.length >= 2) {
+                mainNavArrows[0].onclick = () => changeMainTime(-1);
+                mainNavArrows[1].onclick = () => changeMainTime(1);
+            }
+
+            // Mini Calendar Navigation
+            const miniNavArrows = document.querySelectorAll('.mini-calendar-widget .d-flex div small');
+            if (miniNavArrows.length >= 2) {
+                miniNavArrows[0].style.cursor = 'pointer';
+                miniNavArrows[1].style.cursor = 'pointer';
+                miniNavArrows[0].onclick = () => changeMiniMonth(-1);
+                miniNavArrows[1].onclick = () => changeMiniMonth(1);
+            }
         });
 
-        // Show selected view
-        const selectedView = document.getElementById('view-' + viewName);
-        if (selectedView) {
-            selectedView.classList.remove('d-none');
-            selectedView.classList.add('d-flex');
-        }
-    }
+        // --- View Switching ---
+        function switchView(viewName) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('d-flex');
+                el.classList.add('d-none');
+            });
 
-    function showEventDetails(element) {
-        // Get data from attributes
-        const title = element.getAttribute('data-title');
-        const client = element.getAttribute('data-client');
-        const time = element.getAttribute('data-time');
-        const address = element.getAttribute('data-address');
-        const desc = element.getAttribute('data-desc');
-
-        // Populate details
-        document.getElementById('detail-title').innerText = title;
-        document.getElementById('detail-client').innerText = client;
-        document.getElementById('detail-time').innerHTML = `<i class="bi bi-clock me-1"></i> ${time}`;
-        document.getElementById('detail-address').innerText = address;
-        document.getElementById('detail-desc').innerText = desc;
-
-        // Toggle visibility
-        document.getElementById('planning-empty-state').style.display = 'none';
-        document.getElementById('planning-details-container').style.display = 'block';
-    }
-
-    function closeDetails() {
-        document.getElementById('planning-details-container').style.display = 'none';
-        document.getElementById('planning-empty-state').style.display = 'block';
-    }
-</script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<!-- Custom JS for Map and Calendar -->
-
-<script>
-    let currentDate = new Date();
-    const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-
-    document.addEventListener('DOMContentLoaded', function () {
-        renderCalendar();
-    });
-
-    function changeMonth(step) {
-        currentDate.setMonth(currentDate.getMonth() + step);
-        renderCalendar();
-    }
-
-    function goToToday() {
-        currentDate = new Date();
-        renderCalendar();
-    }
-
-    function renderCalendar() {
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth();
-
-        // Update Titles
-        const title = `${monthNames[month]} ${year}`;
-        const mainTitle = document.getElementById('main-calendar-title');
-        const miniTitle = document.getElementById('mini-calendar-title');
-
-        if (mainTitle) mainTitle.innerText = title;
-        if (miniTitle) miniTitle.innerText = title;
-
-        // Calendar Data construction
-        const firstDayIndex = new Date(year, month, 1).getDay(); // 0 is Sunday
-        // Adjust for Monday first: 0->6, 1->0, etc.
-        const startingDay = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
-
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        // Render Mini Calendar
-        renderMiniCalendar(startingDay, daysInMonth);
-
-        // Render Main Month View
-        renderMainMonthGrid(startingDay, daysInMonth);
-    }
-
-    function renderMiniCalendar(startDay, daysCount) {
-        const tbody = document.getElementById('mini-calendar-body');
-        if (!tbody) return;
-
-        tbody.innerHTML = '';
-        let date = 1;
-        let row = document.createElement('tr');
-
-        // Empty cells before start
-        for (let i = 0; i < startDay; i++) {
-            const cell = document.createElement('td');
-            cell.classList.add('text-muted');
-            row.appendChild(cell);
-        }
-
-        for (let i = startDay; i < 7; i++) {
-            if (date > daysCount) break;
-            const cell = document.createElement('td');
-            cell.innerText = date;
-            if (isToday(date)) {
-                cell.classList.add('bg-primary', 'text-white', 'rounded-circle');
+            // Show selected view
+            const selectedView = document.getElementById('view-' + viewName);
+            if (selectedView) {
+                selectedView.classList.remove('d-none');
+                selectedView.classList.add('d-flex');
             }
-            row.appendChild(cell);
-            date++;
-        }
-        tbody.appendChild(row);
 
-        while (date <= daysCount) {
-            row = document.createElement('tr');
-            for (let i = 0; i < 7; i++) {
-                if (date > daysCount) {
-                    const cell = document.createElement('td');
-                    row.appendChild(cell);
-                } else {
-                    const cell = document.createElement('td');
-                    cell.innerText = date;
-                    if (isToday(date)) {
-                        cell.classList.add('bg-primary', 'text-white', 'rounded-circle');
+            // Re-render current view to be sure
+            if (viewName === 'week') renderWeekView();
+            if (viewName === 'month') renderMainCalendar();
+        }
+
+
+        // --- Main Calendar (Month/Week) Logic ---
+
+        function changeMainTime(step) {
+            // Check active view
+            const isWeek = !document.getElementById('view-week').classList.contains('d-none');
+            const isMonth = !document.getElementById('view-month').classList.contains('d-none');
+
+            if (isWeek) {
+                currentMainDate.setDate(currentMainDate.getDate() + (step * 7));
+                renderWeekView();
+            } else if (isMonth) {
+                currentMainDate.setDate(1);
+                currentMainDate.setMonth(currentMainDate.getMonth() + step);
+                renderMainCalendar();
+            }
+        }
+
+        // --- Week View Rendering ---
+        function renderWeekView() {
+            // Ensure we are at the start of the week (Monday)
+            const currentDay = currentMainDate.getDay();
+            const distanceToMonday = currentDay === 0 ? -6 : 1 - currentDay;
+            const startOfWeek = new Date(currentMainDate);
+            startOfWeek.setDate(currentMainDate.getDate() + distanceToMonday);
+
+            // Update Title
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+            // Format: "Oct 2026" or "Sep - Oct 2026"
+            let title = `${monthNames[startOfWeek.getMonth()]} ${startOfWeek.getFullYear()}`;
+            if (startOfWeek.getMonth() !== endOfWeek.getMonth()) {
+                title = `${monthNames[startOfWeek.getMonth()]} - ${monthNames[endOfWeek.getMonth()]} ${endOfWeek.getFullYear()}`;
+            }
+            const mainTitle = document.querySelector('.calendar-toolbar h4');
+            if (mainTitle) mainTitle.innerText = title;
+
+            // Render Header (Days)
+            const headerContainer = document.getElementById('week-header-row');
+            if (headerContainer) {
+                headerContainer.innerHTML = '<div class="time-col-spacer border-end" style="width: 60px;"></div>';
+
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(startOfWeek);
+                    d.setDate(startOfWeek.getDate() + i);
+
+                    const div = document.createElement('div');
+                    div.className = 'day-col flex-grow-1 text-center py-2 border-end';
+                    // Highlight today
+                    if (isToday(d.getDate(), d)) {
+                        div.classList.add('bg-primary-subtle');
                     }
-                    row.appendChild(cell);
-                    date++;
+
+                    div.innerHTML = `<small class="text-muted">${dayNames[i]}</small><div>${d.getDate()}</div>`;
+                    headerContainer.appendChild(div);
                 }
             }
-            tbody.appendChild(row);
-        }
-    }
 
-    function renderMainMonthGrid(startDay, daysCount) {
-        const grid = document.getElementById('main-month-grid');
-        if (!grid) return;
+            // Render Events
+            const eventsContainer = document.getElementById('week-events-container');
+            if (!eventsContainer) return;
+            eventsContainer.innerHTML = '';
 
-        grid.innerHTML = '';
-        let date = 1;
-
-        // Fill blanks
-        for (let i = 0; i < startDay; i++) {
-            const div = document.createElement('div');
-            div.className = 'col border p-1 bg-light';
-            grid.appendChild(div);
-        }
-
-        // Fill days
-        // We need 42 cells (6 rows * 7 cols) to keep grid stable, or just auto-fill
-        // The previous design used row-cols-7
-
-        while (date <= daysCount) {
-            const div = document.createElement('div');
-            div.className = 'col border p-1 fw-bold position-relative';
-            div.style.minHeight = '100px';
-
-            div.innerHTML = `<span>${date}</span>`;
-
-            // Example mock event on the 14th
-            if (date === 14) {
-                div.classList.add('bg-primary-subtle');
-                div.classList.add('cursor-pointer');
-                div.innerHTML += `
-                        <div class="badge bg-primary d-block text-truncate mt-1 event-item"
-                             onclick="event.stopPropagation(); showEventDetailsFromData(this)"
-                             data-title="Tonte standard"
-                             data-client="Mme. Martin"
-                             data-time="09:00 - 11:00"
-                             data-address="8 Avenue des Roses, Lyon"
-                             data-desc="Tonte de la pelouse avant et arrière.">
-                            Mme Martin
-                        </div>
-                     `;
+            // Draw Background Grid (Columns)
+            const gridBg = document.createElement('div');
+            gridBg.className = 'd-flex h-100 position-absolute top-0 start-0 w-100 pointer-events-none';
+            for (let i = 0; i < 7; i++) {
+                const col = document.createElement('div');
+                col.className = 'flex-grow-1 border-end';
+                gridBg.appendChild(col);
             }
+            eventsContainer.appendChild(gridBg);
 
-            if (isToday(date)) {
-                div.style.backgroundColor = 'rgba(13, 110, 253, 0.05)';
-                div.querySelector('span').classList.add('badge', 'bg-primary');
+            // Place Events
+            if (window.planningEvents) {
+                window.planningEvents.forEach(event => {
+                    const evtDate = new Date(event.year, event.month, event.date);
+                    const evtDay = evtDate.getDay(); // 0-6 Sun-Sat
+                    const jsDayIndex = evtDay === 0 ? 6 : evtDay - 1; // 0-6 Mon-Sun
+
+                    // Check if event is in current week range
+                    if (evtDate >= startOfWeek && evtDate <= endOfWeek) {
+                        // Parse Time
+                        const [startStr, endStr] = event.time.split(' - ');
+                        const [startH, startM] = startStr.split(':').map(Number);
+                        const [endH, endM] = endStr.split(':').map(Number);
+
+                        // Range 7h - 19h (12 hours * 60 = 720 mins)
+                        const startTotalMins = (startH * 60) + startM;
+                        const endTotalMins = (endH * 60) + endM;
+                        const offsetStart = 7 * 60; // 7am start
+
+                        const top = startTotalMins - offsetStart;
+                        const duration = endTotalMins - startTotalMins;
+
+                        // Render
+                        const el = document.createElement('div');
+                        el.className = 'position-absolute bg-primary text-white rounded p-2 shadow-sm small event-item cursor-pointer week-event';
+                        el.style.top = `${top}px`;
+                        el.style.left = `${(jsDayIndex * 14.28)}%`;
+                        el.style.width = '14.28%'; // 100% / 7
+                        el.style.height = `${duration}px`;
+                        el.style.borderLeft = '4px solid #0d6efd';
+                        el.style.opacity = '0.9';
+                        el.style.zIndex = '20';
+
+                        el.innerHTML = `<div class="fw-bold text-truncate">${event.client}</div><div class="text-truncate">${event.title}</div>`;
+
+                        // Data Attributes & Click
+                        el.setAttribute('data-title', event.title);
+                        el.setAttribute('data-client', event.client);
+                        el.setAttribute('data-time', event.time);
+                        el.setAttribute('data-address', event.address);
+                        el.setAttribute('data-desc', event.desc);
+                        el.onclick = (e) => {
+                            e.stopPropagation();
+                            if(window.showEventDetails) window.showEventDetails(el);
+                        };
+
+                        eventsContainer.appendChild(el);
+                    }
+                });
             }
-
-            grid.appendChild(div);
-            date++;
         }
 
-        // Fill remaining cells to look nice (optional but good for grid)
-        const totalCells = grid.children.length;
-        const remaining = 7 - (totalCells % 7);
-        if (remaining < 7) {
-            for (let i = 0; i < remaining; i++) {
+
+        // --- Month View Rendering ---
+
+        function renderMainCalendar() {
+            const year = currentMainDate.getFullYear();
+            const month = currentMainDate.getMonth();
+
+            const title = `${monthNames[month]} ${year}`;
+            const mainTitle = document.querySelector('.calendar-toolbar h4');
+            if (mainTitle) mainTitle.innerText = title;
+
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const startingDay = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            renderMainMonthGrid(startingDay, daysInMonth, year, month);
+        }
+
+        function renderMainMonthGrid(startDay, daysCount, year, month) {
+            const grid = document.getElementById('main-month-grid');
+            if (!grid) return;
+
+            grid.innerHTML = '';
+            let date = 1;
+
+            // Fill blanks
+            for (let i = 0; i < startDay; i++) {
                 const div = document.createElement('div');
                 div.className = 'col border p-1 bg-light';
                 grid.appendChild(div);
             }
-        }
-    }
 
-    function isToday(date) {
-        const today = new Date();
-        return date === today.getDate() &&
-            currentDate.getMonth() === today.getMonth() &&
-            currentDate.getFullYear() === today.getFullYear();
-    }
+            while (date <= daysCount) {
+                const div = document.createElement('div');
+                div.className = 'col border p-1 fw-bold position-relative';
+                div.style.minHeight = '100px';
 
-    // Function helper to reuse the showEventDetails logic if needed,
-    // though the original HTML one works if data attributes are present.
-    function showEventDetailsFromData(element) {
-        // This wrapper is needed because renderMainMonthGrid creates dynamic elements
-        // that might need to trigger the global showEventDetails function defined in HTML
-        if (window.showEventDetails) {
-            window.showEventDetails(element);
+                div.innerHTML = `<span>${date}</span>`;
+
+                // Render Events and Interaction
+                if (window.planningEvents) {
+                    let dayHasEvent = false;
+
+                    window.planningEvents.forEach(event => {
+                        if (parseInt(event.year) === year && parseInt(event.month) === month && parseInt(event.date) === date) {
+                            div.classList.add('bg-primary-subtle');
+                            div.classList.add('cursor-pointer');
+
+                            if (!dayHasEvent) {
+                                div.setAttribute('data-title', event.title);
+                                div.setAttribute('data-client', event.client);
+                                div.setAttribute('data-time', event.time);
+                                div.setAttribute('data-address', event.address);
+                                div.setAttribute('data-desc', event.desc);
+                                div.onclick = (e) => {
+                                    if (window.showEventDetails) window.showEventDetails(div);
+                                };
+                                dayHasEvent = true;
+                            }
+
+                            const badge = document.createElement('div');
+                            badge.className = 'badge bg-primary d-block text-truncate mt-1 event-item';
+                            badge.innerText = event.client;
+
+                            badge.setAttribute('data-title', event.title);
+                            badge.setAttribute('data-client', event.client);
+                            badge.setAttribute('data-time', event.time);
+                            badge.setAttribute('data-address', event.address);
+                            badge.setAttribute('data-desc', event.desc);
+                            badge.onclick = (e) => {
+                                e.stopPropagation();
+                                if (window.showEventDetails) window.showEventDetails(badge);
+                            };
+
+                            div.appendChild(badge);
+                        }
+                    });
+                }
+
+                if (isToday(date, currentMainDate)) {
+                    div.style.backgroundColor = 'rgba(13, 110, 253, 0.05)';
+                    div.querySelector('span').classList.add('badge', 'bg-primary');
+                }
+
+                grid.appendChild(div);
+                date++;
+            }
+
+            // Fill remaining cells
+            const totalCells = grid.children.length;
+            const remaining = 7 - (totalCells % 7);
+            if (remaining < 7) {
+                for (let i = 0; i < remaining; i++) {
+                    const div = document.createElement('div');
+                    div.className = 'col border p-1 bg-light';
+                    grid.appendChild(div);
+                }
+            }
         }
-    }
-</script>
+
+
+        // --- Mini Calendar Logic ---
+
+        function changeMiniMonth(step) {
+            currentMiniDate.setDate(1);
+            currentMiniDate.setMonth(currentMiniDate.getMonth() + step);
+            renderMiniCalendar();
+        }
+
+        function renderMiniCalendar() {
+            const year = currentMiniDate.getFullYear();
+            const month = currentMiniDate.getMonth();
+
+            const title = `${monthNames[month]} ${year}`;
+            const miniTitle = document.querySelector('.mini-calendar-widget h6');
+            if (miniTitle) miniTitle.innerText = title;
+
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const startingDay = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            const tbody = document.getElementById('mini-calendar-body');
+            const table = document.querySelector('.mini-calendar-widget table tbody');
+            const target = tbody || table;
+
+            if (!target) return;
+
+            target.innerHTML = '';
+            let date = 1;
+            let row = document.createElement('tr');
+
+            // Empty cells before start
+            for (let i = 0; i < startingDay; i++) {
+                const cell = document.createElement('td');
+                cell.classList.add('text-muted');
+                row.appendChild(cell);
+            }
+
+            for (let i = startingDay; i < 7; i++) {
+                if (date > daysInMonth) break;
+                appendMiniCell(row, date, year, month);
+                date++;
+            }
+            target.appendChild(row);
+
+            while (date <= daysInMonth) {
+                row = document.createElement('tr');
+                for (let i = 0; i < 7; i++) {
+                    if (date > daysInMonth) {
+                        const cell = document.createElement('td');
+                        row.appendChild(cell);
+                    } else {
+                        appendMiniCell(row, date, year, month);
+                        date++;
+                    }
+                }
+                target.appendChild(row);
+            }
+        }
+
+        function appendMiniCell(row, date, year, month) {
+            const cell = document.createElement('td');
+            cell.innerText = date;
+            cell.style.position = 'relative';
+
+            if (isToday(date, currentMiniDate)) {
+                cell.classList.add('bg-primary', 'text-white', 'rounded-circle');
+            }
+
+            if (window.planningEvents) {
+                const dayEvents = window.planningEvents.filter(e =>
+                    parseInt(e.year) === year &&
+                    parseInt(e.month) === month &&
+                    parseInt(e.date) === date
+                );
+
+                if (dayEvents.length > 0) {
+                    const event = dayEvents[0];
+
+                    const dot = document.createElement('div');
+                    dot.className = 'bg-success rounded-circle';
+                    dot.style.width = '4px';
+                    dot.style.height = '4px';
+                    dot.style.margin = '2px auto 0';
+                    if (isToday(date, currentMiniDate)) {
+                        dot.className = 'bg-white rounded-circle';
+                    }
+                    cell.appendChild(dot);
+
+                    cell.style.cursor = 'pointer';
+                    cell.setAttribute('data-title', event.title);
+                    cell.setAttribute('data-client', event.client);
+                    cell.setAttribute('data-time', event.time);
+                    cell.setAttribute('data-address', event.address);
+                    cell.setAttribute('data-desc', event.desc);
+
+                    cell.onclick = () => {
+                        if (window.showEventDetails) window.showEventDetails(cell);
+                    };
+                }
+            }
+            row.appendChild(cell);
+        }
+
+        function isToday(date, contextDate) {
+            const today = new Date();
+            return date === today.getDate() &&
+                contextDate.getMonth() === today.getMonth() &&
+                contextDate.getFullYear() === today.getFullYear();
+        }
+
+        function showEventDetailsFromData(element) {
+            if (window.showEventDetails) {
+                window.showEventDetails(element);
+            }
+        }
+    </script>
 {% endblock %}

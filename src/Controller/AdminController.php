@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Indisponibilite;
+use App\Entity\Reservation;
 use App\Form\IndisponibiliteType;
 use App\Repository\ClientRepository;
 use App\Repository\ReservationRepository;
@@ -186,7 +187,7 @@ final class AdminController extends AbstractController
 //    }
 
     #[Route('/admin/dashboard', name: 'admin_dashboard')]
-    public function dashboard(ReservationRepository $reservationRepository): Response
+    public function dashboard(ReservationRepository $reservationRepository, \App\Repository\IndisponibiliteRepository $indisponibiliteRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -194,10 +195,36 @@ final class AdminController extends AbstractController
         $allReservations = $reservationRepository->findAll();
         $totalReservations = count($allReservations);
 
+        // --- Indisponibilités ---
+        $allIndisponibilites = $indisponibiliteRepository->findAll();
+        $indisponibilitesData = [];
+        foreach ($allIndisponibilites as $indispo) {
+            $start = $indispo->getDebut();
+            $end = $indispo->getFin();
+            $motif = $indispo->getType();
+
+            if ($start && $end) {
+                // Convert to DateTime to ensure we can use modify()
+                $current = \DateTime::createFromInterface($start);
+                $endDt = \DateTime::createFromInterface($end);
+
+                while ($current <= $endDt) {
+                    $indisponibilitesData[] = [
+                        'id' => $indispo->getId(),
+                        'date' => $current->format('Y-m-d'),
+                        'motif' => $motif,
+                    ];
+                    $current->modify('+1 day');
+                }
+            }
+        }
+
+
         $clientsIds = [];
         foreach ($allReservations as $res) {
             $client = $res->getClient();
-            if ($client) $clientsIds[$client->getId()] = true;
+            if ($client)
+                $clientsIds[$client->getId()] = true;
         }
         $totalClients = count($clientsIds);
 
@@ -233,10 +260,12 @@ final class AdminController extends AbstractController
         return $this->render('admin/dashboard.html.twig', [
             'reservations' => $tableData,        // pour le tableau
             'allReservations' => $reservationsData, // pour le calendrier et la carte
+            'unavailabilities' => $indisponibilitesData, // pour le calendrier
             'totalReservations' => $totalReservations,
             'totalClients' => $totalClients,
         ]);
     }
+
 
 //#[Route('/logout', name: 'app_logout')]
 //public function logout(): void
@@ -402,7 +431,9 @@ final class AdminController extends AbstractController
         return $this->redirectToRoute('admin_parametres');
     }
 
-    #[Route('/admin/reservation', name: 'admin_reservation')]
+
+
+    #[Route('/reservation', name: 'admin_reservation')]
     public function reservation(ReservationRepository $reservationRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -427,6 +458,7 @@ final class AdminController extends AbstractController
             $reservationsData[] = [
                 'id' => $res->getId(),
                 'nom' => $client ? $client->getPrenom() . ' ' . $client->getNom() : '—',
+                'description' => 'Description de la réservation...', // Placeholder or fetch real desc if distinct from service
                 'date' => $rdv ? $rdv->getDate() : null,
                 'service' => implode(', ', $servicesList),
                 'heure_debut' => $rdv?->getHeureDebut()?->format('H:i'),
@@ -440,6 +472,59 @@ final class AdminController extends AbstractController
             'services' => $services,
         ]);
     }
+
+    #[Route('/reservation/{id}', name: 'admin_reservation_details')]
+    public function reservationDetails(int $id, ReservationRepository $reservationRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $reservation = $reservationRepository->find($id);
+
+        if (!$reservation) {
+            throw $this->createNotFoundException('Réservation non trouvée');
+        }
+
+        $client = $reservation->getClient();
+        $rdv = $reservation->getRendezVous();
+
+        $servicesList = [];
+        foreach ($reservation->getService() as $service) {
+            $servicesList[] = $service->getNom();
+        }
+
+        $formatter = new \IntlDateFormatter('fr_FR', \IntlDateFormatter::LONG, \IntlDateFormatter::NONE);
+
+        $data = [
+            'id' => $reservation->getId(),
+            'nom' => $client ? $client->getPrenom() . ' ' . $client->getNom() : 'Client Inconnu',
+            'email' => $client ? $client->getEmail() : '—',
+            'telephone' => $client ? $client->getTelephone() : '—',
+            'adresse' => $client ? $client->getAdresse() : '—',
+            'service' => implode(', ', $servicesList),
+            'date' => $rdv ? $rdv->getDate() : null,
+            'dateFormatted' => $rdv ? $formatter->format($rdv->getDate()) : 'Date inconnue',
+            'heure_debut' => $rdv?->getHeureDebut()?->format('H:i'),
+            'heure_fin' => $rdv?->getHeureFin()?->format('H:i'),
+            'description' => 'Description détaillée...',
+            'status' => $reservation->getStatus(),
+            'dateCreation' => $reservation->getDateCreation(),
+        ];
+
+        return $this->render('admin/reservation_details.html.twig', [
+            'reservation' => $data
+        ]);
+    }
+//    #[Route('/planning', name: 'admin_planning')]
+//    public function planning(ReservationRepository $reservationRepository): Response
+//    {
+//        // Logic for Planning - potentially passing reservations as events
+//        $reservations = $reservationRepository->findAll();
+//        // Transform for JS if needed, similar to dashboard
+//
+//        return $this->render('admin/planning.html.twig', [
+//            'reservations' => $reservations,
+//        ]);
+//    }
 
     #[Route('/planning', name: 'admin_planning')]
     public function planning(ReservationRepository $reservationRepository): Response
@@ -475,16 +560,49 @@ final class AdminController extends AbstractController
         ]);
     }
 
-//    #[Route('/planning', name: 'admin_planning')]
-//    public function planning(ReservationRepository $reservationRepository): Response
-//    {
-//        // Logic for Planning - potentially passing reservations as events
-//        $reservations = $reservationRepository->findAll();
-//        // Transform for JS if needed, similar to dashboard
-//
-//        return $this->render('admin/planning.html.twig', [
-//            'reservations' => $reservations,
-//        ]);
-//    }
+
+#[Route('/reservation/{id}/delete', name: 'admin_reservation_delete', methods: ['POST'])]
+    public function deleteReservation(
+        Reservation $reservation,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $entityManager->remove($reservation);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La réservation a bien été supprimée.');
+
+        return $this->redirectToRoute('admin_reservation');
+    }
+    #[Route('/reservation/{id}/edit', name: 'admin_reservation_edit')]
+    public function editReservation(
+        Request $request,
+        Reservation $reservation,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $form = $this->createForm(\App\Form\ReservationType::class, $reservation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Réservation modifiée avec succès.');
+
+            return $this->redirectToRoute(
+                'admin_reservation_details',
+                ['id' => $reservation->getId()]
+            );
+        }
+
+        return $this->render('admin/reservation_edit.html.twig', [
+            'reservation' => $reservation,
+            'form' => $form->createView(),
+        ]);
+    }
 
 }

@@ -34,33 +34,96 @@
 
                 <!-- Liste des réservations -->
                 <section class="reservation-list p-4 bg-light">
-                    {% for res in reservations %}
-                        <div class="reservation-card bg-white p-3 rounded-3 shadow-sm mb-3" data-category="{{ res.service|lower }}">
-                            <div class="d-flex justify-content-start align-items-center gap-5 mb-2">
-                                <div class="d-flex align-items-center gap-3 text-muted small">
-                                    <span>{{ res.heure_debut }} - {{ res.heure_fin }}</span>
-                                    <span>{{ res.date|date('d M Y') }}</span>
+                    <div id="reservation-container">
+                        {% for res in reservations %}
+                            <div class="reservation-card bg-white p-3 rounded-3 shadow-sm mb-3" data-category="{{ res.service|lower }}">
+                                <div class="d-flex justify-content-start align-items-center gap-5 mb-2">
+                                    <div class="d-flex align-items-center gap-3 text-muted small">
+                                        <span>{{ res.heure_debut }} - {{ res.heure_fin }}</span>
+                                        <span>{{ res.date|date('d M Y') }}</span>
+                                    </div>
+                                    <div class="fw-bold text-dark">{{ res.service }}</div>
+                                    <div class="text-muted small">{{ res.nom }}</div>
                                 </div>
-                                <div class="fw-bold text-dark">{{ res.service }}</div>
-                                <div class="text-muted small">{{ res.nom }}</div>
+                                <p class="text-muted small mb-3">{{ res.description ?? '—' }}</p>
+                                <a href="{{ path('admin_reservation_details', {'id': res.id}) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                    Voir plus
+                                </a>
                             </div>
-                            <p class="text-muted small mb-3">{{ res.description ?? '—' }}</p>
-                            <a href="#" class="btn btn-sm btn-outline-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#reservationModal"
-                               data-service="{{ res.service }}"
-                               data-date="{{ res.date|date('d M Y') }}"
-                               data-time="{{ res.heure_debut }} - {{ res.heure_fin }}"
-                               data-client="{{ res.nom }}"
-                               data-desc="{{ res.description ?? '—' }}">
-                                Voir plus
-                            </a>
-                        </div>
-                    {% else %}
-                        <p class="text-muted small">Aucune réservation disponible.</p>
-                    {% endfor %}
+                        {% else %}
+                            <p class="text-muted small">Aucune réservation disponible.</p>
+                        {% endfor %}
+                    </div>
                 </section>
 
             </div>
         </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterAll = document.getElementById('filterAll');
+            const serviceFilters = document.querySelectorAll('input[type="checkbox"][id^="filter"]:not(#filterAll)');
+            const cards = document.querySelectorAll('.reservation-card');
+
+            function filterReservations() {
+                const checkedFilters = Array.from(serviceFilters)
+                    .filter(input => input.checked)
+                    .map(input => input.value.toLowerCase());
+
+                const isAll = filterAll.checked;
+
+                cards.forEach(card => {
+                    if (isAll && checkedFilters.length === 0) {
+                        card.style.display = '';
+                        return;
+                    }
+
+                    const category = card.getAttribute('data-category').toLowerCase();
+                    // Check if category ("tonte, taille") includes any of the checked filters ("tonte")
+                    const matches = checkedFilters.some(filter => category.includes(filter));
+
+                    if (checkedFilters.length > 0) {
+                        if (matches) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    } else if (isAll) {
+                        card.style.display = '';
+                    } else {
+                        // Nothing checked? Show all or none? Usually show all if "All" is implicitly default,
+                        // but here "Tout voir" is a checkbox.
+                        // Logic: If Tout voir is unchecked and no services checked -> Show nothing? Or All?
+                        // Let's assume Show Nothing if nothing checked to be strict, or re-check "All".
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            filterAll.addEventListener('change', function() {
+                if (this.checked) {
+                    serviceFilters.forEach(f => f.checked = false);
+                }
+                filterReservations();
+            });
+
+            serviceFilters.forEach(filter => {
+                filter.addEventListener('change', function() {
+                    if (this.checked) {
+                        filterAll.checked = false;
+                    }
+                    // If all uncheck, maybe recheck All?
+                    const anyChecked = Array.from(serviceFilters).some(f => f.checked);
+                    if (!anyChecked) {
+                        filterAll.checked = true;
+                    }
+                    filterReservations();
+                });
+            });
+        });
+    </script>
 {% endblock %}
+
+
 
