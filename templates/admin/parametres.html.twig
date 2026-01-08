@@ -5,12 +5,34 @@
 {% block main %}
     <header class="dashboard-header d-flex justify-content-between align-items-center bg-white border-bottom p-4">
         <h2>Paramètres</h2>
-        <a href="{{ path('admin_parametres') }}" class="d-flex align-items-center text-decoration-none">
-            <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center shadow-sm" style="width: 48px; height: 48px; font-weight: bold;">
-                {{ app.user.email|slice(0,2)|upper }}
+        <a href="{{ path('admin_parametres') }}" class="text-decoration-none">
+            <div class="settings-btn">
+                <i class="bi bi-gear-fill"></i>
             </div>
         </a>
     </header>
+    <style>
+
+        /* Settings Button (Header) */
+        .settings-btn {
+            width: 48px;
+            height: 48px;
+            background-color: var(--bs-primary, #0d6efd);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .settings-btn:hover {
+            transform: rotate(90deg);
+            background-color: #0b5ed7;
+        }
+        .settings-btn i {
+            font-size: 1.5rem;
+        }
+    </style>
     <div class="col-md-12">
         <div class="card border-0 shadow-sm">
             <div class="card-body p-4 d-flex align-items-center gap-4">
@@ -52,7 +74,7 @@
                             {{ form_widget(form.fin, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
-                            <button class="btn btn-sm btn-primary w-100"><i class="bi bi-plus-lg"></i></button>
+                            <button class="btn btn-sm btn-primary w-60"><i class="bi bi-plus-lg"></i></button>
                         </div>
                         {{ form_end(form) }}
 
@@ -93,27 +115,27 @@
                         <h5 class="fw-bold m-0"><i class="bi bi-flag me-2 text-info"></i>Jours Fériés</h5>
                     </div>
                         <div class="card-body">
-                        <p class="text-muted small">Gérez les jours fériés travaillés ou chômés.</p>
+                        <p class="text-muted small">Gestion des jours fériés.</p>
 
-                        {# Formulaire pour ajouter automatiquement les jours fériés #}
-                        <form method="post" action="{{ path('admin_parametres') }}">
-                            <div class="form-check form-switch mb-3">
-                                <input class="form-check-input"
-                                       type="checkbox"
-                                       role="switch"
-                                       name="auto_holidays"
-                                       id="autoHolidays"
-                                       onchange="this.  form.submit()">
+{#                        #}{# Formulaire pour ajouter automatiquement les jours fériés #}
+{#                        <form method="post" action="{{ path('admin_parametres') }}">#}
+{#                            <div class="form-check form-switch mb-3">#}
+{#                                <input class="form-check-input"#}
+{#                                       type="checkbox"#}
+{#                                       role="switch"#}
+{#                                       name="auto_holidays"#}
+{#                                       id="autoHolidays"#}
+{#                                       onchange="this.  form.submit()">#}
 
-                                <label class="form-check-label fw-bold" for="autoHolidays">
-                                    Intégrer automatiquement les jours fériés officiels
-                                </label>
-                            </div>
+{#                                <label class="form-check-label fw-bold" for="autoHolidays">#}
+{#                                    Intégrer automatiquement les jours fériés officiels#}
+{#                                </label>#}
+{#                            </div>#}
 
-                            <input type="hidden" name="_token"
-                                   value="{{ csrf_token('auto_holidays') }}">
+{#                            <input type="hidden" name="_token"#}
+{#                                   value="{{ csrf_token('auto_holidays') }}">#}
 {#                            <button class="btn btn-sm btn-primary mb-3">Ajouter les jours fériés</button>#}
-                        </form>
+{#                        </form>#}
 
                         <hr>
 

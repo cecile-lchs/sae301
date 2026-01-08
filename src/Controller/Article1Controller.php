@@ -23,4 +23,12 @@ final class Article1Controller extends AbstractController
             'controller_name' => 'Article1Controller',
         ]);
     }
+
+    #[Route('/article3', name: 'app_article3')]
+    public function article3(): Response
+    {
+        return $this->render('article1/article3.html.twig', [
+            'controller_name' => 'Article1Controller',
+        ]);
+    }
 }

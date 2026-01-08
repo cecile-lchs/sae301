@@ -12,66 +12,117 @@
 
 <body>
 
-    {% block header %}
-<!-- Header -->
-<header class="admin-header">
-    <img src="{{ asset('images/logo.svg') }}" alt="Jardins Harmonie Logo" class="logo-icon">
-</header>
+{% block header %}
+    <style>
+        .admin-header .logo-icon {
+            margin-left: 20px; /* Déplacer un peu vers la droite */
+            cursor: pointer;
+        }
+
+        /* Forgot Password Interaction */
+        .forgot-password {
+            transition: color 0.3s ease, transform 0.1s ease;
+            display: inline-block;
+        }
+        .forgot-password:hover {
+            color: #d35400; /* Darker orange */
+            text-decoration: underline;
+        }
+        .forgot-password:active {
+            transform: scale(0.95); /* Click effect */
+            color: #e67e22;
+        }
+
+        /* Error Styles */
+        .error-message, .error {
+            color: #dc3545; /* Red standard color */
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .global-error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+    <!-- Header -->
+    <header class="admin-header">
+        <a href="{{ path('app_accueil') }}">
+            <img src="{{ asset('images/logo.svg') }}" alt="Jardins Harmonie Logo" class="logo-icon">
+        </a>
+    </header>
 {% endblock %}
 
-    {% block main %}
+{% block main %}
 
-<main class="admin-main">
-    <h1>J’accède à mon compte</h1>
+    <main class="admin-main">
+        <h1>J’accède à mon compte</h1>
 
-    <form action="{{ path('app_admin') }}" method="post" class="login-form">
-    {% if error %}
-            <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+        <form action="{{ path('app_admin') }}" method="post" class="login-form">
+            {% if error %}
+                <div class="global-error">
+                    {% if error.messageKey == 'Invalid credentials.' %}
+                        Email ou mot de passe incorrect.
+                    {% else %}
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    {% endif %}
+                </div>
+            {% endif %}
 
-        <div class="form-group">
-            <label for="identifiant">Email</label>
-            <div class="input-wrapper">
-                <input type="text" id="identifiant" name="_username" value="{{ last_username }}" placeholder="Entrez votre email*">
+            <div class="form-group">
+                <label for="identifiant">Email *</label>
+                <div class="input-wrapper">
+                    <input type="text" id="identifiant" name="_username" value="{{ last_username }}" placeholder="Entrez votre email" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe *</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="_password" placeholder="Entrez votre mot de passe " required>
+                </div>
+                <div style="text-align: left; width: 100%;">
+                    <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+                </div>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button type="submit" class="btn-submit">Me connecter</button>
+        </form>
+
+
+
+
+    </main>
+{% endblock %}
+
+{% block footer %}
+    <footer class="admin-footer">
+        <div class="footer-content">
+            <div class="brand-section">
+                <img src="{{ asset('images/logo.svg') }}" alt="Jardins Harmonie Logo" class="logo-icon">
+                <p>Jardins Harmonie – Votre jardin entre de bonnes mains.</p>
+            </div>
+
+            <div class="links-section">
+                <a href="#">Mention légales</a>
+                <a href="#">Politiques de confidentialité</a>
+                <a href="#">Plan du site</a>
+                <a href="#">Cookies</a>
+                <a href="#">Site Jardin Hamronie</a>
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="password">Mot de passe</label>
-            <div class="input-wrapper">
-                <input type="password" id="password" name="_password" placeholder="Entrez votre mot de passe *">
-            </div>
-            <div style="text-align: left; width: 100%;">
-                <a href="#" class="forgot-password">Mot de passe oublié ?</a>
-            </div>
+        <div class="footer-copyright">
+            <p>&copy; Copyright 2025, All Rights Reserved by Jardin Harmonie</p>
         </div>
-
-        <button type="submit" class="btn-submit">Me connecter</button>
-    </form>
-</main>
-    {% endblock %}
-
-    {% block footer %}
-<footer class="admin-footer">
-    <div class="footer-content">
-        <div class="brand-section">
-            <img src="{{ asset('images/logo.svg') }}" alt="Jardins Harmonie Logo" class="logo-icon">
-            <p>Jardins Harmonie – Votre jardin entre de bonnes mains.</p>
-        </div>
-
-        <div class="links-section">
-            <a href="#">Mention légales</a>
-            <a href="#">Politiques de confidentialité</a>
-            <a href="#">Plan du site</a>
-            <a href="#">Cookies</a>
-            <a href="#">Site Jardin Hamronie</a>
-        </div>
-    </div>
-
-    <div class="footer-copyright">
-        <p>&copy; Copyright 2025, All Rights Reserved by Jardin Harmonie</p>
-    </div>
-</footer>
-    {% endblock %}
+    </footer>
+{% endblock %}
 </body>
 </html>

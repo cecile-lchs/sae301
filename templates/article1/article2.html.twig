@@ -3,54 +3,88 @@
 {% block title %}Article{% endblock %}
 
 {% block main %}
+    <style>
+        .actualite-container {
+            margin-top: 140px; /* Espacer plus entre la barre de navigation et le titre */
+        }
 
+        .article-card {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px; /* Ensure corners are rounded for the overflow */
+        }
+
+
+        .article-card img {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .article-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .article-card h4 {
+            transition: color 0.3s ease;
+        }
+
+        .article-card:hover h4 {
+            color: #FFA500; /* Change title color on hover */
+        }
+
+        /* Stretched Link Technique using CSS in HTML as requested */
+        .article-card .read-more::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+
+    </style>
     <main class="container">
 
         <div class="article-meta">
             <span class="tag">Conseils</span>
-            <span class="date">14 Mars, 2025</span>
+            <span class="date">8 Janvier, 2026</span>
         </div>
 
-        <h1 class="article-title">Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h1>
-        <p class="article-subtitle">Garder un jardin propre et agréable demande du temps, de l’énergie et un vrai savoir-faire.</p>
+        <h1 class="article-title">5 astuces pour faire pousser des légumes bio chez soi</h1>
+        <p class="article-subtitle">Découvrez comment cultiver vos propres légumes de manière saine et écologique, même avec un petit espace.</p>
 
         <div class="article-hero">
-            <img src="{{ asset('images/article1.png') }}" alt="Entretien jardin">
+            <img src="{{ asset('images/article2.png') }}" alt="Jardinage bio">
         </div>
 
         <article class="article-content">
-            <h2>Un jardin évolue en permanence</h2>
-            <p>Garder un jardin propre et agréable demande du temps, de l’énergie et un vrai savoir-faire. Un jardin n’est jamais “fini” : il pousse, s’adapte aux saisons, et change continuellement. Sans entretien régulier, les mauvaises herbes s’installent, les plantes s’étouffent entre elles et la végétation perd rapidement sa forme naturelle. En quelques semaines seulement, un jardin peut devenir difficile à rattraper. Un suivi fréquent permet au contraire de maintenir son équilibre et sa beauté tout au long de l’année.</p>
+            <h2>Préparer le sol correctement</h2>
+            <p>Un sol fertile et bien préparé est la clé d’un potager réussi. Ajoutez du compost, du fumier naturel ou des amendements organiques pour nourrir vos plantes et favoriser une croissance saine.</p>
 
-            <h3>Comprendre la croissance saisonnière</h3>
-            <p>Le jardin évolue au fil des saisons :</p>
-            <ul>
-                <li>certaines plantes fleurissent au printemps,</li>
-                <li>d’autres en été,</li>
-                <li>tandis que certaines feuilles tombent en automne.</li>
-            </ul>
-            <p>Un entretien régulier permet de suivre ces changements et d’adapter les soins nécessaires.</p>
+            <h3>Choisir les bonnes variétés</h3>
+            <p>Certaines variétés de légumes sont mieux adaptées aux petits jardins ou aux plantations en pot. Privilégiez des variétés locales et résistantes aux maladies pour maximiser vos chances de succès.</p>
 
-            <h3>Les risques d’un manque d’entretien</h3>
-            <p>Sans suivi, les mauvaises herbes et les plantes envahissantes prennent le dessus, les arbustes deviennent désordonnés et certaines maladies peuvent se développer. Un jardin négligé demande ensuite beaucoup plus de travail pour retrouver un aspect harmonieux.</p>
+            <h3>Planter selon les saisons</h3>
+            <p>Chaque légume a sa période de plantation. Respecter le calendrier saisonnier permet de récolter des légumes savoureux et d’éviter le gaspillage.</p>
 
-            <h3>Désherber pour préserver vos plantations</h3>
-            <h4>Comment les mauvaises herbes s'installent</h4>
-            <p>Les mauvaises herbes profitent du moindre espace libre pour s'installer. Elles entrent en compétition avec vos plantes pour l'eau et les nutriments.</p>
+            <h3>L’arrosage et la gestion de l’eau</h3>
+            <h4>Arroser au bon moment</h4>
+            <p>Privilégiez l’arrosage tôt le matin ou le soir pour limiter l’évaporation et éviter le stress hydrique des plantes.</p>
 
-            <h4>Les bienfaits d'un désherbage fréquent</h4>
-            <p>Un désherbage régulier évite l'envahissement et permet à vos plantes de respirer et de s'épanouir pleinement.</p>
+            <h4>Techniques économes</h4>
+            <p>Utilisez le paillage pour conserver l’humidité et réduire la fréquence des arrosages, tout en enrichissant le sol.</p>
 
-            <h3>La taille pour guider la croissance</h3>
-            <p>La taille est essentielle pour stimuler la floraison, contrôler le volume des végétaux et supprimer les branches mortes ou malades.</p>
+            <h3>Éviter les pesticides chimiques</h3>
+            <p>Favorisez les méthodes naturelles comme les purins de plantes, les insectes utiles et la rotation des cultures pour protéger vos légumes tout en respectant l’environnement.</p>
 
             <div class="highlight-box">
-                <p><strong>Une haie parfaite pour les passionnés exigeants</strong><br>
-                    Nos équipes interviennent chaque semaine pour un résultat toujours impeccable. Les professionnels réalisent les tailles nécessaires selon la période et ramassent les déchets pour laisser un espace net après chaque passage.</p>
+                <p><strong>Un potager sain et productif</strong><br>
+                    Avec ces méthodes simples, vous pouvez cultiver des légumes bio savoureux, même dans un petit jardin ou sur un balcon. Le plaisir de récolter vos propres produits est incomparable !</p>
             </div>
 
             <h3>Conclusion</h3>
-            <p>Un jardin bien entretenu est une source de plaisir et de détente toute l'année. N'hésitez pas à faire appel à des professionnels pour vous accompagner dans ces tâches essentielles !</p>
+            <p>Avec un peu de préparation et de patience, chacun peut avoir son potager bio à la maison. Commencez petit et profitez de légumes frais et sains toute l’année.</p>
         </article>
 
         <div class="related-articles">
@@ -69,27 +103,27 @@
                         <h4>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h4>
                         <div class="card-footer">
                             <span class="date">14 Mars, 2025</span>
-                            <a href="#" class="read-more">Lire plus &gt;</a>
+                            <a href="{{ path('app_article1') }}" class="read-more">Lire plus &gt;</a>
                         </div>
                     </div>
                 </div>
                 <div class="article-card">
                     <img src="{{ asset('images/article2.png') }}">
                     <div class="card-content">
-                        <h4>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h4>
+                        <h4>5 astuces pour faire pousser des légumes bio chez soi</h4>
                         <div class="card-footer">
                             <span class="date">14 Mars, 2025</span>
-                            <a href="#" class="read-more">Lire plus &gt;</a>
+                            <a href="{{ path('app_article2') }}" class="read-more">Lire plus &gt;</a>
                         </div>
                     </div>
                 </div>
                 <div class="article-card">
-                    <img src="{{ asset('images/article1.png') }}">
+                    <img src="{{ asset('images/article3.avif') }}">
                     <div class="card-content">
-                        <h4>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h4>
+                        <h4>Comment attirer les pollinisateurs pour un jardin plus vivant</h4>
                         <div class="card-footer">
                             <span class="date">14 Mars, 2025</span>
-                            <a href="#" class="read-more">Lire plus &gt;</a>
+                            <a href="{{ path('app_article3') }}" class="read-more">Lire plus &gt;</a>
                         </div>
                     </div>
                 </div>

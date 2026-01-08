@@ -3,14 +3,36 @@
 {% block title %}Réservations - Jardins Harmonie{% endblock %}
 
 {% block main %}
+    <style>
+
+        /* Settings Button (Header) */
+        .settings-btn {
+            width: 48px;
+            height: 48px;
+            background-color: var(--bs-primary, #0d6efd);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .settings-btn:hover {
+            transform: rotate(90deg);
+            background-color: #0b5ed7;
+        }
+        .settings-btn i {
+            font-size: 1.5rem;
+        }
+    </style>
     <div class="dashboard-container">
 
         <main class="dashboard-main reservation-page">
             <header class="dashboard-header d-flex justify-content-between align-items-center bg-white border-bottom p-4">
-                <h2>Reservations</h2>
-                <a href="{{ path('admin_parametres') }}" class="d-flex align-items-center text-decoration-none">
-                    <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center shadow-sm" style="width: 48px; height: 48px; font-weight: bold;">
-                        {{ app.user.email|slice(0,2)|upper }}
+                <h2>Interventions</h2>
+                <a href="{{ path('admin_parametres') }}" class="text-decoration-none">
+                    <div class="settings-btn">
+                        <i class="bi bi-gear-fill"></i>
                     </div>
                 </a>
             </header>
@@ -45,9 +67,9 @@
                                     <div class="fw-bold text-dark">{{ res.service }}</div>
                                     <div class="text-muted small">{{ res.nom }}</div>
                                 </div>
-                                <p class="text-muted small mb-3">{{ res.description ?? '—' }}</p>
+{#                                <p class="text-muted small mb-3">{{ res.description ?? '—' }}</p>#}
                                 <a href="{{ path('admin_reservation_details', {'id': res.id}) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                    Voir plus
+                                    Consulter
                                 </a>
                             </div>
                         {% else %}

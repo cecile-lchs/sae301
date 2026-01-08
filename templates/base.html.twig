@@ -8,122 +8,54 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_script_tags('app') }}
+
         {{ importmap('app') }}
     {% endblock %}
 </head>
 <body>
 {% block header %}
-{#    <header class="header">#}
-{#        <a href="{{ path('app_accueil') }}" class="header__logo">#}
-{#            <div class="header__logo-icon">H</div>#}
-{#            <span>Jardin Harmonie</span>#}
-{#        </a>#}
-{#        <nav>#}
-{#            <ul class="header__nav">#}
-{#                <li><a href="{{ path('app_accueil') }}">Accueil</a></li>#}
-{#                <li><a href="#">Services</a></li>#}
-{#                <li><a href="{{ path('app_actualite') }}">Actualités</a></li>#}
-{#                <li><a href="#contact">Contact</a></li>#}
-{#            </ul>#}
-{#        </nav>#}
-{#        <a href="{{ path('app_reservation') }}" class="header__btn-reservation">Réservation</a>#}
-{#    </header>#}
 
-{#    <header class="main-header">#}
-{#        <nav class="container">#}
-{#            <a href="#" class="logo">#}
-{#                <img src="{{ asset('images/logo.svg') }}" alt="Jardins Harmonie Logo" style="height: 40px;">#}
-{#            </a>#}
-{#            <ul class="nav-links">#}
-{#                <li><a href="{{ path('app_accueil') }}">Accueil</a></li>#}
-{#                <li><a href="#">Services</a></li>#}
-{#                <li><a href="{{ path('app_actualite') }}">Actualités</a></li>#}
-{#                <li><a href="#">Contact</a></li>#}
-{#            </ul>#}
-{#            <a href="{{ path('app_reservation') }}" class="btn-cta" >Réservation</a>#}
-{#        </nav>#}
-{#    </header>#}
 
-<div id="header">
 
-    <!-- Floating Pill Navbar -->
-    <nav class="hero-navbar">
-        <a href="#" class="logo">
-            <img src="{{ asset('/images/logo.svg') }}" alt="Jardins Harmonie Logo">
-        </a>
-        <ul class="nav-links">
-            <li><a href="{{ path('app_accueil') }}">Accueil</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="{{ path('app_actualite') }}">Actualités</a></li>
-            <li><a href="#footer">Contact</a></li>
-            <li><a href="{{ path('reservation_step1') }}" class="btn-reservation">Réservation</a></li>
-        </ul>
-        <div class="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <a href="{{ path('reservation_step1') }}" class="btn-reservation">Réservation</a>
-    </nav>
 
-    <script>
-        function toggleMenu() {
-            const navbar = document.querySelector('.hero-navbar');
-            navbar.classList.toggle('active');
-        }
-    </script>
-</div>
+    <div id="header">
+
+        <!-- Floating Pill Navbar -->
+        <nav class="hero-navbar">
+            <a href="#" class="logo">
+                <img src="{{ asset('images/logo.svg') }}" alt="Jardins Harmonie Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ path('app_accueil') }}">Accueil</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="{{ path('app_actualite') }}">Actualités</a></li>
+                <li><a href="#footer">Contact</a></li>
+                <li><a href="{{ path('reservation_step1') }}" class="btn-reservation">Réservation</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <a href="{{ path('reservation_step1') }}" class="btn-reservation">Réservation</a>
+        </nav>
+
+        <script>
+            function toggleMenu() {
+                const navbar = document.querySelector('.hero-navbar');
+                navbar.classList.toggle('active');
+            }
+        </script>
+    </div>
 {% endblock %}
 
 {% block main %}
 {% endblock %}
 
 {% block footer %}
-{#    <footer class="footer" id="contact">#}
-{#        <div class="footer__content">#}
-{#            <div>#}
-{#                <div class="footer__logo">#}
-{#                    <div class="footer__logo-icon">H</div>#}
-{#                    <div class="footer__logo-text">Jardin Harmonie</div>#}
-{#                </div>#}
-{#                <p class="footer__slogan">Votre jardin entre de bonnes mains.</p>#}
-{#                <div class="footer__social">#}
-{#                    <a href="#" aria-label="Twitter">🐦</a>#}
-{#                    <a href="#" aria-label="Facebook">📘</a>#}
-{#                    <a href="#" aria-label="Instagram">📷</a>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div>#}
-{#                <h3 class="footer__section-title">Contact</h3>#}
-{#                <ul class="footer__list">#}
-{#                    <li class="footer__contact-item">+33 60 28 42 46 46</li>#}
-{#                    <li class="footer__contact-item">jardin.harmonie@gmail.com</li>#}
-{#                    <li class="footer__contact-item">9 Rue Quebec, 10430 Rosières près Troyes</li>#}
-{#                </ul>#}
-{#            </div>#}
-{#            <div>#}
-{#                <h3 class="footer__section-title">Liens utiles</h3>#}
-{#                <ul class="footer__list">#}
-{#                    <li><a href="{{ path('app_accueil') }}">Accueil</a></li>#}
-{#                    <li><a href="#">Services</a></li>#}
-{#                    <li><a href="{{ path('app_actualite') }}">Actualités</a></li>#}
-{#                    <li><a href="#">Compte</a></li>#}
-{#                </ul>#}
-{#            </div>#}
-{#            <div>#}
-{#                <h3 class="footer__section-title">Informations</h3>#}
-{#                <ul class="footer__list">#}
-{#                    <li><a href="#">Mentions légales</a></li>#}
-{#                    <li><a href="#">Politique de confidentialité</a></li>#}
-{#                    <li><a href="#">Plan du site</a></li>#}
-{#                    <li><a href="#">Cookies</a></li>#}
-{#                </ul>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="footer__copyright">#}
-{#            © Copyright 2023. All Rights Reserved by Jardin Harmonie.#}
-{#        </div>#}
-{#    </footer>#}
+
 
     <!-- CTA Section -->
     <section class="footer-cta container">
@@ -147,7 +79,7 @@
                     <a href="#" class="icon"> <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M13.795 10.533 20.68 2h-3.073l-5.255 6.517L7.69 2H1l7.806 10.91L1.47 22h3.074l5.705-7.07L15.31 22H22l-8.205-11.467Zm-2.38 2.95L9.97 11.464 4.36 3.627h2.31l4.528 6.317 1.443 2.02 6.018 8.409h-2.31l-4.934-6.89Z"/>
                         </svg>
-                        </a>
+                    </a>
                     <a href="#" class="icon"> <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd" d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z" clip-rule="evenodd"/>
                         </svg>
@@ -165,9 +97,9 @@
             <div class="footer-col" id="footer">
                 <h4>CONTACT</h4>
                 <ul>
-                    <li>+33 03 25 42 46 46</li>
-                    <li>jardin.harmonie@gmail.com</li>
-                    <li>9 Rue Quebec, 10430 Rosières-près-Troyes</li>
+                    <li><a href="tel:+33325424646">+33 03 25 42 46 46</a></li>
+                    <li><a href="mailto:jardin.harmonie@gmail.com">jardin.harmonie@gmail.com</a></li>
+                    <li><a href="https://www.google.com/maps/search/?api=1&query=9+Rue+Quebec,+10430+Rosières-près-Troyes" target="_blank">9 Rue Quebec, 10430 Rosières-près-Troyes</a></li>
                 </ul>
             </div>
 
@@ -178,7 +110,7 @@
                     <li><a href="{{ path('app_accueil') }}">Accueil</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="{{ path('app_actualite') }}">Actualités</a></li>
-                    <li><a href="{{ path('app_admin') }}">Compte</a></li>
+                    <li><a href="{{ path('app_admin') }}">Admin</a></li>
                 </ul>
             </div>
 

@@ -3,7 +3,47 @@
 {% block title %}Article{% endblock %}
 
 {% block main %}
+    <style>
+        .actualite-container {
+            margin-top: 140px; /* Espacer plus entre la barre de navigation et le titre */
+        }
 
+        .article-card {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px; /* Ensure corners are rounded for the overflow */
+        }
+
+
+        .article-card img {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .article-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .article-card h4 {
+            transition: color 0.3s ease;
+        }
+
+        .article-card:hover h4 {
+            color: #FFA500; /* Change title color on hover */
+        }
+
+        /* Stretched Link Technique using CSS in HTML as requested */
+        .article-card .read-more::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+
+    </style>
     <main class="container">
 
         <div class="article-meta">
@@ -69,7 +109,7 @@
                         <h4>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h4>
                         <div class="card-footer">
                             <span class="date">14 Mars, 2025</span>
-                            <a href="#" class="read-more">Lire plus &gt;</a>
+                            <a href="{{ path('app_article1') }}" class="read-more">Lire plus &gt;</a>
                         </div>
                     </div>
                 </div>
@@ -79,17 +119,17 @@
                         <h4>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h4>
                         <div class="card-footer">
                             <span class="date">14 Mars, 2025</span>
-                            <a href="#" class="read-more">Lire plus &gt;</a>
+                            <a href="{{ path('app_article2') }}" class="read-more">Lire plus &gt;</a>
                         </div>
                     </div>
                 </div>
                 <div class="article-card">
-                    <img src="{{ asset('images/article1.png') }}">
+                    <img src="{{ asset('images/article3.avif') }}">
                     <div class="card-content">
-                        <h4>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h4>
+                        <h4>Comment attirer les pollinisateurs pour un jardin plus vivant</h4>
                         <div class="card-footer">
                             <span class="date">14 Mars, 2025</span>
-                            <a href="#" class="read-more">Lire plus &gt;</a>
+                            <a href="{{ path('app_article3') }}" class="read-more">Lire plus &gt;</a>
                         </div>
                     </div>
                 </div>

@@ -19,7 +19,7 @@
 /* --- SIDEBAR --- */
 /* --- SIDEBAR --- */
 .sidebar {
-    width: 260px;
+    width: 370px;
     background: url('../images/formulaire.png') no-repeat center center/cover;
     position: relative;
     display: flex;
@@ -66,7 +66,7 @@
 /* --- HORIZONTAL STEPS (Top Right) --- */
 .horizontal-steps {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: flex-start;
     margin: 15px 30px 5px 0;
     /* Reduced margins */
@@ -352,14 +352,14 @@
     //width: 220px;
     ///* Reduced width */
 
-        cursor: pointer;
-        position: relative;
-        flex: 1 1 15vw;
-        /* Responsive width based on viewport */
-        max-width: 25vw;
-        /* Max width relative to viewport */
-        min-width: 150px;
-        /* Safe minimum */
+    cursor: pointer;
+    position: relative;
+    flex: 1 1 15vw;
+    /* Responsive width based on viewport */
+    max-width: 25vw;
+    /* Max width relative to viewport */
+    min-width: 150px;
+    /* Safe minimum */
 
 
 }

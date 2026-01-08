@@ -1,14 +1,35 @@
 {% extends 'admin/base.html.twig' %}
     {# ================= MAIN ================= #}
    {% block main %}
+       <style>
+
+           /* Settings Button (Header) */
+           .settings-btn {
+               width: 48px;
+               height: 48px;
+               background-color: var(--bs-primary, #0d6efd);
+               color: white;
+               border-radius: 50%;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               transition: transform 0.3s ease, background-color 0.3s ease;
+           }
+           .settings-btn:hover {
+               transform: rotate(90deg);
+               background-color: #0b5ed7;
+           }
+           .settings-btn i {
+               font-size: 1.5rem;
+           }
+       </style>
     <main class="dashboard-main bg-light">
 
         <header class="dashboard-header d-flex justify-content-between align-items-center bg-white border-bottom p-4">
             <h2>Clients</h2>
-            <a href="{{ path('admin_parametres') }}">
-                <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
-                     style="width: 48px; height: 48px; font-weight: bold;">
-                    {{ app.user.email|slice(0,2)|upper }}
+            <a href="{{ path('admin_parametres') }}" class="text-decoration-none">
+                <div class="settings-btn">
+                    <i class="bi bi-gear-fill"></i>
                 </div>
             </a>
         </header>

@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block main %}
+    <style>
+        .actualite-container {
+            margin-top: 140px; /* Espacer plus entre la barre de navigation et le titre */
+        }
+
+        .article-card {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px; /* Ensure corners are rounded for the overflow */
+        }
+
+
+        .article-card img {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .article-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .article-card h4 {
+            transition: color 0.3s ease;
+        }
+
+        .article-card:hover h4 {
+            color: #FFA500; /* Change title color on hover */
+        }
+
+        /* Stretched Link Technique using CSS in HTML as requested */
+        .article-card .read-more::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+
+    </style>
+<main class="container">
+
+    <div class="article-meta">
+        <span class="tag">Conseils</span>
+        <span class="date">10 Janvier, 2026</span>
+    </div>
+
+    <h1 class="article-title">Comment attirer les pollinisateurs pour un jardin plus vivant</h1>
+    <p class="article-subtitle">Apprenez à créer un jardin coloré et dynamique qui favorise la biodiversité et soutient les insectes utiles.</p>
+
+    <div class="article-hero">
+        <img src="{{ asset('images/article3.avif') }}" alt="Jardin et pollinisateurs">
+    </div>
+
+    <article class="article-content">
+        <h2>Pourquoi les pollinisateurs sont essentiels</h2>
+        <p>Les abeilles, papillons et autres pollinisateurs jouent un rôle crucial dans la reproduction des plantes et la production de fruits et légumes. Un jardin qui attire ces insectes est non seulement plus productif, mais aussi plus vivant et coloré.</p>
+
+        <h3>Planter des fleurs adaptées</h3>
+        <p>Choisissez des fleurs riches en nectar et pollen, comme les lavandes, soucis, cosmos ou tournesols. La diversité des plantes permet d’attirer différents types de pollinisateurs tout au long de l’année.</p>
+
+        <h3>Créer des zones de refuge</h3>
+        <p>Installez des abris pour insectes, des tas de bois ou des zones non tondues pour que les pollinisateurs puissent se protéger et se reproduire en toute sécurité.</p>
+
+        <h3>Éviter les pesticides chimiques</h3>
+        <p>Les produits chimiques peuvent nuire aux abeilles et autres insectes. Préférez des méthodes naturelles de lutte contre les parasites, comme les purins de plantes ou les associations de cultures.</p>
+
+        <h3>Fournir de l’eau</h3>
+        <p>Un petit point d’eau, même peu profond, permet aux pollinisateurs de s’hydrater et favorise leur présence dans le jardin.</p>
+
+        <div class="highlight-box">
+            <p><strong>Un jardin florissant et vivant</strong><br>
+                En suivant ces conseils, vous attirerez de nombreux insectes utiles qui enrichissent votre jardin, augmentent vos récoltes et offrent un spectacle naturel fascinant.</p>
+        </div>
+
+        <h3>Conclusion</h3>
+        <p>Créer un jardin accueillant pour les pollinisateurs demande un peu d’organisation, mais les bénéfices sont énormes. Plus de vie, plus de fleurs, et un environnement sain et équilibré pour toute la famille !</p>
+    </article>
+
+    <div class="related-articles">
+        <div class="section-header">
+            <div>
+                <span class="eyebrow">Le blog</span>
+                <h3>D'autres actualités</h3>
+            </div>
+            <a href="#" class="btn-secondary">Voir les actualités</a>
+        </div>
+
+        <div class="cards-grid">
+            <div class="article-card">
+                <img src="{{ asset('images/article1.png') }}">
+                <div class="card-content">
+                    <h4>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h4>
+                    <div class="card-footer">
+                        <span class="date">14 Mars, 2025</span>
+                        <a href="{{ path('app_article1') }}" class="read-more">Lire plus &gt;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="article-card">
+                <img src="{{ asset('images/article2.png') }}">
+                <div class="card-content">
+                    <h4>5 astuces pour faire pousser des légumes bio chez soi</h4>
+                    <div class="card-footer">
+                        <span class="date">14 Mars, 2025</span>
+                        <a href="{{ path('app_article2') }}" class="read-more">Lire plus &gt;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="article-card">
+                <img src="{{ asset('images/article3.avif') }}">
+                <div class="card-content">
+                    <h4>Comment attirer les pollinisateurs pour un jardin plus vivant</h4>
+                    <div class="card-footer">
+                        <span class="date">14 Mars, 2025</span>
+                        <a href="{{ path('app_article3') }}" class="read-more">Lire plus &gt;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

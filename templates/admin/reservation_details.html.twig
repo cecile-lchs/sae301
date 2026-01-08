@@ -15,8 +15,8 @@
             <div class="bg-white rounded-3 shadow-sm p-5 mx-auto" style="max-width: 800px;">
                 <div class="d-flex justify-content-between align-items-start mb-4 border-bottom pb-3">
                     <div>
-                        <h2 class="fw-bold mb-1">Détails de la réservation #{{ reservation.id }}</h2>
-                        <span class="badge bg-primary rounded-pill">{{ reservation.status|default('En attente') }}</span>
+                        <h2 class="fw-bold mb-1">Réservation #{{ reservation.id }}</h2>
+                        <span class="badge bg-primary rounded-pill">{{ reservation.status|default('A venir') }}</span>
                         <span class="text-muted small ms-2">Créée le {{ reservation.dateCreation|date('d/m/Y') }}</span>
                     </div>
                     <div class="text-end">
@@ -34,7 +34,7 @@
                             <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-person me-2"></i> Client</h5>
                             <div class="p-3 bg-light rounded-3">
                                 <p class="mb-1"><strong>Nom :</strong> {{ reservation.nom }}</p>
-                                <p class="mb-1"><strong>Email :</strong> {{ reservation.email }}</p>
+                                <p class="mb-1"><strong>E-mail :</strong> {{ reservation.email }}</p>
                                 <p class="mb-1"><strong>Téléphone :</strong> {{ reservation.telephone }}</p>
                                 <p class="mb-0"><strong>Adresse :</strong> {{ reservation.adresse }}</p>
                             </div>
@@ -42,10 +42,10 @@
 
                         <!-- Service Info -->
                         <div class="col-md-6">
-                            <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-tools me-2"></i> Service</h5>
+                            <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-tools me-2"></i> Service(s)</h5>
                             <div class="p-3 bg-light rounded-3">
                                 <p class="mb-1"><strong>Type :</strong> {{ reservation.service }}</p>
-                                <p class="mb-0"><strong>Description :</strong> {{ reservation.description }}</p>
+{#                                <p class="mb-0"><strong>Description :</strong> {{ reservation.description }}</p>#}
                             </div>
                         </div>
 
@@ -58,7 +58,7 @@
                                     <span class="fs-5">{{ reservation.dateFormatted|capitalize }}</span>
                                 </div>
                                 <div class="border-start ps-4">
-                                    <strong>Horaire :</strong> <br>
+                                    <strong>Créneau :</strong> <br>
                                     <span class="fs-5">{{ reservation.heure_debut }} - {{ reservation.heure_fin }}</span>
                                 </div>
                             </div>
