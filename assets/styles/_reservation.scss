@@ -77,7 +77,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    margin: 15px 30px 30px 0;
+    margin: 15px 30px 50px 0;
     /* Reduced margins */
     width: 100%;
 
@@ -949,7 +949,7 @@
 
 @media screen and (max-width: 768px) {
     .reservation-container {
-        flex-direction: column;
+        flex-direction: row;
         height: auto;
         min-height: 100vh;
         overflow-y: auto;

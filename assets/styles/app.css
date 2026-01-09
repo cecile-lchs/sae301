@@ -44,7 +44,7 @@ h6 {
   padding: 0 1rem;
 }
 
-/*  Navbar */
+/* --- NAVBAR --- */
 .main-header {
   background-color: #fff;
   padding: 1rem 0;
@@ -97,10 +97,9 @@ h6 {
   color: white;
 }
 
-/* Post-Article CTA */
+/* --- FOOTER CTA --- */
 .footer-cta {
   background: #FF9F00;
-  /* Orange background */
   border-radius: 20px;
   padding: 4rem 2rem;
   text-align: center;
@@ -129,11 +128,9 @@ h6 {
 }
 .footer-cta .cta-content .btn-primary {
   background: #143525;
-  /* Dark Green */
   color: white;
   padding: 1rem 2rem;
   border-radius: 8px;
-  /* Slightly rounded */
   font-weight: 600;
   text-decoration: none;
   display: inline-block;
@@ -143,7 +140,7 @@ h6 {
   background: rgb(26.9863013699, 71.5136986301, 49.9246575342);
 }
 
-/* Footer */
+/* --- FOOTER --- */
 .main-footer {
   background-color: white;
   padding-top: 5rem;
@@ -156,14 +153,25 @@ h6 {
   gap: 2rem;
   padding-bottom: 3rem;
 }
+@media screen and (max-width: 768px) {
+  .main-footer .footer-content {
+    flex-direction: column;
+    gap: 3rem;
+  }
+}
 .main-footer .footer-content .footer-col {
   flex: 1;
   min-width: 200px;
 }
 .main-footer .footer-content .footer-col.brand-col {
   flex: 1.5;
-  /* Give more space to brand col */
   padding-right: 2rem;
+}
+@media screen and (max-width: 768px) {
+  .main-footer .footer-content .footer-col.brand-col {
+    padding-right: 0;
+    margin-bottom: 2rem;
+  }
 }
 .main-footer .footer-content .footer-col .logo {
   margin-bottom: 1rem;
@@ -230,19 +238,15 @@ h6 {
   font-size: 0.85rem;
 }
 
-/* __________________________________________________________________________________________Actualités__________________________________________________*/
+/* --- ACTUALITES --- */
 .article-title {
   text-align: center;
   max-width: 900px;
-  /* Slightly wider to match mockup wrap */
   margin: 0 auto 1.5rem auto;
   font-size: 3rem;
-  /* Larger */
   line-height: 1.2;
   color: #000;
-  /* Deep black as per mockup */
   font-weight: 800;
-  /* Extra bold */
 }
 .article-title.align-left {
   text-align: left;
@@ -280,7 +284,7 @@ h6 {
   margin-bottom: 4rem;
 }
 
-/* Shared Card Grid & Styles */
+/* --- CARD GRID --- */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -293,7 +297,6 @@ h6 {
   border: none;
   display: flex;
   flex-direction: column;
-  /* Ensure footer pushes down */
   height: 100%;
 }
 .article-card img {
@@ -316,7 +319,6 @@ h6 {
   line-height: 1.5;
   font-weight: 700;
   flex-grow: 1;
-  /* Pushes footer to bottom if titles vary */
 }
 .article-card .card-content .card-footer {
   display: flex;
@@ -340,8 +342,7 @@ h6 {
   text-decoration: underline;
 }
 
-/* __________________________________________________________________________________________Article1__________________________________________________*/
-/* Article Page Styles */
+/* --- ARTICLE --- */
 .article-meta {
   text-align: center;
   margin-bottom: 2rem;
@@ -365,15 +366,11 @@ h6 {
 .article-title {
   text-align: center;
   max-width: 900px;
-  /* Slightly wider to match mockup wrap */
   margin: 0 auto 1.5rem auto;
   font-size: 3rem;
-  /* Larger */
   line-height: 1.2;
   color: #000;
-  /* Deep black as per mockup */
   font-weight: 800;
-  /* Extra bold */
 }
 .article-title.align-left {
   text-align: left;
@@ -474,7 +471,7 @@ h6 {
   font-size: 1.2rem;
 }
 
-/* Related Articles */
+/* --- RELATED ARTICLES --- */
 .related-articles {
   margin-top: 6rem;
   padding-top: 4rem;
@@ -494,14 +491,12 @@ h6 {
 }
 .related-articles .section-header h3 {
   margin: 0;
-  /* Override default */
   font-size: 2.5rem;
   color: #000;
   font-weight: 700;
 }
 .related-articles .section-header .btn-secondary {
   background: #143525;
-  /* Dark Green from mockup */
   color: white;
   padding: 0.7rem 1.5rem;
   border-radius: 50px;
@@ -514,241 +509,6 @@ h6 {
   opacity: 0.9;
 }
 
-/*:root {*/
-/*    --color-primary: #1a4d2e; !* Vert foncé *!*/
-/*    --color-secondary: #ff6b35; !* Orange *!*/
-/*    --color-white: #ffffff;*/
-/*    --color-text-dark: #333333;*/
-/*    --color-text-light: #666666;*/
-/*    --color-bg-light: #f5f5f5;*/
-/*}*/
-/*!* Reset et base *!*/
-/** {*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    box-sizing: border-box;*/
-/*}*/
-/*body {*/
-/*    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
-/*    color: var(--color-text-dark);*/
-/*    line-height: 1.6;*/
-/*    background-color: var(--color-white);*/
-/*}*/
-/*!* Header *!*/
-/*.header {*/
-/*    background-color: var(--color-white);*/
-/*    padding: 1rem 2rem;*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    align-items: center;*/
-/*    box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
-/*    position: sticky;*/
-/*    top: 0;*/
-/*    z-index: 1000;*/
-/*}*/
-/*.header__logo {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    gap: 0.75rem;*/
-/*    text-decoration: none;*/
-/*    color: var(--color-primary);*/
-/*    font-size: 1.5rem;*/
-/*    font-weight: bold;*/
-/*}*/
-/*.header__logo-icon {*/
-/*    width: 40px;*/
-/*    height: 40px;*/
-/*    background-color: var(--color-primary);*/
-/*    border-radius: 8px;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    color: var(--color-white);*/
-/*    font-weight: bold;*/
-/*}*/
-/*.header__nav {*/
-/*    display: flex;*/
-/*    gap: 2rem;*/
-/*    align-items: center;*/
-/*    list-style: none;*/
-/*}*/
-/*.header__nav a {*/
-/*    text-decoration: none;*/
-/*    color: var(--color-text-dark);*/
-/*    font-weight: 500;*/
-/*    transition: color 0.3s;*/
-/*}*/
-/*.header__nav a:hover {*/
-/*    color: var(--color-primary);*/
-/*}*/
-/*.header__btn-reservation {*/
-/*    background-color: var(--color-secondary);*/
-/*    color: var(--color-white);*/
-/*    padding: 0.75rem 1.5rem;*/
-/*    border-radius: 8px;*/
-/*    text-decoration: none;*/
-/*    font-weight: 600;*/
-/*    transition: background-color 0.3s;*/
-/*    border: none;*/
-/*    cursor: pointer;*/
-/*}*/
-/*.header__btn-reservation:hover {*/
-/*    background-color: #e55a2b;*/
-/*}*/
-/*!* Footer *!*/
-/*.footer {*/
-/*    background-color: var(--color-primary);*/
-/*    color: var(--color-white);*/
-/*    padding: 4rem 2rem 2rem;*/
-/*}*/
-/*.footer__content {*/
-/*    max-width: 1200px;*/
-/*    margin: 0 auto;*/
-/*    display: grid;*/
-/*    grid-template-columns: 2fr 1fr 1fr 1fr;*/
-/*    gap: 3rem;*/
-/*    margin-bottom: 3rem;*/
-/*}*/
-/*.footer__logo {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    gap: 0.75rem;*/
-/*    margin-bottom: 1rem;*/
-/*}*/
-/*.footer__logo-icon {*/
-/*    width: 40px;*/
-/*    height: 40px;*/
-/*    background-color: rgba(255,255,255,0.2);*/
-/*    border-radius: 8px;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    color: var(--color-white);*/
-/*    font-weight: bold;*/
-/*}*/
-/*.footer__logo-text {*/
-/*    font-size: 1.5rem;*/
-/*    font-weight: bold;*/
-/*}*/
-/*.footer__slogan {*/
-/*    opacity: 0.8;*/
-/*    margin-bottom: 1.5rem;*/
-/*}*/
-/*.footer__social {*/
-/*    display: flex;*/
-/*    gap: 1rem;*/
-/*}*/
-/*.footer__social a {*/
-/*    width: 40px;*/
-/*    height: 40px;*/
-/*    background-color: rgba(255,255,255,0.1);*/
-/*    border-radius: 50%;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    color: var(--color-white);*/
-/*    text-decoration: none;*/
-/*    transition: background-color 0.3s;*/
-/*}*/
-/*.footer__social a:hover {*/
-/*    background-color: rgba(255,255,255,0.2);*/
-/*}*/
-/*.footer__section-title {*/
-/*    font-size: 1.25rem;*/
-/*    font-weight: bold;*/
-/*    margin-bottom: 1rem;*/
-/*}*/
-/*.footer__list {*/
-/*    list-style: none;*/
-/*}*/
-/*.footer__list li {*/
-/*    margin-bottom: 0.75rem;*/
-/*}*/
-/*.footer__list a {*/
-/*    color: var(--color-white);*/
-/*    text-decoration: none;*/
-/*    opacity: 0.8;*/
-/*    transition: opacity 0.3s;*/
-/*}*/
-/*.footer__list a:hover {*/
-/*    opacity: 1;*/
-/*}*/
-/*.footer__contact-item {*/
-/*    margin-bottom: 1rem;*/
-/*    opacity: 0.9;*/
-/*}*/
-/*.footer__copyright {*/
-/*    text-align: center;*/
-/*    padding-top: 2rem;*/
-/*    border-top: 1px solid rgba(255,255,255,0.2);*/
-/*    opacity: 0.8;*/
-/*    font-size: 0.875rem;*/
-/*}*/
-/*!* Responsive *!*/
-/*@media (max-width: 1024px) {*/
-/*    .section-presentation {*/
-/*        grid-template-columns: 1fr;*/
-/*    }*/
-/*    .section-why__cards {*/
-/*        grid-template-columns: 1fr;*/
-/*    }*/
-/*    .section-portfolio__grid {*/
-/*        grid-template-columns: 1fr;*/
-/*    }*/
-/*    .section-blog__posts {*/
-/*        grid-template-columns: 1fr;*/
-/*    }*/
-/*    .footer__content {*/
-/*        grid-template-columns: 1fr 1fr;*/
-/*    }*/
-/*    .hero__search-box {*/
-/*        position: relative;*/
-/*        right: auto;*/
-/*        top: auto;*/
-/*        transform: none;*/
-/*        margin-top: 2rem;*/
-/*    }*/
-/*}*/
-/*@media (max-width: 768px) {*/
-/*    .header {*/
-/*        flex-direction: column;*/
-/*        gap: 1rem;*/
-/*    }*/
-/*    .header__nav {*/
-/*        flex-wrap: wrap;*/
-/*        justify-content: center;*/
-/*    }*/
-/*    .hero__title {*/
-/*        font-size: 2.5rem;*/
-/*    }*/
-/*    .section-presentation__title,*/
-/*    .section-services__title,*/
-/*    .section-why__title,*/
-/*    .section-portfolio__title,*/
-/*    .section-testimonials__title,*/
-/*    .section-blog__title,*/
-/*    .section-cta__title {*/
-/*        font-size: 2rem;*/
-/*    }*/
-/*    .section-services__header {*/
-/*        flex-direction: column;*/
-/*        gap: 1rem;*/
-/*    }*/
-/*    .section-blog__header {*/
-/*        flex-direction: column;*/
-/*        gap: 1rem;*/
-/*    }*/
-/*    .section-blog__post {*/
-/*        flex-direction: column;*/
-/*    }*/
-/*    .section-blog__post-image {*/
-/*        width: 100%;*/
-/*        height: 200px;*/
-/*    }*/
-/*    .footer__content {*/
-/*        grid-template-columns: 1fr;*/
-/*    }*/
-/*}*/
 /* __________________________________________________________________________________________Admin__________________________________________________*/
 .admin-body {
   background-color: #fff;
@@ -905,7 +665,7 @@ h6 {
   margin-top: 20px;
 }
 
-/*  Navbar */
+/* --- NAVBAR --- */
 .main-header {
   background-color: #fff;
   padding: 1rem 0;
@@ -958,7 +718,7 @@ h6 {
   color: white;
 }
 
-/* Article Page Styles */
+/* --- ARTICLE PAGE STYLES --- */
 .article-meta {
   text-align: center;
   margin-bottom: 2rem;
@@ -982,15 +742,11 @@ h6 {
 .article-title {
   text-align: center;
   max-width: 1200px;
-  /* Slightly wider to match mockup wrap */
   margin: 0 auto 1.5rem auto;
   font-size: 3rem;
-  /* Larger */
   line-height: 1.2;
   color: #000;
-  /* Deep black as per mockup */
   font-weight: 800;
-  /* Extra bold */
 }
 .article-title.align-left {
   text-align: left;
@@ -1004,7 +760,6 @@ h6 {
     margin-right: auto;
     max-width: 90%;
     font-size: 2.5rem;
-    /* Slightly smaller h1 */
   }
 }
 
@@ -1046,7 +801,7 @@ h6 {
   }
 }
 
-/* Shared Card Grid & Styles */
+/* --- CARD GRID --- */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1065,7 +820,6 @@ h6 {
   border: none;
   display: flex;
   flex-direction: column;
-  /* Ensure footer pushes down */
   height: 100%;
 }
 .article-card img {
@@ -1088,7 +842,6 @@ h6 {
   line-height: 1.5;
   font-weight: 700;
   flex-grow: 1;
-  /* Pushes footer to bottom if titles vary */
 }
 .article-card .card-content .card-footer {
   display: flex;
@@ -1175,7 +928,7 @@ h6 {
   font-size: 1.2rem;
 }
 
-/* Related Articles */
+/* --- RELATED ARTICLES --- */
 .related-articles {
   margin-top: 6rem;
   padding-top: 4rem;
@@ -1186,9 +939,7 @@ h6 {
   justify-content: space-between;
   align-items: flex-end;
   flex-wrap: wrap;
-  /* Allow wrapping */
   gap: 20px;
-  /* Add gap for wrapped items */
   margin-bottom: 2.5rem;
 }
 .related-articles .section-header .eyebrow {
@@ -1199,14 +950,12 @@ h6 {
 }
 .related-articles .section-header h3 {
   margin: 0;
-  /* Override default */
   font-size: 2.5rem;
   color: #000;
   font-weight: 700;
 }
 .related-articles .section-header .btn-secondary {
   background: #143525;
-  /* Dark Green from mockup */
   color: white;
   padding: 0.7rem 1.5rem;
   border-radius: 50px;
@@ -1219,7 +968,7 @@ h6 {
   opacity: 0.9;
 }
 
-/* Post-Article CTA */
+/* --- POST ARTICLE CTA --- */
 .footer-cta {
   width: 90%;
   background: #FF9F00;
@@ -1230,9 +979,6 @@ h6 {
   margin-top: 5rem;
   position: relative;
   overflow: hidden;
-  /* Decorative circles simulation using pseudo elements could go here,
-       but for simplicity matching main layout features */
-  /* Mobile margin */
 }
 @media screen and (max-width: 768px) {
   .footer-cta {
@@ -1250,10 +996,6 @@ h6 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   font-weight: 700;
-  word-wrap: break-word;
-  /* Ensure text doesn't overflow */
-  font-size: 2rem;
-  /* Slightly smaller on mobile if needed */
 }
 .footer-cta .cta-content p {
   color: white;
@@ -1263,11 +1005,9 @@ h6 {
 }
 .footer-cta .cta-content .btn-primary {
   background: #143525;
-  /* Dark Green */
   color: white;
   padding: 1rem 2rem;
   border-radius: 8px;
-  /* Slightly rounded */
   font-weight: 600;
   text-decoration: none;
   display: inline-block;
@@ -1277,7 +1017,7 @@ h6 {
   background: rgb(26.9863013699, 71.5136986301, 49.9246575342);
 }
 
-/* Footer */
+/* --- FOOTER --- */
 .main-footer {
   background-color: white;
   padding-top: 5rem;
@@ -1296,16 +1036,11 @@ h6 {
 }
 .main-footer .footer-content .footer-col.brand-col {
   flex: 1.5;
-  /* Give more space to brand col */
   padding-right: 2rem;
 }
 @media screen and (max-width: 768px) {
   .main-footer .footer-content .footer-col.brand-col {
     flex: 1;
-    /* Reset flex to normal on mobile */
-    padding-right: 0;
-    min-width: 100%;
-    /* Ensure it takes full width if needed, or stick to flex 1 */
   }
 }
 .main-footer .footer-content .footer-col .logo {
@@ -1382,13 +1117,9 @@ h6 {
   justify-content: space-between;
   padding: 0 40px;
   z-index: 100;
-  /* High z-index */
   max-width: 1440px;
-  /* Match header max-width */
   margin: 0 auto;
-  /* Center if container is wider */
   width: 90%;
-  /* Default width */
 }
 .hero-navbar .logo img {
   height: 40px;
@@ -1416,9 +1147,6 @@ h6 {
 .hero-navbar .nav-links li a.btn-reservation:hover {
   color: white !important;
 }
-.hero-navbar .nav-links {
-  /* Hide the mobile reservation button on desktop */
-}
 .hero-navbar .nav-links .btn-reservation {
   display: none;
 }
@@ -1440,7 +1168,7 @@ h6 {
   /* Hidden by default */
 }
 
-/* --- Header Wrapper (Matches Home #header sizing) --- */
+/* --- HEADER WRAPPER --- */
 .page-header-wrapper {
   max-width: 1440px;
   margin: 0 auto;
@@ -1453,7 +1181,7 @@ h6 {
   }
 }
 
-/* Navbar Responsive */
+/* --- NAVBAR RESPONSIVE --- */
 @media screen and (max-width: 768px) {
   .hero-navbar {
     height: auto;
@@ -1521,12 +1249,8 @@ h6 {
   .hero-navbar.active .nav-links .btn-reservation {
     color: white;
     display: block;
-    /* Show ONLY the button inside nav-links */
     margin: 20px auto 10px auto;
     width: fit-content;
-  }
-  .hero-navbar.active {
-    /* Ensure the outer button remains hidden */
   }
   .hero-navbar.active > .btn-reservation {
     display: none !important;
@@ -1546,43 +1270,40 @@ h6 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* --- Floating Pill Navbar --- */
-  /* Moved to _layout.scss */
-  /* --- Hero Content (Left and Right) --- */
-  /* Use grid or flex to position content below navbar */
-  position: relative;
-  /* Context for absolute positioning if needed, or flex container */
-  /* Let's use pseudo-elements or just spacing for content */
-  /* Actually #header is flex column. The top item is Navbar. The rest should be content. */
+}
+@media (max-width: 1024px) {
+  #hero {
+    height: auto;
+    min-height: auto;
+    padding: 20px;
+  }
 }
 
-/* We need a content wrapper for the rest of the hero elements to layout them out */
-/* Since I can't easily change HTML structure again without tool call,
-   I will use absolute positioning for the content as suggested by the mockup layout which looks free-form
-   OR simply adding a container in the SCSS if the HTML structure supports it.
-
-   Wait, in HTML I added:
-   .hero-navbar
-   .hero-content
-   .conseil-card
-
-   So #header needs to be relative.
-*/
 #hero {
-  /* Reset display from previous flex thought, let's use relative positioning for children or Grid */
+  position: relative;
   display: block;
 }
 #hero .hero-navbar {
-  /* As defined above */
   margin-bottom: 80px;
-  /* Space below navbar */
 }
 #hero .hero-content {
+  width: 100%;
   max-width: 600px;
   position: absolute;
   bottom: 100px;
   left: 100px;
   z-index: 1;
+}
+@media (max-width: 1024px) {
+  #hero .hero-content {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    max-width: 100%;
+    margin-top: 2rem;
+    text-align: center;
+    padding-bottom: 2rem;
+  }
 }
 #hero .hero-content h1 {
   color: white;
@@ -1623,27 +1344,36 @@ h6 {
 #hero .hero-content .hero-buttons button.btn-outline {
   background-color: transparent;
   color: white;
-  /* Text white as per mockup? Or orange? Mockup looks like transparent with border. Text usually white on dark bg. */
-  /* Wait, text in mockup seems to have a border... no, standard outline button. */
-  /* Re-checking mockup description: "Services (Transparent with orange border)" */
   border: 2px solid #FFA100;
   color: white;
 }
 #hero .hero-content .hero-buttons button.btn-outline:hover {
   background-color: rgba(255, 161, 0, 0.1);
 }
-#hero .conseil-card {
+@media (max-width: 1024px) {
+  #hero .hero-buttons {
+    display: none !important;
+  }
+}
+
+.conseil-card {
   background-color: white;
   border-radius: 30px;
   padding: 30px;
   width: 400px;
-  /* Approx width */
+}
+@media (max-width: 1024px) {
+  .conseil-card {
+    display: none !important;
+  }
+}
+.conseil-card {
   position: absolute;
   bottom: 100px;
   right: 100px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
-#hero .conseil-card h3 {
+.conseil-card h3 {
   color: #FFA100;
   font-family: "M PLUS Rounded 1c", sans-serif;
   font-weight: 700;
@@ -1651,14 +1381,13 @@ h6 {
   margin-top: 0;
   margin-bottom: 10px;
 }
-#hero .conseil-card p {
+.conseil-card p {
   color: #103A21;
   font-size: 16px;
   line-height: 1.5;
   margin: 0;
 }
 
-/* --- Rest of the sections (unchanged) --- */
 #presentation {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1666,16 +1395,11 @@ h6 {
   padding: 100px 100px;
   align-items: center;
 }
-#presentation .presentation_partie {
-  /* Image Side */
-}
 #presentation .presentation_partie:nth-of-type(1) {
   grid-column: 1;
-  /* Mockup shows very round corners approx 50px */
   border-radius: 50px;
   overflow: hidden;
   height: 500px;
-  /* Fixed height for image presence */
 }
 #presentation .presentation_partie:nth-of-type(1) img {
   width: 100%;
@@ -1683,15 +1407,11 @@ h6 {
   object-fit: cover;
   display: block;
 }
-#presentation .presentation_partie {
-  /* Text Side */
-}
 #presentation .presentation_partie:nth-of-type(2) {
   grid-column: 2;
   justify-self: start;
   align-self: center;
   max-width: 600px;
-  /* "Présentation" eyebrow */
 }
 #presentation .presentation_partie:nth-of-type(2) p:nth-of-type(1) {
   font-family: Arial, sans-serif;
@@ -1702,22 +1422,13 @@ h6 {
   margin-bottom: 10px;
   font-weight: 600;
 }
-#presentation .presentation_partie:nth-of-type(2) {
-  /* "Jardins Harmonie" Title */
-}
 #presentation .presentation_partie:nth-of-type(2) p:nth-of-type(2) {
   font-family: "M PLUS Rounded 1c", sans-serif;
   font-weight: 700;
   font-size: 56px;
-  /* Large bold title */
-  margin-bottom: 40px;
-  /* Space after title */
   color: #000;
   line-height: 1.1;
   margin-top: 0;
-}
-#presentation .presentation_partie:nth-of-type(2) {
-  /* Main Text Content */
 }
 #presentation .presentation_partie:nth-of-type(2) p:nth-of-type(3) {
   font-family: Arial, sans-serif;
@@ -2013,13 +1724,12 @@ h6 {
   display: block;
 }
 #portfolio .portfolio-grid {
-  /* Grid Layout Logic */
+  /* --- GRID LAYOUT --- */
 }
 #portfolio .portfolio-grid .p-img-1 {
   grid-column: 1;
   grid-row: 1;
   height: 220px;
-  /* Reduced from 300px */
 }
 #portfolio .portfolio-grid .p-img-2 {
   grid-column: 2;
@@ -2027,15 +1737,12 @@ h6 {
   height: 220px;
 }
 #portfolio .portfolio-grid .p-img-3 {
-  /* Large Tall Image (Greenhouse) */
   grid-column: 3/span 2;
   grid-row: 1/span 2;
   height: 100%;
   min-height: 470px;
-  /* 220 + 220 + 30px gap */
 }
 #portfolio .portfolio-grid .p-img-4 {
-  /* Large Wide Image (House) */
   grid-column: 1/span 2;
   grid-row: 2/span 2;
   height: 100%;
@@ -2104,7 +1811,6 @@ h6 {
   background-position: center;
   position: relative;
   transition: background-image 0.5s ease-in-out;
-  /* Smooth transition for bg */
 }
 #avis .avis-carousel .review-card {
   position: absolute;
@@ -2165,7 +1871,6 @@ h6 {
   border-radius: 50%;
   border: none;
   background-color: #103A21;
-  /* Dark Green */
   background-repeat: no-repeat;
   background-position: center;
   background-size: 50%;
@@ -2216,7 +1921,6 @@ h6 {
 }
 #blog .blog-header .header-right .btn-news {
   background-color: #103A21;
-  /* Dark Green */
   color: white;
   font-family: "M PLUS Rounded 1c", sans-serif;
   font-weight: 700;
@@ -2258,7 +1962,6 @@ h6 {
   margin: 0 0 20px 0;
   line-height: 1.4;
   min-height: 56px;
-  /* Align lines */
 }
 #blog .blog-grid .blog-card hr {
   border: none;
@@ -2290,13 +1993,12 @@ h6 {
 
 /* --- RESPONSIVE DESIGN (Mobile < 768px) --- */
 @media screen and (max-width: 768px) {
-  /* Header (Hero) */
+  /* --- HEADER --- */
   #header {
     height: auto;
     min-height: 700px;
     padding: 20px;
     background-position: center top;
-    /* Hero Navbar Mobile - Moved to _layout.scss */
   }
   #header .hero-content {
     position: relative;
@@ -2318,7 +2020,6 @@ h6 {
     max-width: 90%;
     margin-left: auto;
     margin-right: auto;
-    /* Prevent edge touching */
   }
   #header .hero-content .hero-buttons {
     justify-content: center;
@@ -2326,7 +2027,7 @@ h6 {
   #header .conseil-card {
     display: none;
   }
-  /* Presentation */
+  /* --- PRESENTATION --- */
   #presentation {
     grid-template-columns: 1fr;
     padding: 50px 20px;
@@ -2341,19 +2042,16 @@ h6 {
     text-align: center;
     justify-self: center;
     margin: 0 auto;
-    /* Ensure container is centered */
     max-width: 90%;
-    /* Prevent hitting edges */
   }
   #presentation .presentation_partie:nth-of-type(2) p {
     margin-left: auto;
-    /* Center p blocks if they have width */
     margin-right: auto;
   }
   #presentation .presentation_partie:nth-of-type(2) p:nth-of-type(2) {
     font-size: 42px;
   }
-  /* Services */
+  /* --- SERVICES --- */
   #services {
     grid-template-columns: 1fr;
     padding: 50px 20px;
@@ -2375,9 +2073,6 @@ h6 {
   #services .services-container .services-left .image-wrapper {
     height: 200px;
   }
-  #services .services-container {
-    /* Center description in Services */
-  }
   #services .services-container .services-left .service-description {
     text-align: center;
     max-width: 90%;
@@ -2388,10 +2083,9 @@ h6 {
     margin: 0 auto 30px auto;
     display: block;
     width: fit-content;
-    /* Ensure it doesn't stretch 100% if not needed */
     max-width: 90%;
   }
-  /* Services 2 (Pourquoi nous choisir) */
+  /* --- SERVICES 2 --- */
   #services2 {
     padding: 50px 20px;
   }
@@ -2405,14 +2099,13 @@ h6 {
     width: 100%;
     justify-content: center;
     flex-wrap: wrap;
-    /* in case flex row */
     max-width: 90%;
     margin: 0 auto;
   }
   #services2 .services2-grid {
     grid-template-columns: 1fr;
   }
-  /* Portfolio */
+  /* --- PORTFOLIO --- */
   #portfolio {
     padding: 0 20px 50px 20px;
   }
@@ -2430,7 +2123,6 @@ h6 {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     gap: 20px;
-    /* Reset grid placement for mobile stack */
   }
   #portfolio .portfolio-grid .p-img-1,
   #portfolio .portfolio-grid .p-img-2,
@@ -2443,7 +2135,7 @@ h6 {
     height: 250px !important;
     min-height: 0;
   }
-  /* Avis */
+  /* --- AVIS --- */
   #avis {
     padding: 0 20px 50px 20px;
   }
@@ -2472,7 +2164,7 @@ h6 {
     max-width: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
-  /* Blog */
+  /* --- BLOG --- */
   #blog {
     padding: 0 20px 50px 20px;
   }
@@ -2565,7 +2257,7 @@ h6 {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  margin: 15px 30px 30px 0;
+  margin: 15px 30px 50px 0;
   /* Reduced margins */
   width: 100%;
 }
@@ -3345,7 +3037,7 @@ h6 {
 
 @media screen and (max-width: 768px) {
   .reservation-container {
-    flex-direction: column;
+    flex-direction: row;
     height: auto;
     min-height: 100vh;
     overflow-y: auto;
@@ -3661,6 +3353,8 @@ h6 {
   font-size: 1.5rem;
 }
 
+/* --- VARIABLES --- */
+/* --- LAYOUT --- */
 .dashboard-body {
   background-color: #f8fbf9;
   color: #1f2937;
@@ -3677,6 +3371,7 @@ h6 {
   }
 }
 
+/* --- SIDEBAR --- */
 .dashboard-sidebar {
   width: 280px;
   background-color: #0f392b;
@@ -3722,6 +3417,9 @@ h6 {
 .dashboard-sidebar .sidebar-nav ul li a .icon {
   font-size: 1.2rem;
 }
+.dashboard-sidebar {
+  /* --- MOBILE --- */
+}
 @media (max-width: 991px) {
   .dashboard-sidebar {
     width: 80px;
@@ -3760,10 +3458,39 @@ h6 {
     height: 30px;
   }
   .dashboard-sidebar .sidebar-nav {
-    display: none;
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .dashboard-sidebar .sidebar-nav ul {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    justify-content: space-around;
+    width: 100%;
+  }
+  .dashboard-sidebar .sidebar-nav ul li {
+    margin-bottom: 0;
+    flex: 1;
+  }
+  .dashboard-sidebar .sidebar-nav ul li a {
+    justify-content: center;
+    padding: 0.5rem;
+    flex-direction: column;
+    font-size: 0.75rem;
+    gap: 4px;
+    text-align: center;
+  }
+  .dashboard-sidebar .sidebar-nav ul li a .icon {
+    font-size: 1.2rem;
+    margin: 0;
   }
 }
 
+/* --- MAIN CONTENT --- */
 .dashboard-main {
   flex: 1;
   padding: 2.5rem;
@@ -3784,6 +3511,7 @@ h6 {
   font-size: 1.5rem;
 }
 
+/* --- STATS CARD --- */
 .stat-card {
   background: white;
   padding: 1.5rem 2rem;
@@ -3828,6 +3556,7 @@ h6 {
   line-height: 1;
 }
 
+/* --- CARD --- */
 .card {
   border: 1px solid #e2e8f0;
   border-radius: 16px;
@@ -3846,6 +3575,7 @@ h6 {
   margin-bottom: 1.5rem;
 }
 
+/* --- TABLE --- */
 .table th {
   font-weight: 800;
   font-size: 0.9rem;
@@ -3865,6 +3595,7 @@ h6 {
   padding: 0.5em 0.8em;
 }
 
+/* --- MAP --- */
 #map {
   height: 400px;
   border-radius: 12px;
@@ -3872,6 +3603,7 @@ h6 {
   border: 1px solid #e2e8f0;
 }
 
+/* --- CALENDAR WIDGET --- */
 .calendar-widget {
   background: white;
   padding: 0;
@@ -3905,6 +3637,7 @@ h6 {
   color: #f39c12;
 }
 
+/* --- AVAILABILITY CARD --- */
 .availability-card {
   border: 1px solid #e2e8f0;
   border-radius: 16px;
@@ -3930,6 +3663,7 @@ h6 {
   background-color: rgb(199.8795180723, 126.5060240964, 10.1204819277);
 }
 
+/* --- BUTTONS --- */
 .btn-primary.w-100 {
   background-color: #0f392b;
   border-color: #0f392b;
@@ -3943,6 +3677,7 @@ h6 {
   border-color: rgb(20.3125, 77.1875, 58.2291666667);
 }
 
+/* --- CALENDAR GRID --- */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -4013,7 +3748,7 @@ h6 {
   cursor: not-allowed;
 }
 
-/*AUTRE_________________________________________________________________________________________*/
+/* --- AVAILABILITY CARD --- */
 .availability-card {
   border: 1px solid #e2e8f0;
   border-radius: 16px;
@@ -4051,6 +3786,7 @@ h6 {
   border-color: rgb(20.3125, 77.1875, 58.2291666667);
 }
 
+/* --- PLANNING PAGE --- */
 .planning-page {
   background-color: #f8f9fa;
   display: flex;
@@ -4062,6 +3798,7 @@ h6 {
   height: 100%;
 }
 
+/* --- LEFT PANEL --- */
 .planning-left-panel {
   width: 280px;
   background-color: white;
@@ -4088,6 +3825,7 @@ h6 {
   background-color: #103A21 !important;
 }
 
+/* --- TEAM WIDGET --- */
 .team-member-item .avatar {
   width: 40px;
   height: 40px;
@@ -4099,6 +3837,7 @@ h6 {
   font-size: 0.9rem;
 }
 
+/* --- MAIN VIEW --- */
 .planning-main-view {
   flex-grow: 1;
   padding: 1.5rem;
@@ -4106,6 +3845,7 @@ h6 {
   background-color: white;
 }
 
+/* --- CALENDAR TOOLBAR --- */
 .calendar-toolbar .badge {
   padding: 0.5em 1em;
   border-radius: 20px;
@@ -4120,6 +3860,7 @@ h6 {
   justify-content: center;
 }
 
+/* --- WEEKLY GRID --- */
 .weekly-grid-wrapper {
   border: 1px solid #e2e8f0;
   border-radius: 12px;
@@ -4186,6 +3927,7 @@ h6 {
   width: 60px;
 }
 
+/* --- EVENTS --- */
 .events-overlay {
   position: absolute;
   top: 0;
@@ -4225,6 +3967,7 @@ h6 {
   font-size: 0.75rem;
 }
 
+/* --- PASTEL COLORS --- */
 .pastel-purple {
   background-color: #f3e5f5;
   border-left-color: #9c27b0;
@@ -4255,6 +3998,7 @@ h6 {
   color: #b71c1c;
 }
 
+/* --- CURRENT TIME LINE --- */
 .current-time-line {
   position: absolute;
   left: 0;
@@ -4277,6 +4021,7 @@ h6 {
   border-top: 2px dotted #2196f3;
 }
 
+/* --- MINI CALENDAR --- */
 .mini-calendar-widget .borderless-table td.has-event {
   position: relative;
   font-weight: 700;
@@ -4297,6 +4042,7 @@ h6 {
   display: none;
 }
 
+/* --- DETAILS PANEL --- */
 .details-widget {
   animation: fadeIn 0.3s ease;
 }
@@ -4329,6 +4075,7 @@ h6 {
   font-weight: 500;
 }
 
+/* --- RESERVATION PAGE --- */
 .reservation-page {
   background-color: #f8f9fa;
   display: flex;
@@ -4338,10 +4085,10 @@ h6 {
 .reservation-container {
   display: flex;
   flex-direction: row;
-  /* ALWAYS Column layout */
   min-height: calc(100vh - 80px);
 }
 
+/* --- FILTERS --- */
 .reservation-filters {
   width: 100%;
   background-color: white;
@@ -4386,11 +4133,13 @@ h6 {
   border-radius: 4px;
 }
 
+/* --- RESERVATION LIST --- */
 .reservation-list {
   background-color: #f8fafc;
   padding: 1.5rem;
 }
 
+/* --- RESERVATION CARD --- */
 .reservation-card {
   transition: transform 0.2s, box-shadow 0.2s;
   border: 1px solid transparent;
@@ -4420,11 +4169,13 @@ h6 {
   color: white;
 }
 
+/* --- BADGE TWEAKS --- */
 .badge {
   font-weight: 500;
   padding: 0.5em 0.8em;
 }
 
+/* --- CUSTOM COLORS --- */
 .bg-light.text-primary {
   background-color: #eff6ff !important;
   color: #2563eb !important;
@@ -4460,6 +4211,7 @@ h6 {
   }
 }
 @media (max-width: 576px) {
+  /* --- MOBILE CARDS --- */
   .reservation-card {
     padding: 0.75rem !important;
   }
@@ -4506,6 +4258,7 @@ h6 {
   min-height: calc(100vh - 80px);
 }
 
+/* --- FILTERS TOP BAR --- */
 .reservation-filters {
   width: 100%;
   background-color: white;
@@ -4550,11 +4303,13 @@ h6 {
   border-radius: 4px;
 }
 
+/* --- RESERVATION LIST --- */
 .reservation-list {
   background-color: #f8fafc;
   padding: 1.5rem;
 }
 
+/* --- RESERVATION CARD --- */
 .reservation-card {
   transition: transform 0.2s, box-shadow 0.2s;
   border: 1px solid transparent;
@@ -4573,6 +4328,9 @@ h6 {
 }
 .reservation-card.past-reservation .text-dark {
   color: #64748b !important;
+}
+.reservation-card {
+  /* --- VOIR PLUS BUTTON --- */
 }
 .reservation-card .btn-outline-primary {
   border-color: #2563eb;
@@ -4650,6 +4408,7 @@ h6 {
   }
 }
 @media (max-width: 576px) {
+  /* --- MOBILE CARDS --- */
   .reservation-card {
     padding: 0.75rem !important;
   }
@@ -4768,17 +4527,16 @@ h6 {
 @media (max-width: 768px) {
   .dashboard-main {
     padding: 1rem;
-    padding-top: 70px; /* Space for burger button */
+    padding-top: 70px;
   }
   .stat-card {
     margin-bottom: 1rem;
   }
-  /* Tables */
   .table-responsive {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
-  /* Planning Page */
+  /* --- PLANNING PAGE RESPONSIVE --- */
   .planning-container {
     flex-direction: column;
     height: auto;
@@ -4801,7 +4559,7 @@ h6 {
   .calendar-toolbar .d-flex {
     flex-wrap: wrap;
   }
-  /* Week View Grid on Mobile */
+  /* --- WEEK VIEW GRID --- */
   .time-col-spacer,
   .bg-light.border-end {
     width: 40px !important;
@@ -4810,11 +4568,9 @@ h6 {
     font-size: 0.7rem;
     padding-top: 5px;
   }
-  /* Reduce font size in grid */
   .day-col div {
     font-size: 0.8rem;
   }
-  /* Hide details on mobile initially if needed */
   #week-header-row .day-col small {
     display: block;
     font-size: 0.7rem;

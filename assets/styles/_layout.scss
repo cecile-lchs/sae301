@@ -1,4 +1,3 @@
-
 @use 'variables' as *;
 
 .container {
@@ -7,7 +6,7 @@
     padding: 0 1rem;
 }
 
-/*  Navbar */
+/* --- NAVBAR --- */
 .main-header {
     background-color: #fff;
     padding: 1rem 0;
@@ -71,10 +70,10 @@
 
 
 
-/* Post-Article CTA */
+/* --- FOOTER CTA --- */
 .footer-cta {
     background: #FF9F00;
-    /* Orange background */
+
     border-radius: 20px;
     padding: 4rem 2rem;
     text-align: center;
@@ -106,11 +105,11 @@
 
         .btn-primary {
             background: #143525;
-            /* Dark Green */
+
             color: white;
             padding: 1rem 2rem;
             border-radius: 8px;
-            /* Slightly rounded */
+
             font-weight: 600;
             text-decoration: none;
             display: inline-block;
@@ -123,7 +122,7 @@
     }
 }
 
-/* Footer */
+/* --- FOOTER --- */
 .main-footer {
     background-color: white;
     padding-top: 5rem;
@@ -136,14 +135,24 @@
         gap: 2rem;
         padding-bottom: 3rem;
 
+        @media screen and (max-width: 768px) {
+            flex-direction: column;
+            gap: 3rem;
+        }
+
         .footer-col {
             flex: 1;
             min-width: 200px;
 
             &.brand-col {
                 flex: 1.5;
-                /* Give more space to brand col */
+
                 padding-right: 2rem;
+
+                @media screen and (max-width: 768px) {
+                    padding-right: 0;
+                    margin-bottom: 2rem;
+                }
             }
 
             .logo {
@@ -225,22 +234,22 @@
     }
 }
 
-/* __________________________________________________________________________________________Actualités__________________________________________________*/
+/* --- ACTUALITES --- */
 
 
 
 .article-title {
     text-align: center;
     max-width: 900px;
-    /* Slightly wider to match mockup wrap */
+
     margin: 0 auto 1.5rem auto;
     font-size: 3rem;
-    /* Larger */
+
     line-height: 1.2;
     color: #000;
-    /* Deep black as per mockup */
+
     font-weight: 800;
-    /* Extra bold */
+
 
     &.align-left {
         text-align: left;
@@ -261,7 +270,7 @@
         text-align: left;
         margin-left: 0;
         max-width: 100%;
-        margin-top: 4rem; // Added to replace inline style
+        margin-top: 4rem;
     }
 }
 
@@ -277,11 +286,11 @@
         text-align: left;
         margin-left: 0;
         max-width: 100%;
-        margin-bottom: 4rem; // Added to replace inline style
+        margin-bottom: 4rem;
     }
 }
 
-/* Shared Card Grid & Styles */
+/* --- CARD GRID --- */
 .cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -294,7 +303,7 @@
     border: none;
     display: flex;
     flex-direction: column;
-    /* Ensure footer pushes down */
+
     height: 100%;
 
     img {
@@ -318,7 +327,7 @@
             line-height: 1.5;
             font-weight: 700;
             flex-grow: 1;
-            /* Pushes footer to bottom if titles vary */
+
         }
 
         .card-footer {
@@ -347,11 +356,8 @@
         }
     }
 }
-/* __________________________________________________________________________________________Article1__________________________________________________*/
 
-
-
-/* Article Page Styles */
+/* --- ARTICLE --- */
 .article-meta {
     text-align: center;
     margin-bottom: 2rem;
@@ -377,15 +383,15 @@
 .article-title {
     text-align: center;
     max-width: 900px;
-    /* Slightly wider to match mockup wrap */
+
     margin: 0 auto 1.5rem auto;
     font-size: 3rem;
-    /* Larger */
+
     line-height: 1.2;
     color: #000;
-    /* Deep black as per mockup */
+
     font-weight: 800;
-    /* Extra bold */
+
 
     &.align-left {
         text-align: left;
@@ -406,7 +412,7 @@
         text-align: left;
         margin-left: 0;
         max-width: 100%;
-        margin-top: 4rem; // Added to replace inline style
+        margin-top: 4rem;
     }
 }
 
@@ -422,7 +428,7 @@
         text-align: left;
         margin-left: 0;
         max-width: 100%;
-        margin-bottom: 4rem; // Added to replace inline style
+        margin-bottom: 4rem;
     }
 }
 
@@ -500,7 +506,7 @@
     }
 }
 
-/* Related Articles */
+/* --- RELATED ARTICLES --- */
 .related-articles {
     margin-top: 6rem;
     padding-top: 4rem;
@@ -521,7 +527,7 @@
 
         h3 {
             margin: 0;
-            /* Override default */
+
             font-size: 2.5rem;
             color: #000;
             font-weight: 700;
@@ -529,7 +535,7 @@
 
         .btn-secondary {
             background: #143525;
-            /* Dark Green from mockup */
+
             color: white;
             padding: 0.7rem 1.5rem;
             border-radius: 50px;
@@ -545,282 +551,3 @@
     }
 
 }
-/*:root {*/
-/*    --color-primary: #1a4d2e; !* Vert foncé *!*/
-/*    --color-secondary: #ff6b35; !* Orange *!*/
-/*    --color-white: #ffffff;*/
-/*    --color-text-dark: #333333;*/
-/*    --color-text-light: #666666;*/
-/*    --color-bg-light: #f5f5f5;*/
-/*}*/
-
-/*!* Reset et base *!*/
-/** {*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    box-sizing: border-box;*/
-/*}*/
-
-/*body {*/
-/*    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
-/*    color: var(--color-text-dark);*/
-/*    line-height: 1.6;*/
-/*    background-color: var(--color-white);*/
-/*}*/
-
-/*!* Header *!*/
-/*.header {*/
-/*    background-color: var(--color-white);*/
-/*    padding: 1rem 2rem;*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    align-items: center;*/
-/*    box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
-/*    position: sticky;*/
-/*    top: 0;*/
-/*    z-index: 1000;*/
-/*}*/
-
-/*.header__logo {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    gap: 0.75rem;*/
-/*    text-decoration: none;*/
-/*    color: var(--color-primary);*/
-/*    font-size: 1.5rem;*/
-/*    font-weight: bold;*/
-/*}*/
-
-/*.header__logo-icon {*/
-/*    width: 40px;*/
-/*    height: 40px;*/
-/*    background-color: var(--color-primary);*/
-/*    border-radius: 8px;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    color: var(--color-white);*/
-/*    font-weight: bold;*/
-/*}*/
-
-/*.header__nav {*/
-/*    display: flex;*/
-/*    gap: 2rem;*/
-/*    align-items: center;*/
-/*    list-style: none;*/
-/*}*/
-
-/*.header__nav a {*/
-/*    text-decoration: none;*/
-/*    color: var(--color-text-dark);*/
-/*    font-weight: 500;*/
-/*    transition: color 0.3s;*/
-/*}*/
-
-/*.header__nav a:hover {*/
-/*    color: var(--color-primary);*/
-/*}*/
-
-/*.header__btn-reservation {*/
-/*    background-color: var(--color-secondary);*/
-/*    color: var(--color-white);*/
-/*    padding: 0.75rem 1.5rem;*/
-/*    border-radius: 8px;*/
-/*    text-decoration: none;*/
-/*    font-weight: 600;*/
-/*    transition: background-color 0.3s;*/
-/*    border: none;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.header__btn-reservation:hover {*/
-/*    background-color: #e55a2b;*/
-/*}*/
-
-
-
-
-/*!* Footer *!*/
-/*.footer {*/
-/*    background-color: var(--color-primary);*/
-/*    color: var(--color-white);*/
-/*    padding: 4rem 2rem 2rem;*/
-/*}*/
-
-/*.footer__content {*/
-/*    max-width: 1200px;*/
-/*    margin: 0 auto;*/
-/*    display: grid;*/
-/*    grid-template-columns: 2fr 1fr 1fr 1fr;*/
-/*    gap: 3rem;*/
-/*    margin-bottom: 3rem;*/
-/*}*/
-
-/*.footer__logo {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    gap: 0.75rem;*/
-/*    margin-bottom: 1rem;*/
-/*}*/
-
-/*.footer__logo-icon {*/
-/*    width: 40px;*/
-/*    height: 40px;*/
-/*    background-color: rgba(255,255,255,0.2);*/
-/*    border-radius: 8px;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    color: var(--color-white);*/
-/*    font-weight: bold;*/
-/*}*/
-
-/*.footer__logo-text {*/
-/*    font-size: 1.5rem;*/
-/*    font-weight: bold;*/
-/*}*/
-
-/*.footer__slogan {*/
-/*    opacity: 0.8;*/
-/*    margin-bottom: 1.5rem;*/
-/*}*/
-
-/*.footer__social {*/
-/*    display: flex;*/
-/*    gap: 1rem;*/
-/*}*/
-
-/*.footer__social a {*/
-/*    width: 40px;*/
-/*    height: 40px;*/
-/*    background-color: rgba(255,255,255,0.1);*/
-/*    border-radius: 50%;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    color: var(--color-white);*/
-/*    text-decoration: none;*/
-/*    transition: background-color 0.3s;*/
-/*}*/
-
-/*.footer__social a:hover {*/
-/*    background-color: rgba(255,255,255,0.2);*/
-/*}*/
-
-/*.footer__section-title {*/
-/*    font-size: 1.25rem;*/
-/*    font-weight: bold;*/
-/*    margin-bottom: 1rem;*/
-/*}*/
-
-/*.footer__list {*/
-/*    list-style: none;*/
-/*}*/
-
-/*.footer__list li {*/
-/*    margin-bottom: 0.75rem;*/
-/*}*/
-
-/*.footer__list a {*/
-/*    color: var(--color-white);*/
-/*    text-decoration: none;*/
-/*    opacity: 0.8;*/
-/*    transition: opacity 0.3s;*/
-/*}*/
-
-/*.footer__list a:hover {*/
-/*    opacity: 1;*/
-/*}*/
-
-/*.footer__contact-item {*/
-/*    margin-bottom: 1rem;*/
-/*    opacity: 0.9;*/
-/*}*/
-
-/*.footer__copyright {*/
-/*    text-align: center;*/
-/*    padding-top: 2rem;*/
-/*    border-top: 1px solid rgba(255,255,255,0.2);*/
-/*    opacity: 0.8;*/
-/*    font-size: 0.875rem;*/
-/*}*/
-
-/*!* Responsive *!*/
-/*@media (max-width: 1024px) {*/
-/*    .section-presentation {*/
-/*        grid-template-columns: 1fr;*/
-/*    }*/
-
-/*    .section-why__cards {*/
-/*        grid-template-columns: 1fr;*/
-/*    }*/
-
-/*    .section-portfolio__grid {*/
-/*        grid-template-columns: 1fr;*/
-/*    }*/
-
-/*    .section-blog__posts {*/
-/*        grid-template-columns: 1fr;*/
-/*    }*/
-
-/*    .footer__content {*/
-/*        grid-template-columns: 1fr 1fr;*/
-/*    }*/
-
-/*    .hero__search-box {*/
-/*        position: relative;*/
-/*        right: auto;*/
-/*        top: auto;*/
-/*        transform: none;*/
-/*        margin-top: 2rem;*/
-/*    }*/
-/*}*/
-
-/*@media (max-width: 768px) {*/
-/*    .header {*/
-/*        flex-direction: column;*/
-/*        gap: 1rem;*/
-/*    }*/
-
-/*    .header__nav {*/
-/*        flex-wrap: wrap;*/
-/*        justify-content: center;*/
-/*    }*/
-
-/*    .hero__title {*/
-/*        font-size: 2.5rem;*/
-/*    }*/
-
-/*    .section-presentation__title,*/
-/*    .section-services__title,*/
-/*    .section-why__title,*/
-/*    .section-portfolio__title,*/
-/*    .section-testimonials__title,*/
-/*    .section-blog__title,*/
-/*    .section-cta__title {*/
-/*        font-size: 2rem;*/
-/*    }*/
-
-/*    .section-services__header {*/
-/*        flex-direction: column;*/
-/*        gap: 1rem;*/
-/*    }*/
-
-/*    .section-blog__header {*/
-/*        flex-direction: column;*/
-/*        gap: 1rem;*/
-/*    }*/
-
-/*    .section-blog__post {*/
-/*        flex-direction: column;*/
-/*    }*/
-
-/*    .section-blog__post-image {*/
-/*        width: 100%;*/
-/*        height: 200px;*/
-/*    }*/
-
-/*    .footer__content {*/
-/*        grid-template-columns: 1fr;*/
-/*    }*/
-/*}*/

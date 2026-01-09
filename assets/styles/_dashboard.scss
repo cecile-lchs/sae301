@@ -1,5 +1,6 @@
 @use 'variables';
 
+/* --- VARIABLES --- */
 $dash-dark-green: #0f392b;
 $dash-bg: #f8fbf9;
 $dash-orange: #f39c12;
@@ -9,7 +10,7 @@ $font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 
-
+/* --- LAYOUT --- */
 .dashboard-body {
     background-color: $dash-bg;
     color: $dash-text-dark;
@@ -25,7 +26,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- SIDEBAR --- */
 .dashboard-sidebar {
     width: 280px;
     background-color: $dash-dark-green;
@@ -79,7 +80,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         }
     }
 
-    // Responsive Mobile
+    /* --- MOBILE --- */
     @media (max-width: 991px) {
         width: 80px;
         padding: 2rem 0.5rem;
@@ -120,12 +121,44 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         }
 
         .sidebar-nav {
-            display: none;
+            display: flex;
+            width: 100%;
+            overflow-x: auto;
+
+            ul {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                justify-content: space-around;
+                width: 100%;
+
+                li {
+                    margin-bottom: 0;
+                    flex: 1;
+
+                    a {
+                        justify-content: center;
+                        padding: 0.5rem;
+                        flex-direction: column;
+                        font-size: 0.75rem;
+                        gap: 4px;
+                        text-align: center;
+
+                        .icon {
+                            font-size: 1.2rem;
+                            margin: 0;
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
-
+/* --- MAIN CONTENT --- */
 .dashboard-main {
     flex: 1;
     padding: 2.5rem;
@@ -147,7 +180,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- STATS CARD --- */
 .stat-card {
     background: white;
     padding: 1.5rem 2rem;
@@ -195,7 +228,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- CARD --- */
 .card {
     border: 1px solid $dash-border;
     border-radius: 16px;
@@ -216,7 +249,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- TABLE --- */
 .table {
     th {
         font-weight: 800;
@@ -240,7 +273,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- MAP --- */
 #map {
     height: 400px;
     border-radius: 12px;
@@ -248,7 +281,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     border: 1px solid $dash-border;
 }
 
-
+/* --- CALENDAR WIDGET --- */
 .calendar-widget {
     background: white;
     padding: 0;
@@ -286,7 +319,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
 }
 
 
-
+/* --- AVAILABILITY CARD --- */
 .availability-card {
     border: 1px solid $dash-border;
     border-radius: 16px;
@@ -315,7 +348,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- BUTTONS --- */
 .btn-primary.w-100 {
     background-color: $dash-dark-green;
     border-color: $dash-dark-green;
@@ -330,7 +363,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- CALENDAR GRID --- */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -383,6 +416,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         }
     }
 }
+
 .day-btn {
     position: relative;
     padding-bottom: 12px;
@@ -405,10 +439,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     cursor: not-allowed;
 }
 
-/*AUTRE_________________________________________________________________________________________*/
-
-
-
+/* --- AVAILABILITY CARD --- */
 .availability-card {
     border: 1px solid $dash-border;
     border-radius: 16px;
@@ -437,7 +468,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+// Helper Buttons
 .btn-primary.w-100 {
     background-color: $dash-dark-green;
     border-color: $dash-dark-green;
@@ -451,7 +482,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- PLANNING PAGE --- */
 .planning-page {
     background-color: #f8f9fa;
     display: flex;
@@ -463,7 +494,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     height: 100%;
 }
 
-
+/* --- LEFT PANEL --- */
 .planning-left-panel {
     width: 280px;
     background-color: white;
@@ -487,10 +518,10 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
 }
 
 .mini-calendar-widget .bg-primary {
-    background-color: #103A21 !important;
+    background-color: #103A21 !important; // Brand Green
 }
 
-
+/* --- TEAM WIDGET --- */
 .team-member-item .avatar {
     width: 40px;
     height: 40px;
@@ -502,7 +533,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     font-size: 0.9rem;
 }
 
-
+/* --- MAIN VIEW --- */
 .planning-main-view {
     flex-grow: 1;
     padding: 1.5rem;
@@ -510,7 +541,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     background-color: white;
 }
 
-
+/* --- CALENDAR TOOLBAR --- */
 .calendar-toolbar {
     .badge {
         padding: 0.5em 1em;
@@ -528,7 +559,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- WEEKLY GRID --- */
 .weekly-grid-wrapper {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
@@ -602,7 +633,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- EVENTS --- */
 .events-overlay {
     position: absolute;
     top: 0;
@@ -643,7 +674,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     font-size: 0.75rem;
 }
 
-
+/* --- PASTEL COLORS --- */
 .pastel-purple {
     background-color: #f3e5f5;
     border-left-color: #9c27b0;
@@ -674,7 +705,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     color: #b71c1c;
 }
 
-
+/* --- CURRENT TIME LINE --- */
 .current-time-line {
     position: absolute;
     left: 0;
@@ -699,7 +730,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- MINI CALENDAR --- */
 .mini-calendar-widget .borderless-table td.has-event {
     position: relative;
     font-weight: 700;
@@ -721,7 +752,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     display: none;
 }
 
-
+/* --- DETAILS PANEL --- */
 .details-widget {
     animation: fadeIn 0.3s ease;
 }
@@ -756,7 +787,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     font-weight: 500;
 }
 
-
+/* --- RESERVATION PAGE --- */
 .reservation-page {
     background-color: #f8f9fa;
     display: flex;
@@ -766,11 +797,11 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
 .reservation-container {
     display: flex;
     flex-direction: row;
-    /* ALWAYS Column layout */
+
     min-height: calc(100vh - 80px);
 }
 
-
+/* --- FILTERS --- */
 .reservation-filters {
     width: 100%;
     background-color: white;
@@ -823,13 +854,13 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- RESERVATION LIST --- */
 .reservation-list {
     background-color: #f8fafc;
     padding: 1.5rem;
 }
 
-
+/* --- RESERVATION CARD --- */
 .reservation-card {
     transition: transform 0.2s, box-shadow 0.2s;
     border: 1px solid transparent;
@@ -866,13 +897,13 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- BADGE TWEAKS --- */
 .badge {
     font-weight: 500;
     padding: 0.5em 0.8em;
 }
 
-
+/* --- CUSTOM COLORS --- */
 .bg-light.text-primary {
     background-color: #eff6ff !important;
     color: #2563eb !important;
@@ -915,7 +946,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
 
 @media (max-width: 576px) {
 
-
+    /* --- MOBILE CARDS --- */
     .reservation-card {
         padding: 0.75rem !important;
 
@@ -970,10 +1001,11 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
 .reservation-container {
     display: flex;
     flex-direction: row;
+
     min-height: calc(100vh - 80px);
 }
 
-
+/* --- FILTERS TOP BAR --- */
 .reservation-filters {
     width: 100%;
     background-color: white;
@@ -1026,13 +1058,13 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+/* --- RESERVATION LIST --- */
 .reservation-list {
     background-color: #f8fafc;
     padding: 1.5rem;
 }
 
-
+/* --- RESERVATION CARD --- */
 .reservation-card {
     transition: transform 0.2s, box-shadow 0.2s;
     border: 1px solid transparent;
@@ -1056,7 +1088,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         }
     }
 
-
+    /* --- VOIR PLUS BUTTON --- */
     .btn-outline-primary {
         border-color: #2563eb;
         color: #2563eb;
@@ -1068,6 +1100,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         }
     }
 }
+
 .reservation-page {
     display: flex;
     flex-direction: column;
@@ -1119,7 +1152,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     }
 }
 
-
+// Responsive
 @media (max-width: 768px) {
     .reservation-filters {
         justify-content: flex-start;
@@ -1139,7 +1172,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         padding: 1rem;
     }
 
-    // Wrap card content on tablets/mobile to avoid scroll
+
     .reservation-card>div:first-child {
         flex-wrap: wrap;
     }
@@ -1151,11 +1184,11 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
 
 @media (max-width: 576px) {
 
-    // Mobile Cards - COMPACT MODE
+    /* --- MOBILE CARDS --- */
     .reservation-card {
         padding: 0.75rem !important;
 
-        // Force stacking for very small screens
+
         >div:first-child {
             flex-direction: column;
             align-items: flex-start !important;
@@ -1194,6 +1227,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         align-items: flex-start !important;
     }
 }
+
 /* --- PARTIE RESPONSIVE --- */
 
 .burger-menu-btn {
@@ -1212,7 +1246,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-overlay {
@@ -1222,7 +1256,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -1248,9 +1282,9 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         z-index: 1000;
         transform: translateX(-100%);
         transition: transform 0.3s ease-in-out;
-        box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
 
-        // Reset specific mobile styles that were hiding elements
+
         flex-direction: column;
         padding: 2rem 1.5rem;
         align-items: stretch;
@@ -1262,6 +1296,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
 
         .sidebar-header {
             margin-bottom: 2rem;
+
             .sidebar-logo {
                 display: block !important;
                 height: 40px;
@@ -1290,20 +1325,20 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
 @media (max-width: 768px) {
     .dashboard-main {
         padding: 1rem;
-        padding-top: 70px; /* Space for burger button */
+        padding-top: 70px;
     }
 
     .stat-card {
         margin-bottom: 1rem;
     }
 
-    /* Tables */
+
     .table-responsive {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 
-    /* Planning Page */
+    /* --- PLANNING PAGE RESPONSIVE --- */
     .planning-container {
         flex-direction: column;
         height: auto;
@@ -1331,7 +1366,7 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         }
     }
 
-    /* Week View Grid on Mobile */
+    /* --- WEEK VIEW GRID --- */
     .time-col-spacer,
     .bg-light.border-end {
         width: 40px !important;
@@ -1342,15 +1377,14 @@ $font-family-heading: 'M PLUS Rounded 1c', 'Helvetica Neue', Helvetica, Arial, s
         padding-top: 5px;
     }
 
-    /* Reduce font size in grid */
+
     .day-col div {
         font-size: 0.8rem;
     }
 
-    /* Hide details on mobile initially if needed */
+
     #week-header-row .day-col small {
         display: block;
         font-size: 0.7rem;
     }
 }
-
