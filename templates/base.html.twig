@@ -29,7 +29,7 @@
             </a>
             <ul class="nav-links">
                 <li><a href="{{ path('app_accueil') }}">Accueil</a></li>
-                <li><a href="#services">Services</a></li>
+                <li><a href="{{ path('app_accueil') }}#services">Services</a></li>
                 <li><a href="{{ path('app_actualite') }}">Actualités</a></li>
                 <li><a href="#footer">Contact</a></li>
                 <li><a href="{{ path('reservation_step1') }}" class="btn-reservation">Réservation</a></li>
@@ -56,17 +56,7 @@
 
 {% block footer %}
 
-
-    <!-- CTA Section -->
-    <section class="footer-cta container">
-        <div class="cta-content">
-            <h2>Votre jardin mérite le meilleur soin</h2>
-            <p>Prenez rendez-vous dès aujourd’hui et profitez d’un jardin entretenu sans effort.</p>
-            <a href="{{ path('reservation_step1') }}" class="btn-primary">Réserver un créneau</a>
-        </div>
-    </section>
-
-    <!-- Main Footer -->
+<!-- Main Footer -->
     <footer class="main-footer">
         <div class="container footer-content">
             <!-- Column 1: Brand -->
@@ -118,10 +108,10 @@
             <div class="footer-col">
                 <h4>INFORMATIONS</h4>
                 <ul>
-                    <li><a href="#">Mention légales</a></li>
-                    <li><a href="#">Politiques de confidentialité</a></li>
-                    <li><a href="#">Plan du site</a></li>
-                    <li><a href="#">Cookies</a></li>
+                    <li><a href="{{ path('app_mentions_legales') }}">Mention légales</a></li>
+                    <li><a href="{{ path('app_politique_confidentialite') }}">Politiques de confidentialité</a></li>
+                    <li><a href="{{ path('app_plan_du_site') }}">Plan du site</a></li>
+                    <li><a href="{{ path('app_politique_cookies') }}">Cookies</a></li>
                 </ul>
             </div>
         </div>

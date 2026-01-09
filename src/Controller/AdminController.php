@@ -26,13 +26,32 @@ final class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/verify', name: 'app_admin_verify', methods: ['POST'])]
+    public function verifyLogin(Request $request, AuthenticationUtils $auth): Response
+    {
+        $username = $request->request->get('_username');
+        $password = $request->request->get('_password');
+
+        if (empty($username) || empty($password)) {
+            $error = new \Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException('Veuillez remplir tous les champs obligatoires.');
+            return $this->render('admin/index.html.twig', [
+                'last_username' => $username,
+                'error' => $error,
+            ]);
+        }
+
+        // Redirect to the real check_path (which is app_admin /admin)
+        // 307 Preserves method and body
+        return $this->redirect($this->generateUrl('app_admin'), 307);
+    }
+
     #[Route('/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank.');
     }
 
-//
+    //
 //#[Route('/admin/dashboard', name: 'admin_dashboard')]
 //public function dashboard(ReservationRepository $reservationRepository): Response
 //{
@@ -267,13 +286,13 @@ final class AdminController extends AbstractController
     }
 
 
-//#[Route('/logout', name: 'app_logout')]
+    //#[Route('/logout', name: 'app_logout')]
 //public function logout(): void
 //{
 //// Symfony gère le logout automatiquement
 //}
 
-//________________________________________________________________________________________________________AUTRE
+    //________________________________________________________________________________________________________AUTRE
 
     #[Route('/admin/client', name: 'admin_client')]
     public function client(ClientRepository $clientRepository): Response
@@ -300,7 +319,7 @@ final class AdminController extends AbstractController
         ]);
     }
 
-//
+    //
 //    #[Route('/admin/parametres', name: 'admin_parametres')]
 //    public function parametres(Request $request, EntityManagerInterface $em): Response
 //    {
@@ -349,10 +368,12 @@ final class AdminController extends AbstractController
         // Ajouter automatiquement les jours fériés
         if ($request->isMethod('POST') && $request->request->get('auto_holidays')) {
 
-            if (!$this->isCsrfTokenValid(
-                'auto_holidays',
-                $request->request->get('_token')
-            )) {
+            if (
+                !$this->isCsrfTokenValid(
+                    'auto_holidays',
+                    $request->request->get('_token')
+                )
+            ) {
                 throw $this->createAccessDeniedException();
             }
 
@@ -414,14 +435,15 @@ final class AdminController extends AbstractController
         Indisponibilite $indisponibilite,
         Request $request,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        if ($this->isCsrfTokenValid(
-            'delete_indisponibilite_' . $indisponibilite->getId(),
-            $request->request->get('_token')
-        )) {
+        if (
+            $this->isCsrfTokenValid(
+                'delete_indisponibilite_' . $indisponibilite->getId(),
+                $request->request->get('_token')
+            )
+        ) {
             $em->remove($indisponibilite);
             $em->flush();
 
@@ -473,7 +495,7 @@ final class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/reservation/{id}', name: 'admin_reservation_details', requirements: ['id' => '\d+']) ]
+    #[Route('/reservation/{id}', name: 'admin_reservation_details', requirements: ['id' => '\d+'])]
     public function reservationDetails(int $id, ReservationRepository $reservationRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -514,7 +536,7 @@ final class AdminController extends AbstractController
             'reservation' => $data
         ]);
     }
-//    #[Route('/planning', name: 'admin_planning')]
+    //    #[Route('/planning', name: 'admin_planning')]
 //    public function planning(ReservationRepository $reservationRepository): Response
 //    {
 //        // Logic for Planning - potentially passing reservations as events
@@ -537,7 +559,8 @@ final class AdminController extends AbstractController
             $rdv = $res->getRendezVous();
             $client = $res->getClient();
 
-            if (!$rdv || !$client) continue;
+            if (!$rdv || !$client)
+                continue;
 
             $services = $res->getService()->map(fn($s) => $s->getNom())->toArray();
             $servicesStr = implode(', ', $services);
@@ -549,8 +572,8 @@ final class AdminController extends AbstractController
                 'address' => $client->getAdresse(),
                 'desc' => '',
                 'year' => $rdv->getDate()->format('Y'),
-                'month' => (int)$rdv->getDate()->format('n') - 1, // JS: 0-11
-                'date' => (int)$rdv->getDate()->format('j'),
+                'month' => (int) $rdv->getDate()->format('n') - 1, // JS: 0-11
+                'date' => (int) $rdv->getDate()->format('j'),
                 'color' => 'primary',
             ];
         }
@@ -561,12 +584,11 @@ final class AdminController extends AbstractController
     }
 
 
-#[Route('/reservation/{id}/delete', name: 'admin_reservation_delete', methods: ['POST'])]
+    #[Route('/reservation/{id}/delete', name: 'admin_reservation_delete', methods: ['POST'])]
     public function deleteReservation(
         Reservation $reservation,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $entityManager->remove($reservation);
@@ -581,8 +603,7 @@ final class AdminController extends AbstractController
         Request $request,
         Reservation $reservation,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $form = $this->createForm(\App\Form\ReservationType::class, $reservation);

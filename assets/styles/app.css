@@ -2841,7 +2841,27 @@ h6 {
 }
 
 .service-card input[type=checkbox] {
-  display: none;
+  /* Accessible hidden input - OVERLAY METHOD */
+  /* This ensures focus works perfectly on all browsers */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  z-index: 2;
+  /* Content is below */
+  cursor: pointer;
+  /* Fix text selection */
+  user-select: none;
+}
+.service-card input[type=checkbox]:focus + .card-inner, .service-card input[type=checkbox]:focus-visible + .card-inner {
+  outline: 3px solid #FFA100;
+  outline-offset: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  /* Bring to front */
 }
 .service-card input[type=checkbox]:checked + .card-inner {
   border-color: #103A21;
@@ -3046,9 +3066,29 @@ h6 {
 }
 .time-slots-container .time-slot {
   width: 100%;
+  position: relative;
+  /* Ensure hidden input stays local */
+  cursor: pointer;
 }
 .time-slots-container .time-slot input {
-  display: none;
+  /* Accessible hidden input - OVERLAY METHOD */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  z-index: 2;
+  cursor: pointer;
+  /* Visual Focus on Sibling Span */
+}
+.time-slots-container .time-slot input:focus + span, .time-slots-container .time-slot input:focus-visible + span {
+  outline: 2px solid #FFA100;
+  outline-offset: 2px;
+  border-color: #FFA100;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  z-index: 5;
 }
 .time-slots-container .time-slot input:checked + span {
   background: white;
@@ -3056,7 +3096,13 @@ h6 {
   border-color: #143525;
   border-width: 2px;
 }
-.time-slots-container .time-slot span {
+.time-slots-container .time-slot:checked + span {
+  background: white;
+  color: #333;
+  border-color: #143525;
+  border-width: 2px;
+}
+.time-slots-container span {
   display: block;
   border: 1px solid #ccc;
   padding: 10px 20px;
@@ -3067,7 +3113,7 @@ h6 {
   cursor: pointer;
   background: white;
 }
-.time-slots-container .time-slot span:hover {
+.time-slots-container span:hover {
   border-color: #143525;
 }
 

@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plan du site - Jardin Harmonie{% endblock %}
+
+{% block main%}
+    <style>
+        .sitemap-section h3 {
+            color: #143525;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        .sitemap-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .sitemap-list li {
+            margin-bottom: 12px;
+        }
+        .sitemap-link {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.05rem;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+        .sitemap-link:hover {
+            color: #FFA100;
+            transform: translateX(5px);
+        }
+
+        /* Specific overrides */
+        .link-main {
+            font-weight: 600;
+            color: #143525;
+            font-size: 1.1rem;
+        }
+        .link-main:hover {
+            color: #0d2619; /* Darker green or keep orange? User asked for hover. Let's do orange for all standardized */
+            color: #FFA100;
+        }
+
+        .link-reservation {
+            color: #FFA100;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+        .link-reservation:hover {
+            color: #cc8100;
+            text-decoration: underline;
+        }
+
+        .link-admin {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        .link-admin:hover {
+            color: #333;
+        }
+    </style>
+
+    <div class="container" style="padding-top: 4rem; padding-bottom: 4rem;">
+        <h1 class="article-title">Plan du site </h1>
+
+        <div class="article-content">
+            <p>Retrouvez ci-dessous l'ensemble des pages accessibles sur notre site.</p>
+
+            <div class="row" style="display: flex; flex-wrap: wrap; gap: 4rem; margin-top: 2rem;">
+
+                <div class="col sitemap-section" style="flex: 1; min-width: 300px;">
+                    <h3>Pages Principales</h3>
+                    <ul class="sitemap-list">
+                        <li>
+                            <a href="{{ path('app_accueil') }}" class="sitemap-link link-main">Accueil</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('app_actualite') }}" class="sitemap-link link-main"> Actualités</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('reservation_step1') }}" class="sitemap-link link-reservation"> Réserver un créneau</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col sitemap-section" style="flex: 1; min-width: 300px;">
+                    <h3>Informations & Légal</h3>
+                    <ul class="sitemap-list">
+                        <li><a href="{{ path('app_mentions_legales') }}" class="sitemap-link">Mentions légales</a></li>
+                        <li><a href="{{ path('app_politique_cookies') }}" class="sitemap-link">Politique de cookies</a></li>
+                        <li><a href="{{ path('app_politique_confidentialite') }}" class="sitemap-link">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+
+                <div class="col sitemap-section" style="flex: 1; min-width: 300px;">
+                    <h3>Administration</h3>
+                    <ul class="sitemap-list">
+                        <li><a href="{{ path('app_admin') }}" class="sitemap-link link-admin">Connexion Admin</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

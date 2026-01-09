@@ -630,11 +630,9 @@
 
                 if(!isConflict){
                     hasSlots = true;
-                    const label = document.createElement('label');
-                    // ... (rest of creation) ...
-                    label.className = 'time-slot';
+                    const slotDiv = document.createElement('div');
 
-                    // Display
+                    // Display Text
                     let slotDisplay = '';
                     if(calc.intervals.length > 1) {
                         slotDisplay = calc.intervals.map(iv => `${minutesToTime(iv.start)} - ${minutesToTime(iv.end)}`).join(' & ');
@@ -642,21 +640,24 @@
                         slotDisplay = `${minutesToTime(calc.intervals[0].start)} - ${minutesToTime(calc.intervals[0].end)}`;
                     }
 
-                    const radio = document.createElement('input');
-                    radio.type = 'radio';
-                    radio.name = 'time_slot_ui';
-                    radio.value = minutesToTime(currentMinutes);
+                    slotDiv.className = 'time-slot';
+                    slotDiv.textContent = slotDisplay;
+                    slotDiv.setAttribute('role', 'button');
+                    slotDiv.setAttribute('tabindex', '0');
+                    slotDiv.dataset.value = minutesToTime(currentMinutes);
 
-                    radio.addEventListener('change', () => {
+                    const selectThisSlot = () => {
+                        // Visual
                         document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected-slot'));
-                        label.classList.add('selected-slot');
+                        slotDiv.classList.add('selected-slot');
 
-                        selectedSlot = radio.value;
+                        // Logic
+                        selectedSlot = slotDiv.dataset.value;
                         inputTime.value = selectedSlot;
                         sessionStorage.setItem('reservation_date', selectedDate);
                         sessionStorage.setItem('reservation_time', selectedSlot);
 
-                        // Update Sidebar Recap
+                        // Sidebar Recap
                         const dObj = new Date(selectedDate);
                         const dateFormatted = dObj.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -666,11 +667,17 @@
                         `;
 
                         updateButtonState();
+                    };
+
+                    slotDiv.addEventListener('click', selectThisSlot);
+                    slotDiv.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            selectThisSlot();
+                        }
                     });
 
-                    label.appendChild(radio);
-                    label.appendChild(document.createTextNode(slotDisplay));
-                    slotsContainer.appendChild(label);
+                    slotsContainer.appendChild(slotDiv);
                 }
 
                 // Step: 30 minutes
@@ -777,4 +784,3 @@
 </script>
 </body>
 </html>
-    

@@ -63,7 +63,10 @@
     <main class="admin-main">
         <h1>J’accède à mon compte</h1>
 
-        <form action="{{ path('app_admin') }}" method="post" class="login-form">
+        <form action="{{ path('app_admin_verify') }}" method="post" class="login-form" id="login-form" novalidate>
+            <!-- Error Container for JS validation -->
+            <div id="js-error" class="global-error" style="display: none;"></div>
+
             {% if error %}
                 <div class="global-error">
                     {% if error.messageKey == 'Invalid credentials.' %}
@@ -75,16 +78,16 @@
             {% endif %}
 
             <div class="form-group">
-                <label for="identifiant">Email *</label>
+                <label for="identifiant">Email</label>
                 <div class="input-wrapper">
-                    <input type="text" id="identifiant" name="_username" value="{{ last_username }}" placeholder="Entrez votre email" required>
+                    <input type="text" id="identifiant" name="_username" value="{{ last_username }}" placeholder="Entrez votre email*" required>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="password">Mot de passe *</label>
+                <label for="password">Mot de passe</label>
                 <div class="input-wrapper">
-                    <input type="password" id="password" name="_password" placeholder="Entrez votre mot de passe " required>
+                    <input type="password" id="password" name="_password" placeholder="Entrez votre mot de passe *" required>
                 </div>
                 <div style="text-align: left; width: 100%;">
                     <a href="#" class="forgot-password">Mot de passe oublié ?</a>
@@ -99,8 +102,11 @@
 
 
 
+
+
     </main>
 {% endblock %}
+
 
 {% block footer %}
     <footer class="admin-footer">
@@ -111,11 +117,11 @@
             </div>
 
             <div class="links-section">
-                <a href="#">Mention légales</a>
-                <a href="#">Politiques de confidentialité</a>
-                <a href="#">Plan du site</a>
-                <a href="#">Cookies</a>
-                <a href="#">Site Jardin Hamronie</a>
+                <a href="{{ path('app_mentions_legales') }}">Mention légales</a>
+                <a href="{{ path('app_politique_confidentialite') }}">Politiques de confidentialité</a>
+                <a href="{{ path('app_plan_du_site') }}">Plan du site</a>
+                <a href="{{ path('app_politique_cookies') }}">Cookies</a>
+                <a href="{{ path('app_accueil') }}">Site Jardin Hamronie</a>
             </div>
         </div>
 

@@ -5,320 +5,330 @@
 {% block main %}
 
     <main>
-    <div id="hero">
-        <!-- Hero Content -->
-        <div class="hero-content">
-            <h1>Jardin Harmonie</h1>
-            <p>Jardin Harmonie acompagne les particuliers dans l'entretien de leurs espaces verts depuis plus de quinze ans. </p>
-            <div class="hero-buttons">
-                <button onclick="window.location.href='{{ path('reservation_step1') }}'" class="btn-filled">Réservation</button>
-                <button onclick="window.location.href='#services'" class="btn-outline">Services</button>
-            </div>
-        </div>
-
-        <!-- Conseil Card -->
-        <div class="conseil-card">
-            <h3>Conseil du jardinier</h3>
-            <p>Pour un jardin en pleine santé, pensez à arroser tôt le matin : cela réduit l’évaporation et renforce l’efficacité de l’arrosage. Idéal pour économiser l’eau tout en préservant vos plantes.</p>
-        </div>
-    </div>
-    <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
-    <div id="presentation">
-        <div class="presentation_partie">
-            <img src="{{ asset('images/accueil_presentation.png') }}" alt="Monsieur Harmonie accrouppi, s'occuppant d'un parterre de fleurs.">
-        </div>
-        <div class="presentation_partie">
-            <p>Présentation</p>
-            <p>Jardin Harmonie</p>
-            <p>
-                Jardin Harmonie acompagne les particuliers dans l'entretien de leurs espaces verts depuis plus de quinze ans.
-                <br><br>
-                Passionné depuis toujours par le jardinage, j'ai commencé en aidant mes voisins à entretenir leurs haies et leurs massifs de fleurs. J'ai ensuite créé ma propre entreprise pour aider le plus de personnes possible à prendre soin de leur jardin.
-                <br><br>
-                Au fil des années, j'ai développé un service à domicile simple, efficace et adapté aux besoins de chacun en proposant des interventions ponctuelles.
-                <br><br>
-                Aujourd'hui, je continue de mettre en valeur les jardins de mes clients avec patience, écoute et bienveillance afin d'offrir à chacun un exterieur propre et agréable.
-            </p>
-        </div>
-    </div>
-    <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
-    <!-- SERVICES SECTION -->
-    <div id="services">
-        <div class="services-header">
-            <h2>Nos services d'entretien de jardin</h2>
-            <button onclick="window.location.href='{{ path('reservation_step1') }}'" class="btn-reservations">Réservation</button>
-        </div>
-
-        <div class="services-container">
-            <div class="services-left">
-                <p class="service-description">Profitez d'un jardin propre, entretenu et agréable toute l'année.<br>Nous intervenons à domicile pour effectuer les tâches difficiles ou chronophages, avec soin et professionnalisme.</p>
-                <div class="image-wrapper">
-                    <img id="service-main-image" src="{{ asset('images/base.png') }}" alt="Service Illustration">
+        <div id="hero">
+            <!-- Hero Content -->
+            <div class="hero-content">
+                <h1>Jardin Harmonie</h1>
+                <p>Jardin Harmonie acompagne les particuliers dans l'entretien de leurs espaces verts depuis plus de quinze ans. </p>
+                <div class="hero-buttons">
+                    <button onclick="window.location.href='{{ path('reservation_step1') }}'" class="btn-filled">Réservation</button>
+                    <button onclick="window.location.href='#services'" class="btn-outline">Services</button>
                 </div>
             </div>
 
-            <div class="services-right">
-                <div class="service-item" data-image="{{ asset('images/desherbage.png') }}">
-                    <div class="service-header">
-                        <span>Désherbage</span>
-                        <i class="icon-plus">+</i>
-                    </div>
-                    <div class="service-content">
-                        <p>Nous retirons les mauvaises herbes à la main ou avec les outils adaptés afin de protéger vos plantes et d’éviter qu’elles ne soient envahies. Un désherbage régulier permet de garder vos massifs propres, équilibrés et agréables à regarder.</p>
-                    </div>
-                </div>
-                <!-- Added Arrosage item back which was missing in previous list snippet but present in mockup context -->
-                <div class="service-item" data-image="{{ asset('images/arrosage.png') }}">
-                    <div class="service-header">
-                        <span>Arrosage</span>
-                        <i class="icon-plus">+</i>
-                    </div>
-                    <div class="service-content">
-                        <p>Nous apportons un arrosage adapté à vos végétaux ainsi qu’un entretien complet de vos massifs : nettoyage, aération du sol, enlèvement des feuilles mortes et vérification de l’état des plantes. Idéal pour garder un jardin fleuri et en pleine forme.</div>
-                </div>
-                <div class="service-item" data-image="{{ asset('images/taillehaie.png') }}">
-                    <div class="service-header">
-                        <span>Taille arbres et haies</span>
-                        <i class="icon-plus">+</i>
-                    </div>
-                    <div class="service-content">
-                        <p>Nous taillons vos haies, arbustes et petits arbres pour maintenir une forme harmonieuse, favoriser la croissance et éviter les branches dangereuses. Une taille régulière garantit un jardin structuré, sain et esthétique toute l’année.</div>
-                </div>
-                <div class="service-item" data-image="{{ asset('images/dechetverts.png') }}">
-                    <div class="service-header">
-                        <span>Enlèvement des déchets verts</span>
-                        <i class="icon-plus">+</i>
-                    </div>
-                    <div class="service-content">
-                        <p>Nous collectons et évacuons tous vos déchets verts : branches coupées, herbes, feuilles, résidus de taille ou de tonte. Ce service vous évite les allers-retours en déchetterie et garantit un jardin propre et dégagé après chaque intervention.</div>
-                </div>
-                <div class="service-item" data-image="{{ asset('images/entretienfleur.png') }}">
-                    <div class="service-header">
-                        <span>Entretien fleurs et arbustes</span>
-                        <i class="icon-plus">+</i>
-                    </div>
-                    <div class="service-content">
-                        <p>Nous prenons soin de vos fleurs et arbustes grâce à un entretien adapté : nettoyage, désherbage localisé, arrosage, apport de terre ou d’engrais si nécessaire, et vérification de la santé des plantes. Idéal pour garder vos massifs fleuris, harmonieux et en pleine vitalité toute l’année.</div>
-                </div>
+            <!-- Conseil Card -->
+            <div class="conseil-card">
+                <h3>Conseil du jardinier</h3>
+                <p>Pour un jardin en pleine santé, pensez à arroser tôt le matin : cela réduit l’évaporation et renforce l’efficacité de l’arrosage. Idéal pour économiser l’eau tout en préservant vos plantes.</p>
             </div>
         </div>
-    </div>
-
-    <script>
-        const mainImage = document.getElementById('service-main-image');
-        const defaultImage = '{{ asset('images/base.png') }}';
-
-        document.querySelectorAll('.service-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-
-                // Close other items
-                document.querySelectorAll('.service-item').forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                    }
-                });
-
-                if (isActive) {
-                    // If it was active, it's closing now
-                    item.classList.remove('active');
-                    mainImage.src = defaultImage;
-                } else {
-                    // Opening new item
-                    item.classList.toggle('active');
-                    // Change image
-                    const newImage = item.getAttribute('data-image');
-                    if(newImage) {
-                        mainImage.src = newImage;
-                    }
-                }
-            });
-        });
-
-    </script>
-    <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
-
-    <!-- SERVICES 2 SECTION (Pourquoi nous choisir) -->
-    <div id="services2">
-        <div class="services2-header">
-            <div class="header-left">
-                <p class="service-eyebrow">Services</p>
-                <h2>Pourquoi nous choisir</h2>
-                <div class="header-desc-row">
-                    <p class="service-subtext">Profitez d'un jardin propre, entretenu et agréable toute l'année.<br>Nous intervenons à domicile pour effectuer les tâches difficiles ou chronophages, avec soin et professionnalisme.</p>
-                </div>
+        <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
+        <div id="presentation">
+            <div class="presentation_partie">
+                <img src="{{ asset('images/accueil_presentation.png') }}" alt="Monsieur Harmonie accrouppi, s'occuppant d'un parterre de fleurs.">
             </div>
-            <div class="header-right">
-                <button onclick="window.location.href='{{ path('reservation_step1') }}'" class="btn-reservations">Réservation</button>
-                <button onclick="window.location.href='#services'" class="btn-outline">Services</button>
+            <div class="presentation_partie">
+                <p>Présentation</p>
+                <p>Jardin Harmonie</p>
+                <p>
+                    Jardin Harmonie acompagne les particuliers dans l'entretien de leurs espaces verts depuis plus de quinze ans.
+                    <br><br>
+                    Passionné depuis toujours par le jardinage, j'ai commencé en aidant mes voisins à entretenir leurs haies et leurs massifs de fleurs. J'ai ensuite créé ma propre entreprise pour aider le plus de personnes possible à prendre soin de leur jardin.
+                    <br><br>
+                    Au fil des années, j'ai développé un service à domicile simple, efficace et adapté aux besoins de chacun en proposant des interventions ponctuelles.
+                    <br><br>
+                    Aujourd'hui, je continue de mettre en valeur les jardins de mes clients avec patience, écoute et bienveillance afin d'offrir à chacun un exterieur propre et agréable.
+                </p>
             </div>
         </div>
-
-        <div class="services2-grid">
-            <!-- Card 1 -->
-            <div class="s2-card" style="background-image: url('{{ asset('images/acueil_services2_1.png') }}')">
-                <div class="s2-card-content">
-                    <img src="{{ asset('images/icon_pro.svg') }}" alt="Icon Professionnel">
-                    <h3>Un service fiable et professionnel</h3>
-                    <p>Nous intervenons avec méthode, ponctualité et sérieux pour garantir un travail propre et durable.</p>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="s2-card" style="background-image: url('{{ asset('images/acueil_services2_2.png') }}');">
-                <div class="s2-card-content">
-                    <img src="{{ asset('images/icon_adapté.svg') }}" alt="Icon Adapté">
-                    <h3>Un service adapté à votre jardin</h3>
-                    <p>Chaque jardin est unique : nous adaptons nos interventions selon vos plantes, votre terrain et vos attentes.</p>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="s2-card" style="background-image: url('{{ asset('images/acueil_services2_3.png') }}');">
-                <div class="s2-card-content">
-                    <img src="{{ asset('images/icon_confort.svg') }}" alt="Icon Confort">
-                    <h3>Un confort au quotidien</h3>
-                    <p>Profitez d'un jardin impeccable sans effort, grâce à des passages réguliers ou ponctuels selon votre rythme.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
-    <div id="portfolio">
-        <div class="portfolio-header">
-            <p class="eyebrow">Portfolio</p>
-            <h2>Nos réalisations</h2>
-            <p class="description">Découvrez quelques-uns de nos travaux d'entretien et d'aménagement, réalisés chez nos clients. Des jardins propres, soignés et faciles à vivre.</p>
-        </div>
-
-        <div class="portfolio-grid">
-            <img src="{{ asset('images/accueil_portfolio_1.png') }}" alt="Réalisation 1" class="p-img p-img-1">
-            <img src="{{ asset('images/accueil_portfolio_2.png') }}" alt="Réalisation 2" class="p-img p-img-2">
-            <img src="{{ asset('images/accueil_portfolio_3.png') }}" alt="Réalisation 3" class="p-img p-img-3">
-            <img src="{{ asset('images/accueil_portfolio_4.png') }}" alt="Réalisation 4" class="p-img p-img-4">
-            <img src="{{ asset('images/accueil_portfolio_5.png') }}" alt="Réalisation 5" class="p-img p-img-5">
-            <img src="{{ asset('images/accueil_portfolio_6.png') }}" alt="Réalisation 6" class="p-img p-img-6">
-        </div>
-    </div>
-    <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
-    <div id="avis">
-        <div class="avis-header">
-            <h2>Avis de nos clients</h2>
-            <div class="header-row">
-                <p>Ils nous font confiance pour entretenir leur jardin au quotidien. Voici ce qu'ils pensent de nos interventions.</p>
+        <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
+        <!-- SERVICES SECTION -->
+        <div id="services">
+            <div class="services-header">
+                <h2>Nos services d'entretien de jardin</h2>
                 <button onclick="window.location.href='{{ path('reservation_step1') }}'" class="btn-reservations">Réservation</button>
             </div>
-        </div>
 
-        <div class="avis-carousel" id="avis-carousel-bg" style="background-image: url('{{ asset('images/accueil_avis.png') }}');">
-            <div class="review-card">
-                <p id="review-text">“ Service impeccable ! L'équipe a taillé mes haies et nettoyé tout le jardin en un après-midi. Très gentils et à l'écoute. Je recommande sans hésiter. ”</p>
+            <div class="services-container">
+                <div class="services-left">
+                    <p class="service-description">Profitez d'un jardin propre, entretenu et agréable toute l'année.<br>Nous intervenons à domicile pour effectuer les tâches difficiles ou chronophages, avec soin et professionnalisme.</p>
+                    <div class="image-wrapper">
+                        <img id="service-main-image" src="{{ asset('images/base.png') }}" alt="Service Illustration">
+                    </div>
+                </div>
 
-                <div class="review-footer">
-                    <div class="reviewer-info">
-                        <img id="review-img" src="{{ asset('images/accueil_avis_pp.jpg') }}" alt="Profile">
-                        <div class="info-text">
-                            <span id="review-name" class="name">DUBOIS Marie</span>
-                            <span id="review-date" class="date">04/10/2025</span>
+                <div class="services-right">
+                    <div class="service-item" tabindex="0" role="button" data-image="{{ asset('images/desherbage.png') }}">
+                        <div class="service-header">
+                            <span>Désherbage</span>
+                            <i class="icon-plus">+</i>
+                        </div>
+                        <div class="service-content">
+                            <p>Nous retirons les mauvaises herbes à la main ou avec les outils adaptés afin de protéger vos plantes et d’éviter qu’elles ne soient envahies. Un désherbage régulier permet de garder vos massifs propres, équilibrés et agréables à regarder.</p>
                         </div>
                     </div>
-                    <div class="nav-buttons">
-                        <button id="prev-review" class="nav-btn prev"></button>
-                        <button id="next-review" class="nav-btn next"></button>
+
+                    <div class="service-item" tabindex="0" role="button" data-image="{{ asset('images/arrosage.png') }}">
+                        <div class="service-header">
+                            <span>Arrosage</span>
+                            <i class="icon-plus">+</i>
+                        </div>
+                        <div class="service-content">
+                            <p>Nous apportons un arrosage adapté à vos végétaux ainsi qu’un entretien complet de vos massifs : nettoyage, aération du sol, enlèvement des feuilles mortes et vérification de l’état des plantes. Idéal pour garder un jardin fleuri et en pleine forme.</div>
+                    </div>
+                    <div class="service-item" tabindex="0" role="button" data-image="{{ asset('images/taillehaie.png') }}">
+                        <div class="service-header">
+                            <span>Taille arbres et haies</span>
+                            <i class="icon-plus">+</i>
+                        </div>
+                        <div class="service-content">
+                            <p>Nous taillons vos haies, arbustes et petits arbres pour maintenir une forme harmonieuse, favoriser la croissance et éviter les branches dangereuses. Une taille régulière garantit un jardin structuré, sain et esthétique toute l’année.</div>
+                    </div>
+                    <div class="service-item" tabindex="0" role="button" data-image="{{ asset('images/dechetverts.png') }}">
+                        <div class="service-header">
+                            <span>Enlèvement des déchets verts</span>
+                            <i class="icon-plus">+</i>
+                        </div>
+                        <div class="service-content">
+                            <p>Nous collectons et évacuons tous vos déchets verts : branches coupées, herbes, feuilles, résidus de taille ou de tonte. Ce service vous évite les allers-retours en déchetterie et garantit un jardin propre et dégagé après chaque intervention.</div>
+                    </div>
+                    <div class="service-item" tabindex="0" role="button" data-image="{{ asset('images/entretienfleur.png') }}">
+                        <div class="service-header">
+                            <span>Entretien fleurs et arbustes</span>
+                            <i class="icon-plus">+</i>
+                        </div>
+                        <div class="service-content">
+                            <p>Nous prenons soin de vos fleurs et arbustes grâce à un entretien adapté : nettoyage, désherbage localisé, arrosage, apport de terre ou d’engrais si nécessaire, et vérification de la santé des plantes. Idéal pour garder vos massifs fleuris, harmonieux et en pleine vitalité toute l’année.</div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        const reviews = [
-            {
-                text: "“ Service impeccable ! L'équipe a taillé mes haies et nettoyé tout le jardin en un après-midi. Très gentils et à l'écoute. Je recommande sans hésiter. ”",
-                name: "DUBOIS Marie",
-                date: "04/10/2025",
-                img: "{{ asset('images/accueil_avis_pp.avif') }}",
-                bg: "{{ asset('images/accueil_avis.png') }}"
-            },
-            {
-                text: "“ Un travail de grande qualité. Mon jardin n'a jamais été aussi beau. L'équipe est ponctuelle et très professionnelle. ”",
-                name: "MARTIN Pierre",
-                date: "12/09/2025",
-                img: "{{ asset('images/accueil_avis_pp2.avif') }}", // Placeholder if no other PP available
-                bg: "{{ asset('images/accueil_avis2.jpg') }}" // Placeholder background
-            },
-            {
-                text: "“ Excéllent rapport qualité/prix. Je fais appel à eux depuis 2 ans et je ne suis jamais déçue. ”",
-                name: "BERNARD Sophie",
-                date: "28/08/2025",
-                img: "{{ asset('images/accueil_avis_pp3.avif') }}",
-                bg: "{{ asset('images/accueil_avis3.avif') }}"
+        <script>
+            const mainImage = document.getElementById('service-main-image');
+            const defaultImage = '{{ asset('images/base.png') }}';
+
+            document.querySelectorAll('.service-item').forEach(item => {
+                const toggleService = () => {
+                    const isActive = item.classList.contains('active');
+
+                    // Close other items
+                    document.querySelectorAll('.service-item').forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+
+                    if (isActive) {
+                        // If it was active, it's closing now
+                        item.classList.remove('active');
+                        mainImage.src = defaultImage;
+                    } else {
+                        // Opening new item
+                        item.classList.toggle('active');
+                        // Change image
+                        const newImage = item.getAttribute('data-image');
+                        if(newImage) {
+                            mainImage.src = newImage;
+                        }
+                    }
+                };
+
+                item.addEventListener('click', toggleService);
+
+                // Keyboard accessibility
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault(); // Prevent scrolling for Space
+                        toggleService();
+                    }
+                });
+            });
+
+        </script>
+        <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
+
+        <!-- SERVICES 2 SECTION (Pourquoi nous choisir) -->
+        <div id="services2">
+            <div class="services2-header">
+                <div class="header-left">
+                    <p class="service-eyebrow">Services</p>
+                    <h2>Pourquoi nous choisir</h2>
+                    <div class="header-desc-row">
+                        <p class="service-subtext">Profitez d'un jardin propre, entretenu et agréable toute l'année.<br>Nous intervenons à domicile pour effectuer les tâches difficiles ou chronophages, avec soin et professionnalisme.</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button onclick="window.location.href='{{ path('reservation_step1') }}'" class="btn-reservations">Réservation</button>
+                    <button onclick="window.location.href='#services'" class="btn-outline">Services</button>
+                </div>
+            </div>
+
+            <div class="services2-grid">
+                <!-- Card 1 -->
+                <div class="s2-card" style="background-image: url('{{ asset('images/acueil_services2_1.png') }}')">
+                    <div class="s2-card-content">
+                        <img src="{{ asset('images/icon_pro.svg') }}" alt="Icon Professionnel">
+                        <h3>Un service fiable et professionnel</h3>
+                        <p>Nous intervenons avec méthode, ponctualité et sérieux pour garantir un travail propre et durable.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="s2-card" style="background-image: url('{{ asset('images/acueil_services2_2.png') }}');">
+                    <div class="s2-card-content">
+                        <img src="{{ asset('images/icon_adapté.svg') }}" alt="Icon Adapté">
+                        <h3>Un service adapté à votre jardin</h3>
+                        <p>Chaque jardin est unique : nous adaptons nos interventions selon vos plantes, votre terrain et vos attentes.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="s2-card" style="background-image: url('{{ asset('images/acueil_services2_3.png') }}');">
+                    <div class="s2-card-content">
+                        <img src="{{ asset('images/icon_confort.svg') }}" alt="Icon Confort">
+                        <h3>Un confort au quotidien</h3>
+                        <p>Profitez d'un jardin impeccable sans effort, grâce à des passages réguliers ou ponctuels selon votre rythme.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
+        <div id="portfolio">
+            <div class="portfolio-header">
+                <p class="eyebrow">Portfolio</p>
+                <h2>Nos réalisations</h2>
+                <p class="description">Découvrez quelques-uns de nos travaux d'entretien et d'aménagement, réalisés chez nos clients. Des jardins propres, soignés et faciles à vivre.</p>
+            </div>
+
+            <div class="portfolio-grid">
+                <img src="{{ asset('images/accueil_portfolio_1.png') }}" alt="Réalisation 1" class="p-img p-img-1">
+                <img src="{{ asset('images/accueil_portfolio_2.png') }}" alt="Réalisation 2" class="p-img p-img-2">
+                <img src="{{ asset('images/accueil_portfolio_3.png') }}" alt="Réalisation 3" class="p-img p-img-3">
+                <img src="{{ asset('images/accueil_portfolio_4.png') }}" alt="Réalisation 4" class="p-img p-img-4">
+                <img src="{{ asset('images/accueil_portfolio_5.png') }}" alt="Réalisation 5" class="p-img p-img-5">
+                <img src="{{ asset('images/accueil_portfolio_6.png') }}" alt="Réalisation 6" class="p-img p-img-6">
+            </div>
+        </div>
+        <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
+        <div id="avis">
+            <div class="avis-header">
+                <h2>Avis de nos clients</h2>
+                <div class="header-row">
+                    <p>Ils nous font confiance pour entretenir leur jardin au quotidien. Voici ce qu'ils pensent de nos interventions.</p>
+                    <button onclick="window.location.href='{{ path('reservation_step1') }}'" class="btn-reservations">Réservation</button>
+                </div>
+            </div>
+
+            <div class="avis-carousel" id="avis-carousel-bg" style="background-image: url('{{ asset('images/accueil_avis.png') }}');">
+                <div class="review-card">
+                    <p id="review-text">“ Service impeccable ! L'équipe a taillé mes haies et nettoyé tout le jardin en un après-midi. Très gentils et à l'écoute. Je recommande sans hésiter. ”</p>
+
+                    <div class="review-footer">
+                        <div class="reviewer-info">
+                            <img id="review-img" src="{{ asset('images/accueil_avis_pp.jpg') }}" alt="Profile">
+                            <div class="info-text">
+                                <span id="review-name" class="name">DUBOIS Marie</span>
+                                <span id="review-date" class="date">04/10/2025</span>
+                            </div>
+                        </div>
+                        <div class="nav-buttons">
+                            <button id="prev-review" class="nav-btn prev"></button>
+                            <button id="next-review" class="nav-btn next"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const reviews = [
+                {
+                    text: "“ Service impeccable ! L'équipe a taillé mes haies et nettoyé tout le jardin en un après-midi. Très gentils et à l'écoute. Je recommande sans hésiter. ”",
+                    name: "DUBOIS Marie",
+                    date: "04/10/2025",
+                    img: "{{ asset('images/accueil_avis_pp.jpg') }}",
+                    bg: "{{ asset('images/accueil_avis.png') }}"
+                },
+                {
+                    text: "“ Un travail de grande qualité. Mon jardin n'a jamais été aussi beau. L'équipe est ponctuelle et très professionnelle. ”",
+                    name: "MARTIN Pierre",
+                    date: "12/09/2025",
+                    img: "{{ asset('images/accueil_avis_pp.jpg') }}", // Placeholder if no other PP available
+                    bg: "{{ asset('images/accueil_header.png') }}" // Placeholder background
+                },
+                {
+                    text: "“ Excéllent rapport qualité/prix. Je fais appel à eux depuis 2 ans et je ne suis jamais déçue. ”",
+                    name: "BERNARD Sophie",
+                    date: "28/08/2025",
+                    img: "{{ asset('images/accueil_avis_pp.jpg') }}",
+                    bg: "{{ asset('images/accueil_presentation.png') }}"
+                }
+            ];
+
+            let currentReviewIndex = 0;
+
+            const carouselBg = document.getElementById('avis-carousel-bg');
+            const reviewText = document.getElementById('review-text');
+            const reviewName = document.getElementById('review-name');
+            const reviewDate = document.getElementById('review-date');
+            const reviewImg = document.getElementById('review-img');
+            const prevBtn = document.getElementById('prev-review');
+            const nextBtn = document.getElementById('next-review');
+
+            function updateReview(index) {
+                const review = reviews[index];
+                carouselBg.style.backgroundImage = `url('${review.bg}')`;
+                reviewText.innerText = review.text;
+                reviewName.innerText = review.name;
+                reviewDate.innerText = review.date;
+                reviewImg.src = review.img;
             }
-        ];
 
-        let currentReviewIndex = 0;
+            prevBtn.addEventListener('click', () => {
+                currentReviewIndex = (currentReviewIndex - 1 + reviews.length) % reviews.length;
+                updateReview(currentReviewIndex);
+            });
 
-        const carouselBg = document.getElementById('avis-carousel-bg');
-        const reviewText = document.getElementById('review-text');
-        const reviewName = document.getElementById('review-name');
-        const reviewDate = document.getElementById('review-date');
-        const reviewImg = document.getElementById('review-img');
-        const prevBtn = document.getElementById('prev-review');
-        const nextBtn = document.getElementById('next-review');
-
-        function updateReview(index) {
-            const review = reviews[index];
-            carouselBg.style.backgroundImage = `url('${review.bg}')`;
-            reviewText.innerText = review.text;
-            reviewName.innerText = review.name;
-            reviewDate.innerText = review.date;
-            reviewImg.src = review.img;
-        }
-
-        prevBtn.addEventListener('click', () => {
-            currentReviewIndex = (currentReviewIndex - 1 + reviews.length) % reviews.length;
-            updateReview(currentReviewIndex);
-        });
-
-        nextBtn.addEventListener('click', () => {
-            currentReviewIndex = (currentReviewIndex + 1) % reviews.length;
-            updateReview(currentReviewIndex);
-        });
-    </script>
-    <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
-    <div id="blog">
-        <div class="blog-header">
-            <div class="header-left">
-                <p class="eyebrow">Le blog</p>
-                <h2>L'actualité</h2>
-                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
-            </div>
-            <div class="header-right">
-                <button onclick="window.location.href='{{ path('app_actualite') }}'" class="btn-news">Voir les actualités</button>
-            </div>
-        </div>
-
-        <div class="blog-grid">
-            <div class="blog-card" onclick="window.location.href='{{ path('app_article1') }}'">
-                <img src="{{ asset('images/accueil_blog_1.png') }}" alt="Card 1">
-                <h3>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h3>
-                <hr>
-                <div class="card-footer">
-                    <span class="date">14 Mars, 2025</span>
-                    <span class="read-more">Lire plus &gt;</span>
+            nextBtn.addEventListener('click', () => {
+                currentReviewIndex = (currentReviewIndex + 1) % reviews.length;
+                updateReview(currentReviewIndex);
+            });
+        </script>
+        <!--°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°-->
+        <div id="blog">
+            <div class="blog-header">
+                <div class="header-left">
+                    <p class="eyebrow">Le blog</p>
+                    <h2>L'actualité</h2>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
+                </div>
+                <div class="header-right">
+                    <button onclick="window.location.href='{{ path('app_actualite') }}'" class="btn-news">Voir les actualités</button>
                 </div>
             </div>
 
-            <div class="blog-card" onclick="window.location.href='{{ path('app_actualite') }}'">
-                <img src="{{ asset('images/accueil_blog_2.png') }}" alt="Card 2">
-                <h3>5 conseils simples pour garder vos plantes en pleine forme</h3>
-                <hr>
-                <div class="card-footer">
-                    <span class="date">23 Juin, 2024</span>
-                    <span class="read-more">Lire plus &gt;</span>
+            <div class="blog-grid">
+                <div class="blog-card" tabindex="0" role="button" onclick="window.location.href='{{ path('app_article1') }}'" onkeydown="if(event.key==='Enter'||event.key===' ') window.location.href='{{ path('app_article1') }}'">
+                    <img src="{{ asset('images/accueil_blog_1.png') }}" alt="Card 1">
+                    <h3>Pourquoi un entretien régulier est essentiel pour garder un jardin en bonne santé</h3>
+                    <hr>
+                    <div class="card-footer">
+                        <span class="date">14 Mars, 2025</span>
+                        <span class="read-more">Lire plus &gt;</span>
+                    </div>
+                </div>
+
+                <div class="blog-card" tabindex="0" role="button" onclick="window.location.href='{{ path('app_actualite') }}'" onkeydown="if(event.key==='Enter'||event.key===' ') window.location.href='{{ path('app_actualite') }}'">
+                    <img src="{{ asset('images/accueil_blog_2.png') }}" alt="Card 2">
+                    <h3>5 conseils simples pour garder vos plantes en pleine forme</h3>
+                    <hr>
+                    <div class="card-footer">
+                        <span class="date">23 Juin, 2024</span>
+                        <span class="read-more">Lire plus &gt;</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </main>
 {% endblock %}
