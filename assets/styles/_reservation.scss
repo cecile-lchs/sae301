@@ -19,7 +19,7 @@
 /* --- SIDEBAR --- */
 /* --- SIDEBAR --- */
 .sidebar {
-    width: 370px;
+    width: 400px;
     background: url('../images/formulaire.png') no-repeat center center/cover;
     position: relative;
     display: flex;
@@ -27,13 +27,13 @@
     justify-content: space-between;
     color: white;
 
-    &::before {
+    /*&::before {
         content: '';
         position: absolute;
         inset: 0;
         background: rgba(0, 0, 0, 0.4);
         z-index: 0;
-    }
+    }*/
 
     /* Wrapper for top content (close button) */
     .sidebar-content {
@@ -41,24 +41,33 @@
         z-index: 1;
         padding: 20px;
         padding-bottom: 10px;
-        flex: 1;
+        /* flex: 1 removed to allow recap to take space */
         display: flex;
         flex-direction: column;
         min-height: 0;
     }
 
-    button.close-cross {
+    a.btn-home-return {
         position: absolute;
-        top: 15px;
-        left: 15px;
-        background: none;
-        border: none;
-        cursor: pointer;
+        top: 20px;
+        left: 20px;
+        text-decoration: none;
+        color: white;
+        /* Matches sidebar text */
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 0.95rem;
         z-index: 2;
-        padding: 5px;
+        transition: color 0.2s;
 
-        &:hover svg {
-            stroke: #FFA100;
+        svg {
+            stroke: currentColor;
+        }
+
+        &:hover {
+            color: #FFA100;
         }
     }
 }
@@ -68,7 +77,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    margin: 15px 30px 5px 0;
+    margin: 15px 30px 30px 0;
     /* Reduced margins */
     width: 100%;
 
@@ -147,23 +156,33 @@
 
 /* --- RECAP SECTION INSIDE SIDEBAR --- */
 .sidebar-recap {
-    position: relative;
-    z-index: 2;
-    /* Content above overlay */
-    background-color: #F0FFF4;
-    /* Light Green */
+    background-color: #F4FBF6;
+    /* Very light green */
     color: #103A21;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    /* Push content to bottom */
+    margin-top: auto;
+    /* Push to bottom */
+    flex: 0 0 auto;
+    /* Do not expand to fill height, just take content height */
+    width: 100%;
+    /* Ensure full width */
 
     .recap-content {
-        padding: 20px 30px;
+        padding: 30px;
+        flex: 0 1 auto;
+        overflow-y: auto;
+        max-height: 40vh;
+        /* Reduced max-height slightly to keep it compact */
 
         h4 {
             color: #FFA100;
             font-size: 1.1rem;
-            margin: 0 0 15px 0;
+            margin: 0 0 20px 0;
             font-weight: 700;
+            text-transform: uppercase;
         }
 
         ul {
@@ -173,29 +192,32 @@
 
             li {
                 color: #103A21;
-                font-size: 0.95rem;
-                margin-bottom: 8px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+                font-weight: 500;
             }
         }
     }
 
     .recap-footer {
         background-color: #103A21;
-        /* Dark Green */
         color: white;
-        padding: 20px 30px;
+        height: 100px;
+        /* Fixed height to match button */
+        padding: 0 30px;
+        /* Horizontal padding only */
         display: flex;
         justify-content: space-between;
         align-items: center;
 
         .label {
-            font-weight: 500;
-            font-size: 1rem;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
 
         .price {
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
         }
     }
 }
@@ -237,7 +259,7 @@
     align-items: center;
     gap: 5px;
     /* Reduced gap */
-    margin-bottom: 15px;
+    margin-bottom: 50px;
     /* Reduced margin */
     position: relative;
     width: 100%;
@@ -354,12 +376,12 @@
 
     cursor: pointer;
     position: relative;
-    flex: 1 1 15vw;
-    /* Responsive width based on viewport */
-    max-width: 25vw;
-    /* Max width relative to viewport */
+    flex: 1 1 auto;
+    /* Allow grow and shrink, but based on content */
+    width: auto;
     min-width: 150px;
     /* Safe minimum */
+    /* Removed max-width to allow long titles on one line */
 
 
 }
@@ -368,61 +390,96 @@
     display: none;
 
     &:checked+.card-inner {
-        background-color: #fff;
-        box-shadow: 0 0 0 2px #103A21 inset;
+        border-color: #103A21;
+
+        .card-top {
+            background-color: #103A21;
+            color: white;
+
+            .price,
+            .name,
+            .duration {
+                color: white;
+            }
+        }
+
+        .card-bottom {
+            /* Already green */
+        }
     }
 }
 
 .service-card .card-inner {
-    border: 1px solid #103A21;
+    border: 2px solid #103A21;
     border-radius: 20px;
-    padding: 15px 10px;
-    /* Compact padding */
+    padding: 0;
+    /* Remove padding to let children fill */
     display: flex;
     flex-direction: column;
-    align-items: center;
     text-align: center;
-    height: 130px;
-    /* Reduced height */
+    height: 160px;
+    /* Slight increase to fit design */
     transition: all 0.2s;
     background: white;
     position: relative;
+    overflow: hidden;
+    /* Ensure children fill corners */
 
     &:hover {
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
-    .time-badge {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 0.75rem;
-        /* Smaller font */
-        font-weight: 700;
-        color: #333;
-    }
-
-    .icon-wrapper {
-        flex: 1;
+    .card-top {
+        background: white;
+        padding: 15px 20px;
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        justify-content: center;
-        margin-bottom: 5px;
+        transition: background-color 0.2s;
 
-        img {
-            height: 40px;
-            /* Smaller icons */
-            width: auto;
+        .price,
+        .name,
+        .duration {
+            font-weight: 700;
+            color: #103A21;
+            font-size: 0.9rem;
+        }
+
+        .name {
+            flex: 0 0 auto;
+            /* Do not shrink, take necessary space */
+            text-align: center;
+            font-size: 1rem;
+            text-transform: capitalize;
+            white-space: nowrap;
+            padding: 0 10px;
         }
     }
 
-    h3 {
-        font-size: 0.85rem;
-        /* Smaller font */
-        font-weight: 700;
-        color: #103A21;
-        line-height: 1.2;
-        margin: 0;
+    .card-bottom {
+        flex: 1;
+        /* Fill remaining height */
+        background-color: #103A21;
+        display: flex;
+        /* Center icon */
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+
+        .icon-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                height: 50px;
+                width: auto;
+                filter: brightness(0) invert(1);
+                /* Ensure icon is white */
+            }
+        }
     }
 }
 
@@ -685,13 +742,25 @@
 /* --- BOTTOM BAR --- */
 .bottom-bar {
     display: flex;
-    height: 80px;
+    height: 100px;
+    /* Matched to recap footer height */
     padding: 0;
     margin: 0;
     width: 100%;
     margin-top: auto;
     flex-shrink: 0;
-    background: #FFA100;
+    background: #ccc;
+    /* Default gray (disabled state) */
+    transition: background-color 0.3s;
+
+    &.active {
+        background: #FFA100;
+        /* Active orange */
+    }
+
+    &.active:hover{
+        background:#cc8100;
+    }
 
     .price-container {
         flex: 1;
@@ -710,24 +779,34 @@
     }
 
     button.btn-next {
-        flex: 2;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        /* Center it */
+
         background: #FFA100;
         border: none;
         color: white;
-        font-family: inherit;
         font-size: 1.2rem;
         font-weight: 700;
         cursor: pointer;
+        transition: background 0.3s;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
-        transition: background 0.3s;
 
         &:hover {
-            background: #CC8100;
-            /* Darkened #FFA100 */
-            transform: none;
+            background: #cc8100;
+        }
+
+        &:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .arrow {
+            font-size: 1.4rem;
         }
     }
 }
@@ -882,7 +961,7 @@
     }
 
     .content-header {
-        margin-bottom: 20px;
+        margin-bottom: 50px;
 
         .page-title {
             font-size: 1.5rem;
@@ -1007,7 +1086,7 @@
     background: #fff;
     border-radius: 14px;
     padding: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 /* HEADER */
@@ -1045,7 +1124,8 @@
 }
 
 /* WEEK-END */
-.fc-day-sat, .fc-day-sun {
+.fc-day-sat,
+.fc-day-sun {
     background: #fafafa;
 }
 
@@ -1071,11 +1151,13 @@
 }
 
 .field-error-msg {
-    display: none;  /* par défaut caché */
+    display: none;
+    /* par défaut caché */
     color: #d32f2f;
     font-size: 0.8rem;
     margin-top: 5px;
 }
+
 .field-error-msg.active {
     display: block;
 }

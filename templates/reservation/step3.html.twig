@@ -106,12 +106,13 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-content">
-            <button class="close-cross" onclick="window.location.href='{{ path('app_accueil') }}'">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
+            <a href="{{ path('app_accueil') }}" class="btn-home-return">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
-            </button>
+                Retour à l'accueil
+            </a>
         </div>
 
         <div class="sidebar-recap">
@@ -224,7 +225,7 @@
                         </div>
                         <div class="form-group full-width">
                             <label>Numéro de téléphone</label>
-                            <input type="tel" name="phone" id="phone" placeholder="Entrez un numéro de téléphone *" value="{{ reservationInfo.phone|default('') }}" class="{{ errors.phone is defined ? 'input-error' : '' }}">
+                            <input type="tel" name="phone" id="phone" placeholder="Entrez un numéro de téléphone *" value="{{ reservationInfo.phone|default('') }}" class="{{ errors.phone is defined ? 'input-error' : '' }}" pattern="\d{10}" maxlength="10">
                             {% if errors.phone is defined %}<div class="text-danger small">{{ errors.phone }}</div>{% endif %}
                         </div>
                         <div class="form-group full-width">
@@ -292,9 +293,132 @@
             if(input) input.value = v;
         }
 
+        const btnNext = document.querySelector('.btn-next');
+
+        // Initial Check
+
+        const phoneInput = document.getElementById('phone');
+
+        function validateField(input) {
+            const val = input.value.trim();
+            let valid = true;
+            let errorMsg = '';
+
+            if(input.required && !val) {
+                valid = false;
+                // standard required
+            } else if(val) {
+                if(input.name === 'phone') {
+                    // EXACTLY 10 digits
+                    if(!/^\d{10}$/.test(val)) {
+                        valid = false;
+                        errorMsg = '10 chiffres requis';
+                    }
+                }
+                else if(input.name === 'email') {
+                    // Simple regex for email or just check '@'
+                    // User complained about missing message, so let's be explicit
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if(!emailRegex.test(val)) {
+                        valid = false;
+                        errorMsg = "Format d'email invalide";
+                    }
+                }
+                else if(input.name === 'adresse') {
+                    if(val.length <= 1) {
+                        valid = false;
+                        errorMsg = 'Adresse trop courte'; // "Empêcher ... si qu’une seule lettre" -> requires > 1
+                    }
+                }
+            }
+
+            if(!valid) {
+                input.style.borderColor = 'red';
+                if(errorMsg) {
+                    // Optional: Try to inject message if structure exists or using built-in
+                    // Existing code creates divs with error-name? No, standard Symfony errors are rendered.
+                    // The JS clears/shows #error-{name}.
+                    // Let's ensure we can show a JS dynamic error if we want, OR just rely on border + button disabling.
+                    // User said: "Afficher le texte d'invalidité d’un champ dès que l’utilisateur sort de ce champ"
+                    // So we SHOULD show text.
+                    const errDiv = document.querySelector(`#error-${input.name}-js`)
+                        || document.createElement('div');
+                    if(!errDiv.id) {
+                        errDiv.id = `error-${input.name}-js`;
+                        errDiv.className = 'text-danger small';
+                        input.parentNode.appendChild(errDiv);
+                    }
+                    errDiv.textContent = errorMsg || 'Champ invalide';
+                    errDiv.style.display = 'block';
+                }
+            } else {
+                input.style.borderColor = '';
+                const errDiv = document.getElementById(`error-${input.name}-js`);
+                if(errDiv) errDiv.style.display = 'none';
+                clearFieldError(input.name); // Clear server errors if any
+            }
+            return valid;
+        }
+
+        function checkGlobalValidity() {
+            let allValid = true;
+            formInputs.forEach(input => {
+                const val = input.value.trim();
+                if(input.required && !val) allValid = false;
+
+                if(input.name === 'phone' && !/^\d{10}$/.test(val)) allValid = false;
+                if(input.type === 'email' && val && !val.includes('@')) allValid = false;
+                if(input.name === 'adresse' && val.length <= 1) allValid = false;
+            });
+
+            const bottomBar = document.querySelector('.bottom-bar');
+            if(allValid) {
+                btnNext.disabled = false;
+                btnNext.style.opacity = '1';
+                btnNext.style.cursor = 'pointer';
+                bottomBar.classList.add('active');
+            } else {
+                btnNext.disabled = true;
+                btnNext.style.opacity = '0.5';
+                btnNext.style.cursor = 'not-allowed';
+                bottomBar.classList.remove('active');
+            }
+            return allValid;
+        }
+
+        formInputs.forEach(input => {
+            // "Afficher le texte d'invalidité ... dès que l’utilisateur sort de ce champ"
+            input.addEventListener('blur', () => {
+                validateField(input);
+                checkGlobalValidity();
+            });
+
+            // "Empêcher la validation..." (also check on input for button state)
+            input.addEventListener('input', () => {
+                checkGlobalValidity();
+                // We can also clear errors on input if we want "friendly" behavior
+                // But request says "dès ... sort", so stick to blur for showing errors.
+                // But clearing them on correction is good UX.
+                // Let's clear visual error if it becomes arguably valid?
+                // Or just keep the button update.
+                // If I fixed it, error should go away?
+                // Minimal: just button update logic on input. Validation on blur.
+                // But let's check basic validity for clearing red border?
+                if(input.value.trim()) {
+                    // Check quick regexes to clear red instantly?
+                    // Let's just do button update to be safe and strict on blur.
+                }
+                // Actually, if I typing and fixed it, I want red to go away.
+                validateField(input); // This updates border/text instantly on input too.
+            });
+        });
+
+        checkGlobalValidity();
+
         // Address autocomplete
         let debounce;
         adresseInput.addEventListener('input', function(){
+            checkGlobalValidity(); // Also check on address input
             const query = this.value;
             clearTimeout(debounce);
             if(query.length < 3){
@@ -315,6 +439,7 @@
                                     adresseInput.value = f.properties.label;
                                     suggestionsBox.style.display = 'none';
                                     clearFieldError('adresse');
+                                    checkGlobalValidity(); // Re-check after selection
                                 });
                                 suggestionsBox.appendChild(div);
                             });
@@ -329,12 +454,15 @@
 
         // Form submit
         form.addEventListener('submit', e=>{
-            // Server-side validation requested
-            // if(!validateForm()) e.preventDefault();
-            saveToSession();
+            if(!checkGlobalValidity()) { // Double check
+                e.preventDefault();
+            } else {
+                saveToSession();
+            }
         });
     });
 </script>
 
 </body>
 </html>
+

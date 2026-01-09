@@ -135,12 +135,12 @@
             pointer-events: none;
         }
 
-         .calendar-grid {
-             display: grid;
-             grid-template-columns: repeat(7, 1fr);
-             gap: 5px;
-             margin-top: 15px;
-         }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 15px;
+        }
         .day-name {
             text-align: center;
             font-weight: bold;
@@ -328,12 +328,13 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-content">
-            <button class="close-cross" onclick="window.location.href='{{ path('app_accueil') }}'">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
+            <a href="{{ path('app_accueil') }}" class="btn-home-return">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
-            </button>
+                Retour à l'accueil
+            </a>
         </div>
 
         <div class="sidebar-recap">
@@ -600,26 +601,53 @@
             let hasSlots = false;
 
             // Iterate every 30 minutes to find valid start slots
-            while(currentMinutes + durationMinutes <= endMinutes){
-                const startStr = minutesToTime(currentMinutes);
-                const endStr = minutesToTime(currentMinutes + durationMinutes);
-                const slotRange = `${startStr}-${endStr}`;
+            while(currentMinutes < timeToMinutes("18:00")){ // Safety break at 18:00
+                // cannot start in lunch
+                if(currentMinutes >= timeToMinutes("12:00") && currentMinutes < timeToMinutes("14:00")) {
+                    currentMinutes += 30;
+                    continue;
+                }
 
-                // Check collisions
-                const isConflict = checkConflict(currentMinutes, currentMinutes + durationMinutes, busy, lunch);
+                const calc = calculateShift(currentMinutes, durationMinutes);
+                if(!calc || calc.end > endMinutes) { // Handle null or out of bounds
+                    currentMinutes += 30;
+                    continue;
+                }
+
+                // Check collisions with busy slots (Real reservations)
+                // We check the specific intervals involved
+                let isConflict = false;
+                for(let interval of calc.intervals) {
+                    if(checkConflictSimple(interval.start, interval.end, busy)) {
+                        isConflict = true;
+                        break;
+                    }
+                }
+
+                // Extra check: If NOT splitting allowed (short duration), ensure we didn't accidentally bridge lunch?
+                // calculateShift handles logic, but let's be safe.
+                // actually calculateShift only returns valid intervals based on rules.
 
                 if(!isConflict){
                     hasSlots = true;
                     const label = document.createElement('label');
+                    // ... (rest of creation) ...
                     label.className = 'time-slot';
+
+                    // Display
+                    let slotDisplay = '';
+                    if(calc.intervals.length > 1) {
+                        slotDisplay = calc.intervals.map(iv => `${minutesToTime(iv.start)} - ${minutesToTime(iv.end)}`).join(' & ');
+                    } else {
+                        slotDisplay = `${minutesToTime(calc.intervals[0].start)} - ${minutesToTime(calc.intervals[0].end)}`;
+                    }
 
                     const radio = document.createElement('input');
                     radio.type = 'radio';
                     radio.name = 'time_slot_ui';
-                    radio.value = startStr;
+                    radio.value = minutesToTime(currentMinutes);
 
                     radio.addEventListener('change', () => {
-                        // Semantic UI update
                         document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected-slot'));
                         label.classList.add('selected-slot');
 
@@ -628,24 +656,20 @@
                         sessionStorage.setItem('reservation_date', selectedDate);
                         sessionStorage.setItem('reservation_time', selectedSlot);
 
-                        // Update Sidebar Recap immediately
-                        // Calculate end time based on duration
-                        const minutes = timeToMinutes(selectedSlot);
-                        const endMinutes = minutes + durationMinutes;
-                        const endStr = minutesToTime(endMinutes);
-
-                        // Format Date
+                        // Update Sidebar Recap
                         const dObj = new Date(selectedDate);
                         const dateFormatted = dObj.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
                         document.getElementById('recap-date-display').innerHTML = `
                             <strong>${dateFormatted}</strong><br>
-                            ${selectedSlot} - ${endStr}
+                            ${slotDisplay}
                         `;
+
+                        updateButtonState();
                     });
 
                     label.appendChild(radio);
-                    label.appendChild(document.createTextNode(slotRange));
+                    label.appendChild(document.createTextNode(slotDisplay));
                     slotsContainer.appendChild(label);
                 }
 
@@ -669,33 +693,88 @@
             return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
         }
 
-        function checkConflict(startMin, endMin, busySlots, lunchStr) {
-            // Check Lunch
-            const [lStartStr, lEndStr] = lunchStr.split('-');
-            const lStart = timeToMinutes(lStartStr);
-            const lEnd = timeToMinutes(lEndStr);
+        // Calculate shift end time and intervals, skipping lunch
+        function calculateShift(start, duration) {
+            const lunchStart = 12 * 60;
+            const lunchEnd = 14 * 60;
+            const canSplit = duration > 240; // Only split if > 4 hours
 
-            // Intersection with lunch?
-            // Overlap if (StartA < EndB) and (EndA > StartB)
-            if (startMin < lEnd && endMin > lStart) return true;
+            let intervals = [];
+            let remaining = duration;
+            let current = start;
 
-            // Check Busy Slots
+            // Part 1: Before Lunch
+            if (current < lunchStart) {
+                const avail = lunchStart - current;
+                if(remaining <= avail) {
+                    // Fits entirely before lunch
+                    intervals.push({start: current, end: current + remaining});
+                    return { end: current + remaining, intervals: intervals };
+                } else {
+                    // Hits lunch
+                    if(!canSplit) return null; // Forbidden to split
+
+                    intervals.push({start: current, end: lunchStart});
+                    remaining -= avail;
+                    current = lunchEnd;
+                }
+            }
+
+            // Part 2: After Lunch (or skipped to it)
+            if(current < lunchEnd && current >= lunchStart) current = lunchEnd;
+
+            // Check if we start inside lunch (should be caught by loop, but safe check)
+            // If current was adjusted to lunchEnd, it's fine.
+
+            if(remaining > 0) {
+                intervals.push({start: current, end: current + remaining});
+                current += remaining;
+            }
+
+            return { end: current, intervals: intervals };
+        }
+
+        function checkConflictSimple(start, end, busySlots) {
             for(let slot of busySlots) {
                 const [bStartStr, bEndStr] = slot.split('-');
                 const bStart = timeToMinutes(bStartStr);
                 const bEnd = timeToMinutes(bEndStr);
-                if (startMin < bEnd && endMin > bStart) return true;
+                if (start < bEnd && end > bStart) return true;
             }
-
             return false;
         }
 
+        const btnNext = document.getElementById('btn-next');
+
+        // Initial state
+        function updateButtonState() {
+            const bottomBar = document.querySelector('.bottom-bar');
+            if(inputTime.value && inputDate.value) {
+                btnNext.disabled = false;
+                btnNext.style.opacity = '1';
+                btnNext.style.cursor = 'pointer';
+                bottomBar.classList.add('active');
+            } else {
+                btnNext.disabled = true;
+                btnNext.style.opacity = '0.5';
+                btnNext.style.cursor = 'not-allowed';
+                bottomBar.classList.remove('active');
+            }
+        }
+
+        // Call init
+        updateButtonState();
+
         document.getElementById('btn-next').onclick = (e) => {
-            // Server-side validation requested: submit form even if empty
-            // Controller will handle validation and flash message
+            // Already handled by disabled attribute, but safety check
+            if(!inputTime.value || !inputDate.value) {
+                e.preventDefault();
+                return;
+            }
             document.getElementById('step2-form').submit();
         }
     });
 </script>
 </body>
 </html>
+    

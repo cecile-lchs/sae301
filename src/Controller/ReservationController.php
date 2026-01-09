@@ -34,14 +34,21 @@ final class ReservationController extends AbstractController
     #[Route('/reservation/etape-1', name: 'reservation_step1')]
     public function step1(Request $request, ServiceRepository $serviceRepo, SessionInterface $session): Response
     {
+        $error = null;
         if ($request->isMethod('POST')) {
             $services = $request->request->all('services');
-            $session->set('services', $services); // stocker dans session PHP
-            return $this->redirectToRoute('reservation_step2');
+
+            if (empty($services)) {
+                $error = "Veuillez sélectionner au moins un service pour continuer.";
+            } else {
+                $session->set('services', $services); // stocker dans session PHP
+                return $this->redirectToRoute('reservation_step2');
+            }
         }
 
         return $this->render('reservation/step1.html.twig', [
             'services' => $serviceRepo->findAll(),
+            'error' => $error
         ]);
     }
 
@@ -154,14 +161,16 @@ final class ReservationController extends AbstractController
 
     private function checkDayCapacity(array $reservations, int $durationMinutes): bool
     {
-        // Opening: 08:00 - 18:00
-        // Lunch: 12:00 - 14:00 (Unavailable)
+        // Opening: 08:00 - 18:00 (480 - 1080 minutes)
+        // Lunch: 12:00 - 14:00 (720 - 840 minutes)
 
-        // Build busy slots
+        $dayStart = 8 * 60;
+        $dayEnd = 18 * 60;
+        $lunchStart = 12 * 60;
+        $lunchEnd = 14 * 60;
+
+        // Build busy slots (excluding lunch for now, we handle lunch logic explicitly)
         $busy = [];
-        // Lunch
-        $busy[] = ['start' => 12 * 60, 'end' => 14 * 60];
-
         foreach ($reservations as $r) {
             $rdv = $r->getRendezVous();
             if ($rdv) {
@@ -172,34 +181,112 @@ final class ReservationController extends AbstractController
                 $busy[] = ['start' => $startMin, 'end' => $endMin];
             }
         }
-
-        // Sort busy slots
         usort($busy, fn($a, $b) => $a['start'] <=> $b['start']);
 
-        // Check gaps
-        $dayStart = 8 * 60;
-        $dayEnd = 18 * 60;
-
-        $currentPointer = $dayStart;
-
-        foreach ($busy as $slot) {
-            // Check gap before this slot
-            if ($slot['start'] > $currentPointer) {
-                $gap = $slot['start'] - $currentPointer;
-                if ($gap >= $durationMinutes)
-                    return true;
+        // Check if ANY valid start time exists
+        // We iterate every 30 minutes to be safe/efficient
+        for ($t = $dayStart; $t < $dayEnd; $t += 30) {
+            // Cannot start during lunch (unless we allow it? Assuming no)
+            if ($t >= $lunchStart && $t < $lunchEnd) {
+                continue;
             }
-            // Move pointer
-            if ($slot['end'] > $currentPointer) {
-                $currentPointer = $slot['end'];
-            }
-        }
 
-        // Check final gap
-        if ($dayEnd > $currentPointer) {
-            $gap = $dayEnd - $currentPointer;
-            if ($gap >= $durationMinutes)
-                return true;
+            // Calculate 'Real End' if we perform 'durationMinutes' of work, pausing at lunch
+            $remainingWork = $durationMinutes;
+            $current = $t;
+
+            // Simulation
+            // 1. Time before lunch
+            if ($current < $lunchStart) {
+                $availableBeforeLunch = $lunchStart - $current;
+                if ($remainingWork <= $availableBeforeLunch) {
+                    $current += $remainingWork;
+                    $remainingWork = 0;
+                } else {
+                    $current = $lunchEnd; // Jump to after lunch
+                    $remainingWork -= $availableBeforeLunch;
+                }
+            } else {
+                // We started after lunch
+            }
+
+            // 2. Time after lunch (or if we skipped to here)
+            if ($kam = $remainingWork > 0) { // Keep calculating
+                // If we are at lunchEnd (or later), add remaining
+                // Ensure we are at least at lunchEnd if we came from morning
+                if ($current < $lunchEnd && $current >= $lunchStart)
+                    $current = $lunchEnd;
+
+                $current += $remainingWork;
+                $remainingWork = 0;
+            }
+
+            $realEnd = $current;
+
+            if ($realEnd > $dayEnd) {
+                continue; // Too late
+            }
+
+            // Check collision with BUSY slots (Real reservations)
+            // Segment checking?
+            // The service occupies [t, realEnd].
+            // BUT effectively it occupies [t, lunchStart] AND [lunchEnd, realEnd] if split?
+            // Conservative approach: Check if [t, realEnd] overlaps busy slots (which should NOT be in lunch usually)
+            // Ideally we check intersection with specific Busy slots.
+
+            $collision = false;
+            foreach ($busy as $slot) {
+                // If busy slot inside [t, realEnd]
+                // Strict overlap: max(t, slotStart) < min(realEnd, slotEnd)
+
+                // However, if we paused for lunch, we are NOT busy during [lunchStart, lunchEnd].
+                // So if a busy slot is entirely inside lunch (unlikely), it shouldn't matter?
+                // But busy slots from Reservations are usually working hours.
+
+                // Let's check overlap
+                if (max($t, $slot['start']) < min($realEnd, $slot['end'])) {
+                    // Overlap detected.
+                    // BUT is it a false positive because of the lunch gap?
+                    // i.e. we defined our Block as [Start -> End].
+                    // But effectively we are [Start -> LunchStart] U [LunchEnd -> End].
+                    // If the busy slot is in [LunchStart -> LunchEnd], it is NOT a collision.
+
+                    // Let's refine collision check:
+                    // Check intersection of Busy with TimeRange, ignoring Lunch part.
+
+                    // Simple check: If slot is outside lunch?
+                    // Any valid reservation should typically be outside lunch too.
+                    // But let's be robust.
+
+                    // Define two active intervals for our candidate service
+                    $intervals = [];
+                    if ($t < $lunchStart && $realEnd > $lunchEnd) {
+                        $intervals[] = ['s' => $t, 'e' => $lunchStart];
+                        $intervals[] = ['s' => $lunchEnd, 'e' => $realEnd];
+                    } else {
+                        // Contiguous (Morning only or Afternoon only)
+                        // Note: logic above handles jump. If contiguous, just one interval.
+                        // But we calculated realEnd with jump.
+                        // If we jumped, realEnd > lunchEnd. t < lunchStart.
+                        // If we didn't jump, realEnd <= lunchStart OR t >= lunchEnd.
+                        $intervals[] = ['s' => $t, 'e' => $realEnd];
+                    }
+
+                    foreach ($intervals as $iv) {
+                        // Check invalid overlap
+                        if (max($iv['s'], $slot['start']) < min($iv['e'], $slot['end'])) {
+                            $collision = true;
+                            break;
+                        }
+                    }
+                }
+                if ($collision)
+                    break;
+            }
+
+            if (!$collision) {
+                return true; // Found a valid slot!
+            }
         }
 
         return false;
@@ -285,15 +372,19 @@ final class ReservationController extends AbstractController
                 $errors['email'] = "Le format de l'adresse e-mail est invalide";
             }
 
-            // Phone validation (digits only)
+            // Phone validation (digits only, exactly 10 digits)
             if (empty($reservationInfo['phone'])) {
                 $errors['phone'] = 'Le numéro de téléphone est obligatoire';
-            } elseif (!preg_match('/^[0-9]+$/', $reservationInfo['phone'])) {
-                $errors['phone'] = 'Le numéro de téléphone doit contenir uniquement des chiffres';
+            } elseif (!preg_match('/^[0-9]{10}$/', $reservationInfo['phone'])) {
+                $errors['phone'] = 'Le numéro de téléphone doit contenir exactement 10 chiffres';
             }
 
-            if (empty($reservationInfo['adresse']))
+            if (empty($reservationInfo['adresse'])) {
                 $errors['adresse'] = "L'adresse est obligatoire";
+            } elseif (strlen(trim($reservationInfo['adresse'])) <= 1) {
+                // "Empêcher la validation de l’adresse si le champ ne contient qu’une seule lettre"
+                $errors['adresse'] = "L'adresse est trop courte (minimum 2 caractères)";
+            }
 
             $session->set('reservation_info', $reservationInfo);
 

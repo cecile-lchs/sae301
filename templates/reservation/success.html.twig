@@ -106,74 +106,22 @@
 
         <aside class="sidebar">
             <div class="sidebar-content">
-                <button class="close-cross" onclick="window.location.href='{{ path('app_accueil') }}'">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                <a href="{{ path('app_accueil') }}" class="btn-home-return">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
-                </button>
+                    Retour à l'accueil
+                </a>
             </div>
 
             <div class="sidebar-recap">
-{#                <div class="recap-content">#}
-{#                    <h4>Mes services</h4>#}
-{#                    <ul id="recap-services-list">#}
-{#                        {% for service in selectedServices %}#}
-{#                            <li>{{ service.nom }}</li>#}
-{#                        {% else %}#}
-{#                            <li>Aucun service sélectionné</li>#}
-{#                        {% endfor %}#}
-{#                    </ul>#}
 
-{#                    <h4 style="margin-top: 15px;">Date & Heure</h4>#}
-{#                    <p id="recap-date-display" style="font-size: 0.9rem; margin: 0;">#}
-{#                        {% set jours = {'Sunday':'Dimanche', 'Monday':'Lundi', 'Tuesday':'Mardi', 'Wednesday':'Mercredi', 'Thursday':'Jeudi', 'Friday':'Vendredi', 'Saturday':'Samedi'} %}#}
-{#                        {% set mois = {'January':'Janvier', 'February':'Février', 'March':'Mars', 'April':'Avril', 'May':'Mai', 'June':'Juin', 'July':'Juillet', 'August':'Août', 'September':'Septembre', 'October':'Octobre', 'November':'Novembre', 'December':'Décembre'} %}#}
-
-{#                        {% if reservationDate and reservationTime %}#}
-{#                            {% set dayName = reservationDate|date('l') %}#}
-{#                            {% set monthName = reservationDate|date('F') %}#}
-
-{#                            {{ jours[dayName] }} {{ reservationDate|date('d') }} {{ mois[monthName] }} {{ reservationDate|date('Y') }}<br>#}
-{#                            {{ reservationTime|date('H:i') }} {% if reservationEndTime %} - {{ reservationEndTime|date('H:i') }} {% endif %}#}
-{#                        {% else %}#}
-{#                            -#}
-{#                        {% endif %}#}
-{#                    </p>#}
-{#                </div>#}
-{#                <div class="recap-footer">#}
-{#                    <span class="label">Total à régler</span>#}
-{#                    <span class="price" id="recap-total">{{ totalPrice }} €</span>#}
-{#                </div>#}
-         </div>
+            </div>
         </aside>
 
         <main class="main-content" style="display:flex; flex-direction:column;">
-{#            <div class="horizontal-steps">#}
-{#                <a href="{{ path('app_accueil') }}" class="mobile-close-btn">#}
-{#                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#103A21" stroke-width="2">#}
-{#                        <line x1="18" y1="6" x2="6" y2="18"></line>#}
-{#                        <line x1="6" y1="6" x2="18" y2="18"></line>#}
-{#                    </svg>#}
-{#                </a>#}
-{#                <div class="step-item completed">#}
-{#                    <div class="step-circle">✓</div>#}
-{#                    <span class="step-label">Services</span>#}
-{#                </div>#}
-{#                <div class="step-item completed">#}
-{#                    <div class="step-circle">✓</div>#}
-{#                    <span class="step-label">Date</span>#}
-{#                </div>#}
-{#                <div class="step-item completed">#}
-{#                    <div class="step-circle">✓</div>#}
-{#                    <span class="step-label">Informations</span>#}
-{#                </div>#}
-{#                <div class="step-item completed">#}
-{#                    <div class="step-circle">✓</div>#}
-{#                    <span class="step-label">Confirmation</span>#}
-{#                </div>#}
 
-{#            </div>#}
 
             <div class="scroll-content">
                 <div style="text-align: center; margin-top: 50px;">
